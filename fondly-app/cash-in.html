@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><link href="manifest.json" rel="manifest"/><meta content="#f9f9f7" name="theme-color"/><link href="assets/icons/apple-touch-icon.png" rel="apple-touch-icon"/><link href="assets/icons/favicon-32.png" rel="icon" type="image/png"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="default" name="apple-mobile-web-app-status-bar-style"/><meta content="Fondly" name="apple-mobile-web-app-title"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fondly — Cash In</title>
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with custom plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration Injection -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-tint": "#123524",
+            "tertiary-container": "#0f0069",
+            "secondary-fixed": "#85f8c4",
+            "on-surface-variant": "#45464d",
+            "on-primary-fixed-variant": "#1f5b3f",
+            "inverse-primary": "#8fd6ae",
+            "on-tertiary-fixed": "#0f0069",
+            "secondary": "#006c4a",
+            "surface-bright": "#f9f9f7",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f4f4f2",
+            "tertiary-fixed-dim": "#c3c0ff",
+            "outline": "#76777d",
+            "on-background": "#1a1c1b",
+            "on-secondary-container": "#00714e",
+            "on-primary-container": "#0f3d2b",
+            "tertiary": "#000000",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed": "#002114",
+            "inverse-surface": "#2f3130",
+            "surface-container": "#eeeeec",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#3323cc",
+            "primary": "#123524",
+            "surface": "#f9f9f7",
+            "surface-container-highest": "#e2e3e1",
+            "inverse-on-surface": "#f1f1ef",
+            "primary-fixed-dim": "#8fd6ae",
+            "surface-container-high": "#e8e8e6",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#d7f2e3",
+            "secondary-fixed-dim": "#68dba9",
+            "on-error-container": "#93000a",
+            "primary-fixed": "#d7f2e3",
+            "background": "#f9f9f7",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#82f5c1",
+            "error": "#ba1a1a",
+            "on-surface": "#1a1c1b",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed-variant": "#005137",
+            "surface-dim": "#dadad8",
+            "on-tertiary-container": "#7671ff",
+            "tertiary-fixed": "#e2dfff",
+            "surface-variant": "#e2e3e1",
+            "outline-variant": "#c6c6cd",
+            "on-primary-fixed": "#0b2e20"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "gutter-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "gutter-sm": "0.75rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2.25rem",
+            "margin-lg": "2rem",
+            "margin": "1.25rem",
+            "margin-sm": "1rem"
+          },
+          "fontFamily": {
+            "label-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "body-lg": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Subtle custom card elevation from guidelines */
+    .elevation-surface {
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    }
+    .elevation-floating {
+      box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
+    }
+    /* Hide spin buttons */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+    @keyframes scanline {
+      0% { transform: translateY(0%); }
+      50% { transform: translateY(220%); }
+      100% { transform: translateY(0%); }
+    }
+    .scanner-line {
+      animation: scanline 2s ease-in-out infinite;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col items-center select-none">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div class="w-full max-w-lg min-h-screen flex flex-col bg-surface relative pb-28">
+<header class="sticky top-0 z-40 bg-primary shadow-sm w-full px-4 h-16 flex items-center justify-between transition-all">
+<div class="flex items-center gap-3">
+<button aria-label="Close" class="w-9 h-9 rounded-full flex items-center justify-center bg-white/15 hover:bg-white/25 active:scale-90 transition-all text-on-primary" onclick="handleCloseButton()" type="button">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-primary">Cash In</h1>
+<div class="flex items-center gap-1.5 text-outline text-label-sm font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>PH Manila Cycle</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-full px-2.5 py-1 flex items-center gap-1.5 elevation-surface transition-transform active:scale-95" title="Available Pot">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold tracking-tight" id="topPotDisplay">₱108,500.00</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline mt-0.5 scale-90 origin-right">Current Pot</span>
+</div>
+</header>
+<main class="flex-1 px-4 py-3 space-y-4">
+<div class="bg-surface-container-lowest rounded-xl p-3.5 border border-outline-variant/20 elevation-surface flex items-start gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center shrink-0 text-secondary">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">savings</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-primary font-semibold">Grow Your Pot</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Logging income as soon as it lands keeps your principal cushion and burn-rate math accurate for the rest of the cycle.
+          </p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-5 border border-outline-variant/20 elevation-surface flex flex-col items-center justify-center text-center">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Cash In Amount (PHP)</span>
+<div class="mt-2 flex items-baseline justify-center gap-1 text-primary">
+<span class="font-headline-lg font-bold text-on-surface-variant">₱</span>
+<input autocomplete="off" class="w-56 text-center font-headline-xl-mobile text-headline-xl-mobile font-bold bg-transparent border-0 p-0 focus:ring-0 text-primary outline-none transition-colors" id="amountInput" inputmode="decimal" oninput="handleAmountInput(this.value)" type="text" value="0.00"/>
+</div>
+<div class="flex items-center gap-2 mt-4 flex-wrap justify-center">
+<button class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-on-surface font-label-sm text-label-sm active:scale-95 transition-all" onclick="adjustAmount(500)" type="button">
+            +₱500
+          </button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-on-surface font-label-sm text-label-sm active:scale-95 transition-all" onclick="adjustAmount(1000)" type="button">
+            +₱1,000
+          </button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-on-surface font-label-sm text-label-sm active:scale-95 transition-all" onclick="adjustAmount(5000)" type="button">
+            +₱5,000
+          </button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-on-surface font-label-sm text-label-sm active:scale-95 transition-all" onclick="adjustAmount(10000)" type="button">
+            +₱10,000
+          </button>
+</div>
+</div>
+<div class="space-y-2.5">
+<div class="flex items-center justify-between px-1">
+<span class="font-headline-sm text-headline-sm text-primary">Received Via</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold transition-all" id="activeChannelNote">Received via GCash • Added to Pot</span>
+</div>
+<div class="grid grid-cols-3 gap-2.5" id="paymentMethodsGrid">
+<button class="payment-card relative flex flex-col items-start p-3 rounded-xl border-2 border-primary bg-surface-container-lowest text-left transition-all active:scale-98 shadow-sm" data-method="GCash" onclick="selectPaymentMethod(this, 'GCash', 'Received via GCash • Added to Pot')" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-base">account_balance_wallet</span>
+</span>
+<span class="method-dot w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<span class="font-label-md text-label-md text-primary font-bold">GCash</span>
+<span class="font-body-sm text-body-sm text-outline text-[11px] leading-tight mt-0.5">0917 •• 4912</span>
+</button>
+<button class="payment-card relative flex flex-col items-start p-3 rounded-xl border border-outline-variant/40 bg-surface-container-lowest text-left hover:border-outline transition-all active:scale-98" data-method="Maya" onclick="selectPaymentMethod(this, 'Maya', 'Received via Maya • Added to Pot')" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">wallet</span>
+</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Maya</span>
+<span class="font-body-sm text-body-sm text-outline text-[11px] leading-tight mt-0.5">PayMaya</span>
+</button>
+<button class="payment-card relative flex flex-col items-start p-3 rounded-xl border border-outline-variant/40 bg-surface-container-lowest text-left hover:border-outline transition-all active:scale-98" data-method="GoTyme" onclick="selectPaymentMethod(this, 'GoTyme', 'Received via GoTyme • Added to Pot')" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">savings</span>
+</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">GoTyme</span>
+<span class="font-body-sm text-body-sm text-outline text-[11px] leading-tight mt-0.5">Digital bank</span>
+</button>
+<button class="payment-card relative flex flex-col items-start p-3 rounded-xl border border-outline-variant/40 bg-surface-container-lowest text-left hover:border-outline transition-all active:scale-98" data-method="QR Ph" onclick="selectPaymentMethod(this, 'QR Ph', 'Received via QR Ph • Added to Pot')" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">qr_code_2</span>
+</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">QR Ph</span>
+<span class="font-body-sm text-body-sm text-outline text-[11px] leading-tight mt-0.5">Bank-linked QR</span>
+</button>
+<button class="payment-card relative flex flex-col items-start p-3 rounded-xl border border-outline-variant/40 bg-surface-container-lowest text-left hover:border-outline transition-all active:scale-98" data-method="Cash" onclick="selectPaymentMethod(this, 'Cash', 'Physical Cash • Added to Pot')" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">payments</span>
+</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Cash</span>
+<span class="font-body-sm text-body-sm text-outline text-[11px] leading-tight mt-0.5">On hand</span>
+</button>
+<button class="payment-card relative flex flex-col items-start p-3 rounded-xl border border-outline-variant/40 bg-surface-container-lowest text-left hover:border-outline transition-all active:scale-98" data-method="Bank / InstaPay" onclick="selectPaymentMethod(this, 'Bank / InstaPay', 'Received via Bank InstaPay • BPI, BDO, UnionBank')" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">account_balance</span>
+</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Bank</span>
+<span class="font-body-sm text-body-sm text-outline text-[11px] leading-tight mt-0.5">InstaPay / BPI</span>
+</button>
+<button class="payment-card relative flex flex-col items-start p-3 rounded-xl border border-outline-variant/40 bg-surface-container-lowest text-left hover:border-outline transition-all active:scale-98" data-method="Cards" onclick="selectPaymentMethod(this, 'Cards', 'Received via Card or Transfer')" type="button">
+<div class="flex items-center justify-between w-full mb-2">
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">credit_card</span>
+</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Others</span>
+<span class="font-body-sm text-body-sm text-outline text-[11px] leading-tight mt-0.5">Card / Other</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/20 elevation-surface space-y-4">
+<div>
+<label class="block font-headline-sm text-headline-sm text-primary mb-2">Source</label>
+<div class="flex flex-wrap gap-2" id="categoryChips">
+<button class="category-chip px-3 py-1.5 rounded-full text-label-md font-label-md bg-primary text-on-primary flex items-center gap-1.5 transition-all" data-category="Salary" onclick="selectCategory(this)" type="button">
+<span class="material-symbols-outlined text-base">work</span>
+<span>Salary</span>
+</button>
+<button class="category-chip px-3 py-1.5 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface hover:bg-surface-container flex items-center gap-1.5 border border-outline-variant/30 transition-all" data-category="Freelance / Gig" onclick="selectCategory(this)" type="button">
+<span class="material-symbols-outlined text-base">laptop_mac</span>
+<span>Freelance / Gig</span>
+</button>
+<button class="category-chip px-3 py-1.5 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface hover:bg-surface-container flex items-center gap-1.5 border border-outline-variant/30 transition-all" data-category="Allowance" onclick="selectCategory(this)" type="button">
+<span class="material-symbols-outlined text-base">family_restroom</span>
+<span>Allowance</span>
+</button>
+<button class="category-chip px-3 py-1.5 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface hover:bg-surface-container flex items-center gap-1.5 border border-outline-variant/30 transition-all" data-category="Gift" onclick="selectCategory(this)" type="button">
+<span class="material-symbols-outlined text-base">redeem</span>
+<span>Gift</span>
+</button>
+<button class="category-chip px-3 py-1.5 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface hover:bg-surface-container flex items-center gap-1.5 border border-outline-variant/30 transition-all" data-category="Refund" onclick="selectCategory(this)" type="button">
+<span class="material-symbols-outlined text-base">replay</span>
+<span>Refund</span>
+</button>
+<button class="category-chip px-3 py-1.5 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface hover:bg-surface-container flex items-center gap-1.5 border border-outline-variant/30 transition-all" data-category="Other" onclick="selectCategory(this)" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+<span>Other</span>
+</button>
+</div>
+</div>
+<div class="border-t border-outline-variant/15 pt-3">
+<label class="block font-headline-sm text-headline-sm text-primary mb-1" for="merchantInput">Source Detail / Note</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border border-outline-variant/40 rounded-xl px-3.5 py-2.5 font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" id="merchantInput" placeholder="e.g. October Payroll — Acme Corp" type="text" value=""/>
+</div>
+<div class="flex items-center gap-1.5 mt-2 overflow-x-auto pb-1" id="merchantSuggestions">
+<span class="font-label-sm text-label-sm text-outline shrink-0 mr-1">Quick:</span>
+<button class="shrink-0 px-2.5 py-1 rounded-full bg-surface-container text-label-sm font-label-sm text-on-surface hover:bg-surface-variant active:scale-95 transition-all" onclick="setMerchant('October Payroll')" type="button">Payroll</button>
+<button class="shrink-0 px-2.5 py-1 rounded-full bg-surface-container text-label-sm font-label-sm text-on-surface hover:bg-surface-variant active:scale-95 transition-all" onclick="setMerchant('Freelance Client Payout')" type="button">Freelance Payout</button>
+<button class="shrink-0 px-2.5 py-1 rounded-full bg-surface-container text-label-sm font-label-sm text-on-surface hover:bg-surface-variant active:scale-95 transition-all" onclick="setMerchant('13th Month Pay')" type="button">13th Month Pay</button>
+<button class="shrink-0 px-2.5 py-1 rounded-full bg-surface-container text-label-sm font-label-sm text-on-surface hover:bg-surface-variant active:scale-95 transition-all" onclick="setMerchant('GCash Cash In')" type="button">GCash Cash In</button>
+<button class="shrink-0 px-2.5 py-1 rounded-full bg-surface-container text-label-sm font-label-sm text-on-surface hover:bg-surface-variant active:scale-95 transition-all" onclick="setMerchant('Reimbursement')" type="button">Reimbursement</button>
+<button class="shrink-0 px-2.5 py-1 rounded-full bg-surface-container text-label-sm font-label-sm text-on-surface hover:bg-surface-variant active:scale-95 transition-all" onclick="setMerchant('Birthday Gift')" type="button">Birthday Gift</button>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30 space-y-2">
+<div class="flex justify-between items-center text-label-sm font-label-sm">
+<span class="text-on-surface-variant font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-secondary">trending_up</span>
+              Principal Growth
+            </span>
+<span class="text-secondary font-bold transition-all" id="cushionPercentText">+0.0% to Pot</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden relative">
+<div class="bg-secondary h-full rounded-full transition-all duration-300" id="cushionProgressBar" style="width: 0%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-outline text-[11px] leading-normal" id="cushionSummaryText">
+            Enter a cash in amount to preview the new pot balance for this cycle.
+          </p>
+</div>
+</div>
+<div class="space-y-2.5 pt-2">
+<button class="w-full py-3.5 px-6 rounded-full bg-primary text-on-primary font-label-lg text-label-lg font-bold hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer" onclick="handleConfirmLog()" type="button">
+<span>Confirm &amp; Cash In</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+<button class="w-full py-3 px-6 rounded-full bg-surface-container-lowest border border-outline-variant/40 text-on-surface font-label-md text-label-md hover:bg-surface-container active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer" onclick="openScannerModal()" type="button">
+<span class="material-symbols-outlined text-lg text-outline">document_scanner</span>
+<span>Scan Payslip / E-Wallet Receipt Screenshot</span>
+</button>
+</div>
+</main>
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full z-30 flex justify-around items-center px-2 py-2 max-w-lg mx-auto bg-surface shadow-lg">
+<a class="nav-item flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-lg transition-all active:scale-90" href="home.html" onclick="switchNav(this, 'Home')">
+<span class="material-symbols-outlined text-2xl">home</span>
+<span class="font-label-sm text-label-sm mt-0.5">Home</span>
+</a>
+<a class="nav-item flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-lg transition-all active:scale-90" href="breakdown.html" onclick="switchNav(this, 'Breakdown')">
+<span class="material-symbols-outlined text-2xl">pie_chart</span>
+<span class="font-label-sm text-label-sm mt-0.5">Breakdown</span>
+</a>
+<a class="nav-item flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-lg transition-all active:scale-90" href="plan.html" onclick="switchNav(this, 'Plan')">
+<span class="material-symbols-outlined text-2xl">checklist</span>
+<span class="font-label-sm text-label-sm mt-0.5">Plan</span>
+</a>
+<a class="nav-item flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-lg transition-all active:scale-90" href="log-outflow.html" onclick="switchNav(this, 'Activity')">
+<span class="material-symbols-outlined text-2xl">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-0.5">Activity</span>
+</a>
+<a class="nav-item flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-lg transition-all active:scale-90" href="home.html" onclick="switchNav(this, 'Messages')">
+<span class="material-symbols-outlined text-2xl">chat_bubble</span>
+<span class="font-label-sm text-label-sm mt-0.5">Messages</span>
+</a>
+<a class="nav-item flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-lg transition-all active:scale-90" href="feed.html" onclick="switchNav(this, 'Feeds')">
+<span class="material-symbols-outlined text-2xl">dynamic_feed</span>
+<span class="font-label-sm text-label-sm mt-0.5">Feeds</span>
+</a>
+</nav>
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 hidden transition-opacity duration-300" id="successModal">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl border border-outline-variant/30 transform transition-transform duration-300 translate-y-full" id="successSheetContent">
+<div class="w-12 h-1 bg-outline-variant/50 rounded-full mx-auto mb-4 sm:hidden"></div>
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center text-secondary mb-3 shadow-inner">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary">Cash In Successful!</h3>
+<p class="text-body-md text-outline mt-1 max-w-xs" id="successDetails">₱15,000.00 added via GCash from Salary</p>
+<div class="w-full bg-surface-container-low rounded-2xl p-4 my-4 border border-outline-variant/20 flex items-center justify-between text-left">
+<div>
+<p class="text-label-sm text-outline uppercase font-semibold">Updated Pot Balance</p>
+<p class="font-headline-sm text-primary font-bold mt-0.5" id="successUpdatedPot">₱123,500.00</p>
+</div>
+<div class="text-right">
+<p class="text-label-sm text-outline uppercase font-semibold">Growth</p>
+<p class="font-label-md text-secondary font-bold mt-0.5" id="successCushionRate">+13.8%</p>
+</div>
+</div>
+<div class="w-full space-y-2.5">
+<button class="w-full py-3.5 px-6 rounded-full bg-primary text-on-primary font-label-lg font-bold hover:opacity-95 active:scale-98 transition-all" onclick="closeSuccessModal(false)" type="button">
+            View on Dashboard
+          </button>
+<button class="w-full py-3 px-6 rounded-full bg-surface-container-low border border-outline-variant/30 text-on-surface font-label-md font-semibold hover:bg-surface-container active:scale-98 transition-all" onclick="closeSuccessModal(true)" type="button">
+            Cash In Again
+          </button>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 hidden transition-opacity duration-300" id="scannerModal">
+<div class="w-full max-w-md bg-surface-container-lowest rounded-3xl p-5 shadow-2xl border border-outline-variant/30 flex flex-col items-center">
+<div class="flex items-center justify-between w-full mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">qr_code_scanner</span>
+<span class="font-headline-sm text-primary font-bold">Smart Deposit Scanner</span>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-outline hover:text-primary" onclick="closeScannerModal()" type="button">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="w-full h-56 rounded-2xl bg-surface-container-highest/60 relative overflow-hidden flex flex-col items-center justify-center border-2 border-dashed border-secondary/50 p-4">
+<div class="scanner-line absolute top-2 left-4 right-4 h-0.5 bg-secondary shadow-[0_0_8px_#006c4a]"></div>
+<div class="bg-surface-container-lowest/90 px-4 py-3 rounded-xl shadow-sm border border-outline-variant/30 text-center max-w-xs space-y-1">
+<span class="material-symbols-outlined text-3xl text-secondary animate-pulse">document_scanner</span>
+<p class="font-label-md font-semibold text-primary">Scanning Deposit Slip...</p>
+<p class="font-body-sm text-outline text-xs">GCash, Maya, QR Ph, or Bank Deposit Slip</p>
+</div>
+</div>
+<div class="w-full mt-4 space-y-2">
+<p class="text-label-sm text-outline font-semibold">Simulate Detection Sample:</p>
+<div class="grid grid-cols-2 gap-2">
+<button class="p-2.5 text-left rounded-xl bg-surface-container-low border border-outline-variant/30 hover:border-secondary transition-all" onclick="applyScannedReceipt('October Payroll', 25000.00, 'Bank / InstaPay', 'Salary')" type="button">
+<p class="font-label-sm font-bold text-primary">💼 Payroll Credit</p>
+<p class="text-body-sm text-outline text-[11px]">₱25,000.00 • Bank</p>
+</button>
+<button class="p-2.5 text-left rounded-xl bg-surface-container-low border border-outline-variant/30 hover:border-secondary transition-all" onclick="applyScannedReceipt('Freelance Client Payout', 8500.00, 'GCash', 'Freelance / Gig')" type="button">
+<p class="font-label-sm font-bold text-primary">💻 Freelance Payout</p>
+<p class="text-body-sm text-outline text-[11px]">₱8,500.00 • GCash</p>
+</button>
+<button class="p-2.5 text-left rounded-xl bg-surface-container-low border border-outline-variant/30 hover:border-secondary transition-all" onclick="applyScannedReceipt('GCash Cash In', 2000.00, 'GCash', 'Other')" type="button">
+<p class="font-label-sm font-bold text-primary">📲 GCash Cash In</p>
+<p class="text-body-sm text-outline text-[11px]">₱2,000.00 • GCash</p>
+</button>
+<button class="p-2.5 text-left rounded-xl bg-surface-container-low border border-outline-variant/30 hover:border-secondary transition-all" onclick="applyScannedReceipt('Reimbursement', 1250.00, 'Maya', 'Refund')" type="button">
+<p class="font-label-sm font-bold text-primary">🔄 Reimbursement</p>
+<p class="text-body-sm text-outline text-[11px]">₱1,250.00 • Maya</p>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed top-5 z-50 bg-primary text-on-primary px-4 py-2.5 rounded-full font-label-md shadow-lg flex items-center gap-2 transform -translate-y-20 opacity-0 pointer-events-none transition-all duration-300" id="toastMessage">
+<span class="material-symbols-outlined text-secondary text-sm">check</span>
+<span id="toastText">Action completed</span>
+</div>
+</div>
+<script>
+    let BASE_POT = 0;
+    let activeMethod = 'GCash';
+    let activeCategory = 'Salary';
+
+    function getCleanAmount() {
+      const input = document.getElementById('amountInput');
+      const val = parseFloat(input.value.replace(/[^0-9.]/g, ''));
+      return isNaN(val) ? 0 : val;
+    }
+
+    function formatPHP(amount) {
+      return '₱' + amount.toLocaleString('en-PH', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function recalculateBalances() {
+      const amount = getCleanAmount();
+      const newPot = BASE_POT + amount;
+
+      document.getElementById('topPotDisplay').textContent = formatPHP(newPot);
+
+      const growthPct = BASE_POT > 0 ? (amount / BASE_POT) * 100 : 0;
+      const displayPct = Math.min(100, growthPct);
+
+      const growthPctEl = document.getElementById('cushionPercentText');
+      const growthBarEl = document.getElementById('cushionProgressBar');
+      const summaryEl = document.getElementById('cushionSummaryText');
+
+      if (growthPctEl) growthPctEl.textContent = '+' + growthPct.toFixed(1) + '% to Pot';
+      if (growthBarEl) growthBarEl.style.width = Math.max(2, displayPct) + '%';
+
+      if (amount <= 0) {
+        summaryEl.innerHTML = 'Enter a cash in amount to preview the new pot balance for this cycle.';
+      } else {
+        summaryEl.innerHTML = `Cashing in ${formatPHP(amount)} brings your pot to <span class="text-on-surface font-semibold">${formatPHP(newPot)}</span> for the remainder of this cycle.`;
+      }
+    }
+
+    function handleAmountInput(val) {
+      recalculateBalances();
+    }
+
+    function adjustAmount(val) {
+      const current = getCleanAmount();
+      const updated = current + val;
+      const input = document.getElementById('amountInput');
+      input.value = updated.toFixed(2);
+
+      input.classList.add('scale-105', 'text-secondary');
+      setTimeout(() => {
+        input.classList.remove('scale-105', 'text-secondary');
+      }, 150);
+
+      recalculateBalances();
+      showToast(`Added +₱${val}`);
+    }
+
+    function selectPaymentMethod(element, name, note) {
+      activeMethod = name;
+      const cards = document.querySelectorAll('.payment-card');
+      cards.forEach(card => {
+        card.classList.remove('border-2', 'border-primary', 'shadow-sm');
+        card.classList.add('border', 'border-outline-variant/40');
+        const dot = card.querySelector('.method-dot');
+        if (dot) dot.remove();
+        const headerTitle = card.querySelector('.font-label-md');
+        if (headerTitle) {
+          headerTitle.classList.remove('font-bold', 'text-primary');
+          headerTitle.classList.add('text-on-surface', 'font-semibold');
+        }
+      });
+
+      element.classList.remove('border', 'border-outline-variant/40');
+      element.classList.add('border-2', 'border-primary', 'shadow-sm');
+
+      const headerTitle = element.querySelector('.font-label-md');
+      if (headerTitle) {
+        headerTitle.classList.remove('text-on-surface', 'font-semibold');
+        headerTitle.classList.add('font-bold', 'text-primary');
+      }
+
+      const topRow = element.querySelector('.flex.items-center.justify-between');
+      if (topRow && !topRow.querySelector('.method-dot')) {
+        const dot = document.createElement('span');
+        dot.className = 'method-dot w-2 h-2 rounded-full bg-secondary';
+        topRow.appendChild(dot);
+      }
+
+      document.getElementById('activeChannelNote').textContent = note;
+    }
+
+    function selectCategory(button) {
+      const chips = document.querySelectorAll('.category-chip');
+      chips.forEach(chip => {
+        chip.className = 'category-chip px-3 py-1.5 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface hover:bg-surface-container flex items-center gap-1.5 border border-outline-variant/30 transition-all';
+      });
+      button.className = 'category-chip px-3 py-1.5 rounded-full text-label-md font-label-md bg-primary text-on-primary flex items-center gap-1.5 transition-all';
+      activeCategory = button.getAttribute('data-category') || button.textContent.trim();
+    }
+
+    function setMerchant(name) {
+      const input = document.getElementById('merchantInput');
+      input.value = name;
+      input.focus();
+      showToast(`Note set to ${name}`);
+    }
+
+    const API_BASE_URL = 'http://localhost:3000';
+
+    // Same Project URL and anon/publishable key used in signup.html and index.html
+    const SUPABASE_URL = 'https://ieauwvbivmmgfkbbejtd.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_d5JSuSnKziL9PxzqYwf2Bg_1b8ZyDmC';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Page guard: if nobody's logged in, send them to the sign-in screen
+    async function requireLogin() {
+      const { data } = await supabaseClient.auth.getSession();
+      if (!data.session) {
+        window.location.href = 'index.html';
+      }
+      return data.session;
+    }
+
+async function loadRealPot() {
+      try {
+        const session = await requireLogin();
+        if (!session) return;
+        const response = await fetch(`${API_BASE_URL}/summary`, {
+          headers: { 'Authorization': `Bearer ${session.access_token}` }
+        });
+        if (!response.ok) throw new Error('Could not load pot balance');
+        const summary = await response.json();
+        BASE_POT = summary.remaining;
+        recalculateBalances();
+      } catch (err) {
+        console.warn('Could not load real pot balance:', err.message);
+      }
+    }
+
+let qrPollInterval = null;
+
+async function startQrphPayment(amount, category, method, note) {
+  const session = await requireLogin();
+  if (!session) return;
+
+  const response = await fetch(`${API_BASE_URL}/qrph/create-intent`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`
+    },
+    body: JSON.stringify({ amount, category, payment_method: method, note })
+  });
+
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Could not start QR Ph payment');
+
+  showQrphModal(data.qrImageUrl);
+  pollQrphStatus(data.intentId, amount);
+}
+
+function showQrphModal(qrImageUrl) {
+  const modal = document.createElement('div');
+  modal.id = 'qrphModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:60;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;padding:16px;';
+  modal.innerHTML = `
+    <div style="background:#fff;border-radius:20px;padding:24px;max-width:320px;width:100%;text-align:center;">
+      <p style="font-weight:700;font-size:16px;margin-bottom:12px;">Scan with GCash, Maya, or your bank app</p>
+      <img src="${qrImageUrl}" style="width:100%;border-radius:12px;" />
+      <p id="qrphStatusText" style="margin-top:16px;font-size:13px;color:#45464d;">Waiting for payment...</p>
+      <button id="qrphCancelBtn" style="margin-top:12px;padding:10px 20px;border-radius:999px;border:1px solid #c6c6cd;background:#fff;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById('qrphCancelBtn').addEventListener('click', () => {
+    if (qrPollInterval) clearInterval(qrPollInterval);
+    modal.remove();
+  });
+}
+
+function pollQrphStatus(intentId, amount) {
+  qrPollInterval = setInterval(async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/qrph/status/${intentId}`);
+      const data = await res.json();
+
+      if (data.status === 'succeeded') {
+        clearInterval(qrPollInterval);
+        const modal = document.getElementById('qrphModal');
+        if (modal) modal.remove();
+        showToast(`Cash In successful: ₱${Number(amount).toFixed(2)}`);
+        loadRealPot();
+      }
+    } catch (err) {
+      console.warn('QR Ph poll error:', err.message);
+    }
+  }, 3000);
+}
+
+    async function handleConfirmLog() {
+      const amount = getCleanAmount();
+      if (amount <= 0) {
+        showToast('Please enter an amount greater than ₱0');
+        document.getElementById('amountInput').focus();
+        return;
+      }
+
+      const note = document.getElementById('merchantInput').value.trim() || 'Unspecified';
+      const confirmBtn = document.querySelector('[onclick="handleConfirmLog()"]');
+      if (confirmBtn) confirmBtn.disabled = true;
+      showToast('Opening GCash...');
+
+          try {
+        if (activeMethod === 'QR Ph') {
+          await startQrphPayment(amount, activeCategory, activeMethod, note);
+          if (confirmBtn) confirmBtn.disabled = false;
+          return;
+        }
+
+        const session = await requireLogin();
+        if (!session) return;
+
+        const response = await fetch(`${API_BASE_URL}/gcash/create-source`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            amount: amount,
+            category: activeCategory,
+            payment_method: activeMethod,
+            note: note
+          })
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Could not start GCash payment');
+
+        window.location.href = data.checkoutUrl;
+      } catch (err) {
+        showToast('Could not start payment: ' + err.message);
+        if (confirmBtn) confirmBtn.disabled = false;
+      }
+    }
+
+    function closeSuccessModal(resetFields) {
+      const modal = document.getElementById('successModal');
+      const sheet = document.getElementById('successSheetContent');
+      sheet.classList.add('translate-y-full');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        if (resetFields) {
+          document.getElementById('amountInput').value = '0.00';
+          document.getElementById('merchantInput').value = '';
+          recalculateBalances();
+          showToast('Ready for next cash in');
+        } else {
+          showToast('Cash in recorded to Activity');
+        }
+      }, 250);
+    }
+
+    function openScannerModal() {
+      const modal = document.getElementById('scannerModal');
+      modal.classList.remove('hidden');
+    }
+
+    function closeScannerModal() {
+      const modal = document.getElementById('scannerModal');
+      modal.classList.add('hidden');
+    }
+
+    function applyScannedReceipt(note, amt, method, category) {
+      closeScannerModal();
+      document.getElementById('merchantInput').value = note;
+      document.getElementById('amountInput').value = amt.toFixed(2);
+
+      const chips = document.querySelectorAll('.category-chip');
+      chips.forEach(chip => {
+        if (chip.getAttribute('data-category') === category || chip.textContent.includes(category)) {
+          selectCategory(chip);
+        }
+      });
+
+      const cards = document.querySelectorAll('.payment-card');
+      cards.forEach(card => {
+        if (card.getAttribute('data-method') === method || card.textContent.includes(method)) {
+          selectPaymentMethod(card, method, `Received via ${method} • Scanned Slip`);
+        }
+      });
+
+      recalculateBalances();
+      showToast(`Scanned: ${note} • ₱${amt.toFixed(2)}`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastMessage');
+      const toastText = document.getElementById('toastText');
+      toastText.textContent = msg;
+      toast.classList.remove('-translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.add('-translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 2200);
+    }
+
+    function handleCloseButton() {
+      window.location.href = 'home.html';
+    }
+
+    function switchNav(el, tabName) {
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => {
+        item.className = 'nav-item flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-lg transition-all active:scale-90';
+        const icon = item.querySelector('.material-symbols-outlined');
+        if (icon) icon.style.fontVariationSettings = "'FILL' 0";
+      });
+      el.className = 'nav-item flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-3 py-1.5 transition-all active:scale-90 font-bold';
+      const activeIcon = el.querySelector('.material-symbols-outlined');
+      if (activeIcon) activeIcon.style.fontVariationSettings = "'FILL' 1";
+    }
+
+  window.addEventListener('DOMContentLoaded', () => {
+      loadRealPot();
+
+      const amountInputEl = document.getElementById('amountInput');
+      if (amountInputEl) {
+        amountInputEl.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const amount = getCleanAmount();
+            amountInputEl.value = amount.toFixed(2);
+            recalculateBalances();
+            amountInputEl.blur();
+          }
+        });
+      }
+    });
+  </script>
+<script>if ('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('service-worker.js').catch(() => {});});}</script></body></html>

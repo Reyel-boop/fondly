@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fondly - Feeds</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface": "#1a1c1b",
+            "inverse-surface": "#2f3130",
+            "secondary": "#006c4a",
+            "outline-variant": "#c6c6cd",
+            "tertiary": "#000000",
+            "surface-container-low": "#f4f4f2",
+            "secondary-container": "#82f5c1",
+            "primary": "#000000",
+            "inverse-primary": "#bec6e0",
+            "on-secondary-fixed": "#002114",
+            "primary-fixed-dim": "#bec6e0",
+            "secondary-fixed-dim": "#68dba9",
+            "tertiary-fixed": "#e2dfff",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#7671ff",
+            "on-secondary-fixed-variant": "#005137",
+            "on-error": "#ffffff",
+            "surface-container": "#eeeeec",
+            "on-tertiary-fixed": "#0f0069",
+            "tertiary-fixed-dim": "#c3c0ff",
+            "surface-tint": "#565e74",
+            "primary-container": "#131b2e",
+            "inverse-on-surface": "#f1f1ef",
+            "on-tertiary-fixed-variant": "#3323cc",
+            "on-primary": "#ffffff",
+            "surface-variant": "#e2e3e1",
+            "surface-dim": "#dadad8",
+            "on-tertiary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#85f8c4",
+            "background": "#f9f9f7",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#3f465c",
+            "on-primary-fixed": "#131b2e",
+            "tertiary-container": "#0f0069",
+            "on-background": "#1a1c1b",
+            "surface-bright": "#f9f9f7",
+            "outline": "#76777d",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#dae2fd",
+            "surface": "#f9f9f7",
+            "on-secondary-container": "#00714e",
+            "on-surface-variant": "#45464d",
+            "error-container": "#ffdad6",
+            "surface-container-high": "#e8e8e6",
+            "surface-container-highest": "#e2e3e1",
+            "on-primary-container": "#7c839b"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-sm": "1rem",
+            "gutter-lg": "1.5rem",
+            "space-xl": "2.25rem",
+            "margin": "1.25rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "gutter-sm": "0.75rem",
+            "margin-lg": "2rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "headline-xl-mobile": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-sm": [
+              "Plus Jakarta Sans"
+            ],
+            "body-sm": [
+              "Inter"
+            ],
+            "label-sm": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-xl": [
+              "Plus Jakarta Sans"
+            ],
+            "body-lg": [
+              "Inter"
+            ],
+            "label-lg": [
+              "Plus Jakarta Sans"
+            ],
+            "body-md": [
+              "Inter"
+            ],
+            "headline-md": [
+              "Plus Jakarta Sans"
+            ],
+            "label-md": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-lg": [
+              "Plus Jakarta Sans"
+            ]
+          },
+          "fontSize": {
+            "headline-xl-mobile": [
+              "32px",
+              {
+                "lineHeight": "38px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-sm": [
+              "18px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "600"
+              }
+            ],
+            "body-sm": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-sm": [
+              "11px",
+              {
+                "lineHeight": "14px",
+                "letterSpacing": "0.03em",
+                "fontWeight": "600"
+              }
+            ],
+            "headline-xl": [
+              "40px",
+              {
+                "lineHeight": "48px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "body-lg": [
+              "16px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-lg": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "letterSpacing": "0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "400"
+              }
+            ],
+            "headline-md": [
+              "22px",
+              {
+                "lineHeight": "28px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "label-md": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "letterSpacing": "0.02em",
+                "fontWeight": "600"
+              }
+            ],
+            "headline-lg": [
+              "28px",
+              {
+                "lineHeight": "34px",
+                "letterSpacing": "-0.015em",
+                "fontWeight": "600"
+              }
+            ]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .animate-slide-up {
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen pb-32 select-none relative overflow-x-hidden">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Top App Bar -->
+<header class="bg-surface dark:bg-inverse-surface shadow-sm dark:shadow-none sticky top-0 z-40">
+<div class="flex justify-between items-center w-full px-4 h-16 max-w-lg mx-auto relative">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary tracking-tight">Feeds</span>
+</div>
+</div>
+</header>
+<main class="max-w-lg mx-auto px-4 pt-3 flex flex-col gap-4">
+<!-- Stories Row -->
+<section>
+<div class="flex gap-2.5 overflow-x-auto pb-1" id="storiesRow" style="scrollbar-width:none;">
+<!-- Rendered via loadStories() -->
+</div>
+<input accept="image/*,video/*" class="hidden" id="storyMediaInput" type="file"/>
+</section>
+
+<!-- Community Post Composer -->
+<section class="bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/30 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.04)] flex flex-col gap-3" id="postComposerCard">
+<div class="flex items-center gap-3">
+<div id="composerAvatarContainer" style="width:40px;height:40px;border-radius:50%;background:#eeeeec;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
+<span class="material-symbols-outlined" style="color:#76777d;">person</span>
+</div>
+<button class="flex-1 text-left px-4 py-2.5 bg-surface-container-low rounded-full text-on-surface-variant text-sm hover:bg-surface-container transition-colors" id="openPostComposerBtn" type="button">
+What's on your mind?
+</button>
+</div>
+<div class="flex items-center justify-around border-t border-outline-variant/20 pt-2.5">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant text-sm font-medium transition-colors" id="postPhotoShortcutBtn" type="button">
+<span class="material-symbols-outlined text-[20px]" style="color:#22c55e;">image</span> Photo/Video
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant text-sm font-medium transition-colors" id="postAudioShortcutBtn" type="button">
+<span class="material-symbols-outlined text-[20px]" style="color:#8b5cf6;">mic</span> Audio
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant text-sm font-medium transition-colors" id="postFileShortcutBtn" type="button">
+<span class="material-symbols-outlined text-[20px]" style="color:#f0993d;">attach_file</span> File
+</button>
+</div>
+</section>
+
+<!-- Community Posts Feed -->
+<section class="flex flex-col gap-3" id="postsFeedSection">
+<!-- Rendered via loadPosts() -->
+</section>
+</main>
+<!-- Bottom Nav Bar Anchor -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full z-40 flex justify-around items-center px-2 py-2 max-w-lg mx-auto bg-surface dark:bg-inverse-surface shadow-lg dark:shadow-none border-t border-outline-variant/20">
+<!-- Tab 1: Home -->
+<button class="nav-tab flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all duration-200 active:scale-95" data-tab="Home">
+<span class="material-symbols-outlined text-[20px]">home</span>
+<span class="font-label-sm text-label-sm mt-0.5">Home</span>
+</button>
+<!-- Tab 2: Breakdown -->
+<button class="nav-tab flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all duration-200 active:scale-95" data-tab="Breakdown">
+<span class="material-symbols-outlined text-[20px]">pie_chart</span>
+<span class="font-label-sm text-label-sm mt-0.5">Breakdown</span>
+</button>
+<!-- Tab 3: Plan -->
+<button class="nav-tab flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all duration-200 active:scale-95" data-tab="Plan">
+<span class="material-symbols-outlined text-[20px]">checklist</span>
+<span class="font-label-sm text-label-sm mt-0.5">Plan</span>
+</button>
+<!-- Tab 5: Activity -->
+<button class="nav-tab flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all duration-200 active:scale-95" data-tab="Activity">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-0.5">Activity</span>
+</button>
+<!-- Tab 6: Messages -->
+<button class="nav-tab flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all duration-200 active:scale-95" data-tab="Messages">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span class="font-label-sm text-label-sm mt-0.5">Messages</span>
+</button>
+<!-- Tab 7: Feeds (active on this page) -->
+<button class="nav-tab flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-3 py-1.5 transition-all duration-200 active:scale-95" data-tab="Feeds">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">dynamic_feed</span>
+<span class="font-label-sm text-label-sm mt-0.5">Feeds</span>
+</button>
+</nav>
+<!-- Modal: Story Viewer -->
+<div class="hidden fixed inset-0 z-50 bg-black flex-col" id="storyViewerModal">
+<div class="flex items-center gap-2 px-4 h-14 shrink-0">
+<div style="width:32px;height:32px;border-radius:50%;background:#eeeeec;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+<span class="material-symbols-outlined" style="color:#76777d;font-size:18px;">person</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-white text-sm font-bold" id="storyViewerName" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+<div class="text-white/70 text-xs" id="storyViewerTime"></div>
+</div>
+<button class="hidden w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center text-white" id="storyViewerDeleteBtn" type="button">
+<span class="material-symbols-outlined">delete</span>
+</button>
+<button class="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center text-white" id="closeStoryViewerBtn" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 flex items-center justify-center relative px-2" id="storyViewerMedia"></div>
+<div class="flex items-center justify-between px-4 py-3 shrink-0">
+<button class="text-white/80 flex items-center gap-1 text-sm" id="storyViewerPrevBtn" type="button">
+<span class="material-symbols-outlined">chevron_left</span> Prev
+</button>
+<button class="text-white/80 flex items-center gap-1 text-sm" id="storyViewerNextBtn" type="button">
+Next <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+
+<!-- Modal: Create Post -->
+<div class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity p-0 sm:p-4" id="createPostModal">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-t-3xl sm:rounded-2xl shadow-2xl p-6 border border-outline-variant/30 animate-slide-up max-h-[90vh] overflow-y-auto">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/20">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Create Post</h3>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant transition-colors" id="closeCreatePostModalBtn">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+</div>
+<div class="mt-4 space-y-3">
+<textarea class="w-full px-4 py-3 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="postCaptionInput" placeholder="What's on your mind?" rows="4"></textarea>
+<input class="hidden" id="postMediaInput" type="file"/>
+<p class="hidden font-label-sm text-label-sm text-on-surface-variant" id="postMediaLabel"></p>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-outline-variant/40 hover:bg-surface-container text-sm font-medium transition-colors" id="postMediaPickBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">attach_file</span> Add Photo, Video, Audio, or File
+</button>
+<button class="w-full bg-primary hover:bg-on-surface text-on-primary py-3 rounded-full font-label-lg text-label-lg font-semibold transition-all duration-200 active:scale-98 shadow-md" id="submitPostBtn" type="button">
+Post
+</button>
+</div>
+</div>
+</div>
+
+<!-- Floating Interactive Toast for Feedback -->
+<div class="hidden fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-full shadow-2xl flex items-center gap-3 border border-outline-variant/30 text-sm animate-slide-up max-w-[90vw]" id="toastNotification">
+<span class="material-symbols-outlined text-secondary text-lg" id="toastIcon">check_circle</span>
+<span class="truncate font-medium" id="toastMessage">Action completed successfully</span>
+<button class="hidden text-secondary-fixed font-bold text-xs uppercase ml-1 underline hover:opacity-80" id="toastActionBtn">Undo</button>
+</div>
+<script>
+(function(){
+  const API_BASE_URL = 'http://localhost:3000';
+
+  const SUPABASE_URL = 'https://ieauwvbivmmgfkbbejtd.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_d5JSuSnKziL9PxzqYwf2Bg_1b8ZyDmC';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function requireLogin() {
+    const { data } = await supabaseClient.auth.getSession();
+    if (!data.session) {
+      window.location.href = 'index.html';
+    }
+    return data.session;
+  }
+  window.requireLogin = requireLogin;
+
+  let currentUserId = null;
+
+  const toast = document.getElementById('toastNotification');
+  const toastMessage = document.getElementById('toastMessage');
+  const toastIcon = document.getElementById('toastIcon');
+  const toastActionBtn = document.getElementById('toastActionBtn');
+  let toastTimer = null;
+
+  function showToast(msg, icon = 'check_circle', showUndo = false, onUndo = null) {
+    if (toastTimer) clearTimeout(toastTimer);
+    toastMessage.textContent = msg;
+    toastIcon.textContent = icon;
+    if (showUndo && onUndo) {
+      toastActionBtn.classList.remove('hidden');
+      toastActionBtn.onclick = () => {
+        onUndo();
+        toast.classList.add('hidden');
+      };
+    } else {
+      toastActionBtn.classList.add('hidden');
+    }
+    toast.classList.remove('hidden');
+    toastTimer = setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 4000);
+  }
+
+  // ---------------- Stories ----------------
+  let groupedStories = {};
+  let currentStoryGroup = null;
+  let currentStoryIndex = 0;
+
+    function firstNameOf(profile) {
+    if (!profile) return 'Someone';
+    if (profile.first_name) return profile.first_name;
+    if (profile.display_name) return profile.display_name.split(' ')[0];
+    return profile.email ? profile.email.split('@')[0] : 'Someone';
+  }
+
+  async function loadStories() {
+    const session = await requireLogin();
+    if (!session) return;
+    currentUserId = session.user.id;
+    try {
+      const res = await fetch(`${API_BASE_URL}/stories`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      if (!res.ok) throw new Error('Could not load stories');
+      const allStories = await res.json();
+
+      groupedStories = {};
+      allStories.forEach(s => {
+        if (!groupedStories[s.user_id]) {
+          groupedStories[s.user_id] = { userId: s.user_id, profile: s.profiles, stories: [] };
+        }
+        groupedStories[s.user_id].stories.push(s);
+      });
+      Object.values(groupedStories).forEach(g => {
+        g.stories.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      });
+
+      renderStoriesRow();
+    } catch (err) {
+      console.warn('Could not load stories:', err.message);
+    }
+  }
+
+  function buildStoryTile(story, label) {
+    const tile = document.createElement('button');
+    tile.type = 'button';
+    tile.style.cssText = 'position:relative;flex-shrink:0;width:76px;height:120px;border-radius:14px;overflow:hidden;background:#e2e3e1;';
+    const isImage = story.media_type && story.media_type.startsWith('image/');
+    tile.innerHTML = `
+      ${isImage
+        ? `<img alt="${label}" class="story-thumb-img" data-path="${story.media_url}" style="width:100%;height:100%;object-fit:cover;display:block;"/>`
+        : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1a1c1b;"><span class="material-symbols-outlined" style="font-size:32px;color:#ffffff;">play_circle</span></div>`
+      }
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.65) 100%);"></div>
+           <div style="position:absolute;top:6px;left:6px;width:26px;height:26px;border-radius:50%;border:2.5px solid #059669;background:#ffffff;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        ${story.profiles && story.profiles.avatar_url
+          ? `<img src="${story.profiles.avatar_url}" style="width:100%;height:100%;object-fit:cover;"/>`
+          : `<span class="material-symbols-outlined" style="font-size:14px;color:#76777d;">person</span>`
+        }
+      </div>
+      <span style="position:absolute;bottom:6px;left:6px;right:6px;font-size:10px;font-weight:700;color:#ffffff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${label}</span>
+    `;
+    tile.addEventListener('click', () => openStoryViewer(story.user_id));
+    return tile;
+  }
+
+  function renderStoriesRow() {
+    const row = document.getElementById('storiesRow');
+    row.innerHTML = '';
+
+    const myGroup = groupedStories[currentUserId];
+
+    const createTile = document.createElement('button');
+    createTile.type = 'button';
+    createTile.style.cssText = 'position:relative;flex-shrink:0;width:76px;height:120px;border-radius:14px;overflow:hidden;background:#f4f4f2;border:1px solid #e2e3e1;';
+       const myAvatarUrl = (groupedStories[currentUserId] && groupedStories[currentUserId].profile) ? groupedStories[currentUserId].profile.avatar_url : ownAvatarUrl;
+    createTile.innerHTML = `
+      <div style="height:70%;background:#eeeeec;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        ${myAvatarUrl
+          ? `<img src="${myAvatarUrl}" style="width:100%;height:100%;object-fit:cover;"/>`
+          : `<span class="material-symbols-outlined" style="font-size:28px;color:#76777d;">person</span>`
+        }
+      </div>
+      <div style="height:30%;position:relative;">
+        <span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:28px;height:28px;border-radius:50%;background:#059669;border:3px solid #ffffff;display:flex;align-items:center;justify-content:center;color:#ffffff;">
+          <span class="material-symbols-outlined" style="font-size:16px;">add</span>
+        </span>
+      </div>
+      <span style="position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:10px;font-weight:700;color:#1a1c1b;">Create Story</span>
+    `;
+    createTile.addEventListener('click', () => document.getElementById('storyMediaInput').click());
+    row.appendChild(createTile);
+
+    if (myGroup) {
+      const latest = myGroup.stories[myGroup.stories.length - 1];
+      row.appendChild(buildStoryTile(latest, 'Your story'));
+    }
+
+    Object.values(groupedStories)
+      .filter(g => g.userId !== currentUserId)
+      .sort((a, b) => new Date(b.stories[b.stories.length - 1].created_at) - new Date(a.stories[a.stories.length - 1].created_at))
+      .forEach(g => {
+        const latest = g.stories[g.stories.length - 1];
+             const name = firstNameOf(g.profile);
+        row.appendChild(buildStoryTile(latest, name));
+      });
+
+    row.querySelectorAll('.story-thumb-img').forEach(img => {
+      getSignedPostMediaUrl(img.dataset.path).then(url => { if (url) img.src = url; });
+    });
+  }
+
+  function openStoryViewer(userId) {
+    currentStoryGroup = groupedStories[userId];
+    if (!currentStoryGroup) return;
+    currentStoryIndex = 0;
+    const modal = document.getElementById('storyViewerModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    renderCurrentStory();
+  }
+
+  function closeStoryViewer() {
+    const modal = document.getElementById('storyViewerModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.getElementById('storyViewerMedia').innerHTML = '';
+    currentStoryGroup = null;
+  }
+
+  function renderCurrentStory() {
+    if (!currentStoryGroup) return;
+    const story = currentStoryGroup.stories[currentStoryIndex];
+    const name = currentStoryGroup.profile ? (currentStoryGroup.profile.display_name || currentStoryGroup.profile.email) : 'User';
+
+    document.getElementById('storyViewerName').textContent = name;
+    document.getElementById('storyViewerTime').textContent = formatRelativeTime(story.created_at);
+
+    const mediaContainer = document.getElementById('storyViewerMedia');
+    mediaContainer.innerHTML = '';
+    const isImage = story.media_type && story.media_type.startsWith('image/');
+    if (isImage) {
+      const img = document.createElement('img');
+      img.style.cssText = 'max-width:100%;max-height:100%;object-fit:contain;';
+      mediaContainer.appendChild(img);
+      getSignedPostMediaUrl(story.media_url).then(url => { if (url) img.src = url; });
+    } else {
+      const video = document.createElement('video');
+      video.style.cssText = 'max-width:100%;max-height:100%;';
+      video.controls = true;
+      video.autoplay = true;
+      mediaContainer.appendChild(video);
+      getSignedPostMediaUrl(story.media_url).then(url => { if (url) video.src = url; });
+    }
+
+    const deleteBtn = document.getElementById('storyViewerDeleteBtn');
+    deleteBtn.classList.toggle('hidden', story.user_id !== currentUserId);
+
+    document.getElementById('storyViewerPrevBtn').style.visibility = currentStoryIndex === 0 ? 'hidden' : 'visible';
+    document.getElementById('storyViewerNextBtn').style.visibility = 'visible';
+  }
+
+  async function deleteCurrentStory() {
+    if (!currentStoryGroup) return;
+    const story = currentStoryGroup.stories[currentStoryIndex];
+    if (!confirm('Delete this story?')) return;
+    const session = await requireLogin();
+    if (!session) return;
+    try {
+      await fetch(`${API_BASE_URL}/stories/${story.id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      closeStoryViewer();
+      await loadStories();
+    } catch (err) {
+      alert('Could not delete story');
+    }
+  }
+
+  async function uploadAndCreateStory(file) {
+    const session = await requireLogin();
+    if (!session) return;
+    showToast('Uploading story...');
+    try {
+      const urlRes = await fetch(`${API_BASE_URL}/posts/media/upload-url`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ file_name: file.name })
+      });
+      if (!urlRes.ok) throw new Error('Could not get upload URL');
+      const { path, token } = await urlRes.json();
+
+      const { error: uploadError } = await supabaseClient
+        .storage
+        .from('posts-media')
+        .uploadToSignedUrl(path, token, file);
+      if (uploadError) throw new Error(uploadError.message);
+
+      const res = await fetch(`${API_BASE_URL}/stories`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ media_url: path, media_type: file.type })
+      });
+      if (!res.ok) throw new Error('Could not create story');
+
+      await loadStories();
+      showToast('Story posted!');
+    } catch (err) {
+      alert('Could not post story: ' + err.message);
+    }
+  }
+
+  // ---------------- Community Posts ----------------
+   let postDraftFile = null;
+  let ownAvatarUrl = null;
+  const postSignedUrlCache = {};
+
+  function formatRelativeTime(isoDate) {
+    const diffMs = Date.now() - new Date(isoDate).getTime();
+    const mins = Math.floor(diffMs / 60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    return `${days}d ago`;
+  }
+
+  async function getSignedPostMediaUrl(path) {
+    if (postSignedUrlCache[path]) return postSignedUrlCache[path];
+    const session = await requireLogin();
+    if (!session) return null;
+    try {
+      const res = await fetch(`${API_BASE_URL}/posts/media/signed-url?path=${encodeURIComponent(path)}`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      postSignedUrlCache[path] = data.signedUrl;
+      return data.signedUrl;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async function loadOwnAvatar() {
+    const session = await requireLogin();
+    if (!session) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/profile/avatar`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+          if (data.avatar_url) {
+        ownAvatarUrl = data.avatar_url;
+        const container = document.getElementById('composerAvatarContainer');
+        if (container) {
+          container.innerHTML = `<img src="${data.avatar_url}" style="width:100%;height:100%;object-fit:cover;"/>`;
+        }
+      }
+    } catch (err) {
+      // keep default icon
+    }
+  }
+
+  async function loadPosts() {
+    const session = await requireLogin();
+    if (!session) return;
+    currentUserId = session.user.id;
+    try {
+      const res = await fetch(`${API_BASE_URL}/posts`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      if (!res.ok) throw new Error('Could not load posts');
+      const posts = await res.json();
+      renderPostsFeed(posts);
+    } catch (err) {
+      console.warn('Could not load posts:', err.message);
+    }
+  }
+
+  function renderPostsFeed(posts) {
+    const section = document.getElementById('postsFeedSection');
+    section.innerHTML = '';
+    if (posts.length === 0) {
+      section.innerHTML = '<p style="font-size:13px;color:#45464d;text-align:center;padding:16px;">No posts yet. Be the first to share something!</p>';
+      return;
+    }
+
+    posts.forEach(post => {
+           const authorName = firstNameOf(post.profiles);
+      const timeAgo = formatRelativeTime(post.created_at);
+      const isMine = post.user_id === currentUserId;
+
+      let mediaHtml = '';
+      if (post.media_url) {
+        if (post.media_type && post.media_type.startsWith('image/')) {
+          mediaHtml = `<img alt="Post media" class="post-media-img w-full rounded-xl" data-path="${post.media_url}" style="max-height:400px;object-fit:cover;background:#e2e3e1;min-height:120px;display:block;"/>`;
+        } else if (post.media_type && post.media_type.startsWith('video/')) {
+          mediaHtml = `<video class="post-media-video w-full rounded-xl" controls style="max-height:400px;background:#000;" data-path="${post.media_url}"></video>`;
+        } else if (post.media_type && post.media_type.startsWith('audio/')) {
+          mediaHtml = `<audio class="post-media-audio w-full" controls data-path="${post.media_url}"></audio>`;
+        } else {
+          const fileName = post.media_url.split('/').pop();
+          mediaHtml = `
+            <div style="display:flex;align-items:center;gap:8px;padding:12px;background:#f4f4f2;border-radius:12px;">
+              <span class="material-symbols-outlined">description</span>
+              <span style="font-size:13px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${fileName}</span>
+              <a class="post-download-link" data-path="${post.media_url}" href="#" style="font-size:12px;font-weight:700;color:#059669;text-decoration:underline;">Download</a>
+            </div>
+          `;
+        }
+      }
+
+      const card = document.createElement('div');
+      card.className = 'bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/30 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.04)] flex flex-col gap-3';
+           const authorAvatar = post.profiles ? post.profiles.avatar_url : null;
+      card.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            ${authorAvatar
+              ? `<img src="${authorAvatar}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;"/>`
+              : `<div style="width:38px;height:38px;border-radius:50%;background:#eeeeec;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="material-symbols-outlined" style="color:#76777d;">person</span></div>`
+            }
+            <div>
+              <div style="font-weight:700;font-size:13px;color:#1a1c1b;">${authorName}</div>
+              <div style="font-size:11px;color:#76777d;">${timeAgo}</div>
+            </div>
+          </div>
+          ${isMine ? `<button class="delete-post-btn" data-id="${post.id}" style="color:#76777d;background:none;border:none;cursor:pointer;display:flex;"><span class="material-symbols-outlined" style="font-size:20px;">more_horiz</span></button>` : ''}
+        </div>
+        ${post.caption ? `<p style="font-size:14px;color:#1a1c1b;white-space:pre-wrap;line-height:1.4;">${post.caption}</p>` : ''}
+        ${mediaHtml}
+      `;
+      section.appendChild(card);
+    });
+
+    section.querySelectorAll('.delete-post-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Delete this post?')) return;
+        const id = btn.getAttribute('data-id');
+        const session = await requireLogin();
+        if (!session) return;
+        try {
+          await fetch(`${API_BASE_URL}/posts/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${session.access_token}` }
+          });
+          await loadPosts();
+        } catch (err) {
+          alert('Could not delete post');
+        }
+      });
+    });
+
+    section.querySelectorAll('.post-media-img').forEach(img => {
+      getSignedPostMediaUrl(img.dataset.path).then(url => { if (url) img.src = url; });
+    });
+    section.querySelectorAll('.post-media-video').forEach(video => {
+      getSignedPostMediaUrl(video.dataset.path).then(url => { if (url) video.src = url; });
+    });
+    section.querySelectorAll('.post-media-audio').forEach(audio => {
+      getSignedPostMediaUrl(audio.dataset.path).then(url => { if (url) audio.src = url; });
+    });
+    section.querySelectorAll('.post-download-link').forEach(link => {
+      link.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const url = await getSignedPostMediaUrl(link.dataset.path);
+        if (url) window.open(url, '_blank');
+      });
+    });
+  }
+
+  function openCreatePostModal() {
+    document.getElementById('createPostModal').classList.remove('hidden');
+  }
+
+  async function submitNewPost() {
+    const caption = document.getElementById('postCaptionInput').value.trim();
+    const file = postDraftFile;
+    if (!caption && !file) {
+      alert('Write something or attach media first.');
+      return;
+    }
+    const session = await requireLogin();
+    if (!session) return;
+
+    try {
+      let media_url = null;
+      let media_type = null;
+
+      if (file) {
+        const urlRes = await fetch(`${API_BASE_URL}/posts/media/upload-url`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({ file_name: file.name })
+        });
+        if (!urlRes.ok) throw new Error('Could not get upload URL');
+        const { path, token } = await urlRes.json();
+
+        const { error: uploadError } = await supabaseClient
+          .storage
+          .from('posts-media')
+          .uploadToSignedUrl(path, token, file);
+        if (uploadError) throw new Error(uploadError.message);
+
+              media_url = path;
+        media_type = file.type;
+      }
+
+      const postRes = await fetch(`${API_BASE_URL}/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ caption: caption || null, media_url, media_type })
+      });
+      if (!postRes.ok) {
+        const errBody = await postRes.json().catch(() => ({}));
+        throw new Error(errBody.error || `Server returned ${postRes.status}`);
+      }
+
+      document.getElementById('postCaptionInput').value = '';
+      document.getElementById('postMediaLabel').classList.add('hidden');
+      postDraftFile = null;
+      document.getElementById('createPostModal').classList.add('hidden');
+      await loadPosts();
+      showToast('Posted!');
+    } catch (err) {
+      alert('Could not create post: ' + err.message);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const openPostComposerBtn = document.getElementById('openPostComposerBtn');
+    const postPhotoShortcutBtn = document.getElementById('postPhotoShortcutBtn');
+    const postAudioShortcutBtn = document.getElementById('postAudioShortcutBtn');
+    const postFileShortcutBtn = document.getElementById('postFileShortcutBtn');
+    const closeCreatePostModalBtn = document.getElementById('closeCreatePostModalBtn');
+    const postMediaPickBtn = document.getElementById('postMediaPickBtn');
+    const postMediaInput = document.getElementById('postMediaInput');
+    const submitPostBtn = document.getElementById('submitPostBtn');
+
+    if (openPostComposerBtn) openPostComposerBtn.addEventListener('click', openCreatePostModal);
+    if (postPhotoShortcutBtn) {
+      postPhotoShortcutBtn.addEventListener('click', () => {
+        openCreatePostModal();
+        postMediaInput.click();
+      });
+    }
+    if (postAudioShortcutBtn) {
+      postAudioShortcutBtn.addEventListener('click', () => {
+        openCreatePostModal();
+        postMediaInput.click();
+      });
+    }
+    if (postFileShortcutBtn) {
+      postFileShortcutBtn.addEventListener('click', () => {
+        openCreatePostModal();
+        postMediaInput.click();
+      });
+    }
+    if (closeCreatePostModalBtn) {
+      closeCreatePostModalBtn.addEventListener('click', () => {
+        document.getElementById('createPostModal').classList.add('hidden');
+      });
+    }
+    if (postMediaPickBtn) {
+      postMediaPickBtn.addEventListener('click', () => postMediaInput.click());
+    }
+    if (postMediaInput) {
+      postMediaInput.addEventListener('change', () => {
+        const file = postMediaInput.files[0];
+        if (file) {
+          postDraftFile = file;
+          const label = document.getElementById('postMediaLabel');
+          label.textContent = `Attached: ${file.name}`;
+          label.classList.remove('hidden');
+        }
+      });
+    }
+    if (submitPostBtn) submitPostBtn.addEventListener('click', submitNewPost);
+
+    const closeStoryViewerBtn = document.getElementById('closeStoryViewerBtn');
+    const storyViewerPrevBtn = document.getElementById('storyViewerPrevBtn');
+    const storyViewerNextBtn = document.getElementById('storyViewerNextBtn');
+    const storyViewerDeleteBtn = document.getElementById('storyViewerDeleteBtn');
+    const storyMediaInput = document.getElementById('storyMediaInput');
+
+    if (closeStoryViewerBtn) closeStoryViewerBtn.addEventListener('click', closeStoryViewer);
+    if (storyViewerPrevBtn) {
+      storyViewerPrevBtn.addEventListener('click', () => {
+        if (currentStoryIndex > 0) {
+          currentStoryIndex--;
+          renderCurrentStory();
+        }
+      });
+    }
+    if (storyViewerNextBtn) {
+      storyViewerNextBtn.addEventListener('click', () => {
+        if (currentStoryGroup && currentStoryIndex < currentStoryGroup.stories.length - 1) {
+          currentStoryIndex++;
+          renderCurrentStory();
+        } else {
+          closeStoryViewer();
+        }
+      });
+    }
+    if (storyViewerDeleteBtn) storyViewerDeleteBtn.addEventListener('click', deleteCurrentStory);
+    if (storyMediaInput) {
+      storyMediaInput.addEventListener('change', async () => {
+        const file = storyMediaInput.files[0];
+        storyMediaInput.value = '';
+        if (file) await uploadAndCreateStory(file);
+      });
+    }
+
+       loadOwnAvatar().then(() => {
+      loadPosts();
+      loadStories();
+    });
+  });
+})();
+</script>
+<script>
+(function(){
+  var routes = {"Home": "home.html", "Breakdown": "breakdown.html", "Plan": "plan.html", "Activity": "log-outflow.html", "Feeds": "feed.html"};
+  document.querySelectorAll("[data-tab]").forEach(function(el){
+    var dest = routes[el.getAttribute("data-tab")];
+    if(!dest) return;
+    if (el.getAttribute("data-tab") === "Feeds") return;
+    el.addEventListener("click", function(e){
+      e.preventDefault();
+      window.location.href = dest;
+    });
+  });
+})();
+</script>
+</body></html>

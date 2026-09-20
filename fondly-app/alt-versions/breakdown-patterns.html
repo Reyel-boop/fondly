@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fondly - Money Flow &amp; Burn</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface": "#1a1c1b",
+            "inverse-surface": "#2f3130",
+            "secondary": "#006c4a",
+            "outline-variant": "#c6c6cd",
+            "tertiary": "#000000",
+            "surface-container-low": "#f4f4f2",
+            "secondary-container": "#82f5c1",
+            "primary": "#000000",
+            "inverse-primary": "#bec6e0",
+            "on-secondary-fixed": "#002114",
+            "primary-fixed-dim": "#bec6e0",
+            "secondary-fixed-dim": "#68dba9",
+            "tertiary-fixed": "#e2dfff",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#7671ff",
+            "on-secondary-fixed-variant": "#005137",
+            "on-error": "#ffffff",
+            "surface-container": "#eeeeec",
+            "on-tertiary-fixed": "#0f0069",
+            "tertiary-fixed-dim": "#c3c0ff",
+            "surface-tint": "#565e74",
+            "primary-container": "#131b2e",
+            "inverse-on-surface": "#f1f1ef",
+            "on-tertiary-fixed-variant": "#3323cc",
+            "on-primary": "#ffffff",
+            "surface-variant": "#e2e3e1",
+            "surface-dim": "#dadad8",
+            "on-tertiary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#85f8c4",
+            "background": "#f9f9f7",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#3f465c",
+            "on-primary-fixed": "#131b2e",
+            "tertiary-container": "#0f0069",
+            "on-background": "#1a1c1b",
+            "surface-bright": "#f9f9f7",
+            "outline": "#76777d",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#dae2fd",
+            "surface": "#f9f9f7",
+            "on-secondary-container": "#00714e",
+            "on-surface-variant": "#45464d",
+            "error-container": "#ffdad6",
+            "surface-container-high": "#e8e8e6",
+            "surface-container-highest": "#e2e3e1",
+            "on-primary-container": "#7c839b"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-sm": "1rem",
+            "gutter-lg": "1.5rem",
+            "space-xl": "2.25rem",
+            "margin": "1.25rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "gutter-sm": "0.75rem",
+            "margin-lg": "2rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "headline-xl-mobile": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-sm": [
+              "Plus Jakarta Sans"
+            ],
+            "body-sm": [
+              "Inter"
+            ],
+            "label-sm": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-xl": [
+              "Plus Jakarta Sans"
+            ],
+            "body-lg": [
+              "Inter"
+            ],
+            "label-lg": [
+              "Plus Jakarta Sans"
+            ],
+            "body-md": [
+              "Inter"
+            ],
+            "headline-md": [
+              "Plus Jakarta Sans"
+            ],
+            "label-md": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-lg": [
+              "Plus Jakarta Sans"
+            ]
+          },
+          "fontSize": {
+            "headline-xl-mobile": [
+              "32px",
+              {
+                "lineHeight": "38px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-sm": [
+              "18px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "600"
+              }
+            ],
+            "body-sm": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-sm": [
+              "11px",
+              {
+                "lineHeight": "14px",
+                "letterSpacing": "0.03em",
+                "fontWeight": "600"
+              }
+            ],
+            "headline-xl": [
+              "40px",
+              {
+                "lineHeight": "48px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "body-lg": [
+              "16px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-lg": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "letterSpacing": "0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "400"
+              }
+            ],
+            "headline-md": [
+              "22px",
+              {
+                "lineHeight": "28px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "label-md": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "letterSpacing": "0.02em",
+                "fontWeight": "600"
+              }
+            ],
+            "headline-lg": [
+              "28px",
+              {
+                "lineHeight": "34px",
+                "letterSpacing": "-0.015em",
+                "fontWeight": "600"
+              }
+            ]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-shadow-soft {
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    }
+    .custom-shadow-elevated {
+      box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
+    }
+    .inner-track-shadow {
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.12);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex justify-center selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Mobile Viewport Shell (Constrained to max-w-lg) -->
+<div class="w-full max-w-lg bg-surface flex flex-col min-h-screen relative pb-28">
+<!-- Top Navigation Bar (Derived from Shared Components JSON with Contextual Controls) -->
+<header class="bg-surface dark:bg-inverse-surface shadow-sm dark:shadow-none flex justify-between items-center w-full px-4 h-16 max-w-lg mx-auto sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-surface-variant flex items-center justify-center bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A sophisticated portrait of an introspective professional with warm natural rim lighting, gentle earthy neutral styling, calm editorial aesthetic with soft ambient background tones in pure slate and cream." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXglzDQwspZvbDC2GDJZHBofWrZj1UZUqFKbF09yCZSe-QRmxBnYA4bgDaWoCS-SaGsiI1RWX68waehjP_VvStA9NrOEd1PJgB-0I41Q0EI37ZdOsZ0bVCde_iC_B2Gpy4pRwlciwIk0SY9vSdMCHsDyPivu93baIYAkB7RN6VeyQXVU0zREF_ams53a4K-l9gPUouPt5I8Q5LdxpaM2mw4o9drmLvBcApHrxDed1SJfXgmcGyBC_avA"/>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary leading-tight">Fondly</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Money Flow &amp; Burn</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-label-md font-label-md text-primary transition-all active:scale-95">
+<span class="text-label-md font-label-md font-bold">This Month</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-4 pt-3 flex flex-col gap-6">
+<!-- Period Cycle Filter Pills -->
+<section class="flex items-center justify-between p-1 bg-surface-container-low rounded-full border border-outline-variant/25">
+<button class="flex-1 py-1.5 text-center rounded-full bg-surface-container-lowest text-primary text-label-md font-label-md font-bold shadow-sm transition-all">
+          This Month
+        </button>
+<button class="flex-1 py-1.5 text-center rounded-full text-on-surface-variant text-label-md font-label-md hover:text-primary transition-all">
+          Last Month
+        </button>
+<button class="flex-1 py-1.5 text-center rounded-full text-on-surface-variant text-label-md font-label-md hover:text-primary transition-all">
+          90 Days
+        </button>
+</section>
+<!-- Velocity & Burn Rate Graph Section -->
+<section class="bg-surface-container-lowest rounded-xl p-5 custom-shadow-soft border border-outline-variant/20 flex flex-col gap-4">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant">Burn Trajectory</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container text-label-sm font-label-sm font-bold">
+                Spike Alert
+              </span>
+</div>
+<div class="text-headline-xl-mobile font-headline-xl-mobile text-primary mt-1">
+              $2,659.50 <span class="text-label-md font-label-md text-on-surface-variant font-normal">spent of $3,200</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-container-high transition-all text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="info">info</span>
+</button>
+</div>
+<!-- Metric Curve Diagram -->
+<div class="relative w-full h-44 bg-surface-container-low/40 rounded-lg p-2 flex flex-col justify-end overflow-hidden border border-outline-variant/15">
+<!-- Reference Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between p-3 pointer-events-none opacity-25">
+<div class="border-b border-dashed border-outline w-full"></div>
+<div class="border-b border-dashed border-outline w-full"></div>
+<div class="border-b border-dashed border-outline w-full"></div>
+<div class="border-b border-dashed border-outline w-full"></div>
+</div>
+<!-- SVG Trajectory Curves -->
+<svg class="w-full h-full absolute inset-0 pt-3 pb-6 px-3" fill="none" preserveaspectratio="none" viewbox="0 0 340 140">
+<defs>
+<lineargradient id="actualGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#006c4a" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#006c4a" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Ideal Steady Pace (Dashed Guide Line) -->
+<path d="M 10 120 L 330 30" opacity="0.65" stroke="#76777d" stroke-dasharray="4 4" stroke-width="2"></path>
+<!-- Actual Depletion Area & Line with Mid-Month Spike -->
+<path d="M 10 120 L 70 106 L 140 86 L 155 42 L 210 36 L 245 28 L 245 130 L 10 130 Z" fill="url(#actualGradient)"></path>
+<path d="M 10 120 L 70 106 L 140 86 L 155 42 L 210 36 L 245 28" stroke="#006c4a" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+<!-- Projected Trajectory (Current to End of Month) -->
+<path d="M 245 28 L 330 10" opacity="0.85" stroke="#ba1a1a" stroke-dasharray="3 3" stroke-width="2.5"></path>
+<!-- Mid-Month Point (Oct 14) -->
+<circle cx="155" cy="42" fill="#ba1a1a" r="5" stroke="#ffffff" stroke-width="2"></circle>
+<!-- Current Day Point (Day 20) -->
+<circle cx="245" cy="28" fill="#006c4a" r="4.5" stroke="#ffffff" stroke-width="2"></circle>
+</svg>
+<!-- Interactive Marker Floating Annotation (Oct 14 Weekend Getaway) -->
+<div class="absolute left-[38%] top-2 transform -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-2.5 py-1.5 rounded-lg shadow-md flex items-center gap-1.5 z-10 pointer-events-none">
+<span class="material-symbols-outlined text-[14px] text-secondary-container" data-icon="flight_takeoff">flight_takeoff</span>
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm font-bold text-inverse-on-surface">Oct 14: +$420</span>
+<span class="text-[9px] leading-tight text-outline-variant">Weekend getaway spike</span>
+</div>
+</div>
+<!-- Horizontal Day Axis -->
+<div class="relative z-10 flex justify-between items-center text-label-sm font-label-sm text-outline px-1 pt-2">
+<span>Day 1</span>
+<span>Day 10</span>
+<span class="font-bold text-error">Day 14 (Spike)</span>
+<span class="font-bold text-primary">Day 20 (Today)</span>
+<span>Day 31</span>
+</div>
+</div>
+<!-- Legend and Burn Velocity Note -->
+<div class="flex items-center justify-between pt-1 border-t border-outline-variant/15 text-body-sm font-body-sm">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-0.5 bg-outline rounded-full"></span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Ideal Steady Pace</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-1 bg-secondary rounded-full"></span>
+<span class="text-label-sm font-label-sm text-on-surface font-bold">Actual Depletion</span>
+</div>
+</div>
+<span class="text-label-sm font-label-sm text-error font-semibold">+14% Burn Velocity</span>
+</div>
+</section>
+<!-- Period-over-period Comparison Card -->
+<section class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/25 flex items-start gap-3.5">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]" data-icon="analytics">analytics</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md font-bold text-primary">Month-over-Month Shift</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">vs September</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed">
+            Compared to September: You have <span class="font-bold text-error">18% less principal remaining</span> at day 20 due to Shopping outflow spikes and unbuffered discretionary travel.
+          </p>
+</div>
+</section>
+<!-- Category Outflow Breakdown with Progress Meters -->
+<section class="flex flex-col gap-3">
+<div class="flex items-center justify-between px-1">
+<h2 class="text-headline-sm font-headline-sm text-primary">Category Outflow Breakdown</h2>
+<button class="text-label-md font-label-md font-bold text-secondary flex items-center gap-0.5">
+            Adjust Targets
+            <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl custom-shadow-soft border border-outline-variant/20 divide-y divide-outline-variant/15 overflow-hidden">
+<!-- Category 1: Dining & Groceries -->
+<div class="p-4 flex flex-col gap-2.5 hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="restaurant">restaurant</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-lg font-label-lg text-on-surface">Dining &amp; Groceries</span>
+<span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-error-container text-on-error-container">Spike detected</span>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface-variant">42 transactions logged</span>
+</div>
+</div>
+<div class="text-right">
+<div class="text-label-lg font-label-lg font-bold text-primary">$840.00</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">of $900 budget</div>
+</div>
+</div>
+<!-- Progress Bar (93% - Spike) -->
+<div class="w-full bg-surface-variant rounded-full h-2.5 inner-track-shadow overflow-hidden">
+<div class="bg-error h-full rounded-full transition-all duration-500" style="width: 93%;"></div>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm text-on-surface-variant pt-0.5">
+<span class="text-error font-bold">93% consumed</span>
+<span>$60 remaining for 11 days</span>
+</div>
+</div>
+<!-- Category 2: Housing & Utilities -->
+<div class="p-4 flex flex-col gap-2.5 hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="home_pin">home_pin</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-lg font-label-lg text-on-surface">Housing &amp; Utilities</span>
+<span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-surface-container-high text-on-surface-variant">Recurring locked</span>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Rent + municipal utilities</span>
+</div>
+</div>
+<div class="text-right">
+<div class="text-label-lg font-label-lg font-bold text-primary">$1,250.00</div>
+<div class="text-label-sm font-label-sm text-secondary font-semibold">100% fixed paid</div>
+</div>
+</div>
+<!-- Progress Bar (100% Fixed) -->
+<div class="w-full bg-surface-variant rounded-full h-2.5 inner-track-shadow overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 100%;"></div>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm text-on-surface-variant pt-0.5">
+<span>Settled on Oct 1st</span>
+<span class="text-secondary font-medium">Auto-cleared</span>
+</div>
+</div>
+<!-- Category 3: Shopping & Personal -->
+<div class="p-4 flex flex-col gap-2.5 hover:bg-surface-container-low/50 transition-colors bg-error-container/10">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-error-container/40 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[20px]" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-lg font-label-lg text-on-surface">Shopping &amp; Personal</span>
+<span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-error text-on-error">Over by $80</span>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Suggested cap alert</span>
+</div>
+</div>
+<div class="text-right">
+<div class="text-label-lg font-label-lg font-bold text-error">$380.00</div>
+<div class="text-label-sm font-label-sm text-outline">cap: $300</div>
+</div>
+</div>
+<!-- Progress Bar (Over 100%) -->
+<div class="w-full bg-surface-variant rounded-full h-2.5 inner-track-shadow overflow-hidden flex">
+<div class="bg-outline h-full" style="width: 78%;"></div>
+<div class="bg-error h-full rounded-r-full" style="width: 22%;"></div>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm pt-0.5">
+<span class="text-error font-bold">126% of allocation</span>
+<button class="text-secondary font-bold hover:underline">Trim from savings goal</button>
+</div>
+</div>
+<!-- Category 4: Transport & Gas -->
+<div class="p-4 flex flex-col gap-2.5 hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="local_gas_station">local_gas_station</span>
+</div>
+<div>
+<span class="text-label-lg font-label-lg text-on-surface">Transport &amp; Gas</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Metro card + 2 fuel stops</p>
+</div>
+</div>
+<div class="text-right">
+<div class="text-label-lg font-label-lg font-bold text-primary">$189.50</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">of $250 budget</div>
+</div>
+</div>
+<!-- Progress Bar (75%) -->
+<div class="w-full bg-surface-variant rounded-full h-2.5 inner-track-shadow overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 75%;"></div>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm text-on-surface-variant pt-0.5">
+<span class="text-secondary font-medium">On Track (75%)</span>
+<span>$60.50 cushion</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recurring & Subscription Detector Widget -->
+<section class="bg-surface-container-lowest rounded-xl p-5 custom-shadow-soft border border-outline-variant/20 flex flex-col gap-3.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]" data-icon="sync">sync</span>
+</div>
+<div>
+<h3 class="text-label-lg font-label-lg text-primary">Recurring &amp; Subscriptions</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant">4 Recurring Bills Detected ($1,385/mo)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- Flagged Subscription Alert Card -->
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30 flex items-start gap-3">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest flex items-center justify-center text-primary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]" data-icon="fitness_center">fitness_center</span>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<div>
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md font-bold text-primary">Gym Membership</span>
+<span class="text-label-md font-label-md font-bold text-primary">$75.00/mo</span>
+</div>
+<p class="text-body-sm font-body-sm text-error font-medium mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="warning">warning</span>
+                Not logged in 24 days. Review?
+              </p>
+</div>
+<!-- Action buttons for flagged subscription -->
+<div class="flex items-center gap-2 pt-1">
+<button class="px-3 py-1.5 rounded-full bg-primary text-on-primary text-label-sm font-label-sm font-bold shadow-sm transition-all active:scale-95">
+                Pause Subscription
+              </button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm font-semibold transition-all">
+                Keep Active
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Smart Coach Conversational Prompt Chip -->
+<section class="p-4 rounded-xl bg-[#F5F3FF] border border-[#E0E7FF] flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]" data-icon="psychology">psychology</span>
+</div>
+<div>
+<div class="text-label-md font-label-md font-bold text-[#1E293B]">Mindful Pace Assistant</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Lock $120 to safe-to-spend until Nov 1st?</p>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-label-sm font-label-sm font-bold border border-[#E0E7FF] hover:bg-[#E0E7FF] transition-all shrink-0">
+          Apply Buffer
+        </button>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Derived strictly from Shared Components JSON with 'Breakdown' ACTIVE) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-2 max-w-lg mx-auto bg-surface dark:bg-inverse-surface shadow-lg dark:shadow-none">
+<!-- Home Tab (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all active:scale-95">
+<span class="material-symbols-outlined text-[22px]" data-icon="home">home</span>
+<span class="text-label-sm font-label-sm mt-0.5">Home</span>
+</button>
+<!-- Breakdown Tab (ACTIVE - Matches Screen Intent) -->
+<button class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-3 py-1.5 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[22px]" data-icon="pie_chart" style="font-variation-settings: 'FILL' 1;">pie_chart</span>
+<span class="text-label-sm font-label-sm mt-0.5 font-bold">Breakdown</span>
+</button>
+<!-- Coach Tab (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all active:scale-95">
+<span class="material-symbols-outlined text-[22px]" data-icon="psychology">psychology</span>
+<span class="text-label-sm font-label-sm mt-0.5">Coach</span>
+</button>
+<!-- Goals Tab (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all active:scale-95">
+<span class="material-symbols-outlined text-[22px]" data-icon="savings">savings</span>
+<span class="text-label-sm font-label-sm mt-0.5">Goals</span>
+</button>
+<!-- Activity Tab (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all active:scale-95">
+<span class="material-symbols-outlined text-[22px]" data-icon="receipt_long">receipt_long</span>
+<span class="text-label-sm font-label-sm mt-0.5">Activity</span>
+</button>
+</nav>
+</div>
+</body></html>

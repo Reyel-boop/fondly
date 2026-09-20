@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en" style=""><head><link href="manifest.json" rel="manifest"/><meta content="#f9f9f7" name="theme-color"/><link href="assets/icons/apple-touch-icon.png" rel="apple-touch-icon"/><link href="assets/icons/favicon-32.png" rel="icon" type="image/png"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="default" name="apple-mobile-web-app-status-bar-style"/><meta content="Fondly" name="apple-mobile-web-app-title"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fondly - Plan</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface": "#1a1c1b",
+            "inverse-surface": "#2f3130",
+            "secondary": "#006c4a",
+            "outline-variant": "#c6c6cd",
+            "tertiary": "#000000",
+            "surface-container-low": "#f4f4f2",
+            "secondary-container": "#82f5c1",
+            "primary": "#123524",
+            "inverse-primary": "#8fd6ae",
+            "on-secondary-fixed": "#002114",
+            "primary-fixed-dim": "#8fd6ae",
+            "secondary-fixed-dim": "#68dba9",
+            "tertiary-fixed": "#e2dfff",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#7671ff",
+            "on-secondary-fixed-variant": "#005137",
+            "on-error": "#ffffff",
+            "surface-container": "#eeeeec",
+            "on-tertiary-fixed": "#0f0069",
+            "tertiary-fixed-dim": "#c3c0ff",
+            "surface-tint": "#123524",
+            "primary-container": "#d7f2e3",
+            "inverse-on-surface": "#f1f1ef",
+            "on-tertiary-fixed-variant": "#3323cc",
+            "on-primary": "#ffffff",
+            "surface-variant": "#e2e3e1",
+            "surface-dim": "#dadad8",
+            "on-tertiary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#85f8c4",
+            "background": "#f9f9f7",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#1f5b3f",
+            "on-primary-fixed": "#0b2e20",
+            "tertiary-container": "#0f0069",
+            "on-background": "#1a1c1b",
+            "surface-bright": "#f9f9f7",
+            "outline": "#76777d",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#d7f2e3",
+            "surface": "#f9f9f7",
+            "on-secondary-container": "#00714e",
+            "on-surface-variant": "#45464d",
+            "error-container": "#ffdad6",
+            "surface-container-high": "#e8e8e6",
+            "surface-container-highest": "#e2e3e1",
+            "on-primary-container": "#0f3d2b"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-sm": "1rem",
+            "gutter-lg": "1.5rem",
+            "space-xl": "2.25rem",
+            "margin": "1.25rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "gutter-sm": "0.75rem",
+            "margin-lg": "2rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "headline-xl-mobile": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-sm": [
+              "Plus Jakarta Sans"
+            ],
+            "body-sm": [
+              "Inter"
+            ],
+            "label-sm": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-xl": [
+              "Plus Jakarta Sans"
+            ],
+            "body-lg": [
+              "Inter"
+            ],
+            "label-lg": [
+              "Plus Jakarta Sans"
+            ],
+            "body-md": [
+              "Inter"
+            ],
+            "headline-md": [
+              "Plus Jakarta Sans"
+            ],
+            "label-md": [
+              "Plus Jakarta Sans"
+            ],
+            "headline-lg": [
+              "Plus Jakarta Sans"
+            ]
+          },
+          "fontSize": {
+            "headline-xl-mobile": [
+              "32px",
+              {
+                "lineHeight": "38px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-sm": [
+              "18px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "600"
+              }
+            ],
+            "body-sm": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-sm": [
+              "11px",
+              {
+                "lineHeight": "14px",
+                "letterSpacing": "0.03em",
+                "fontWeight": "600"
+              }
+            ],
+            "headline-xl": [
+              "40px",
+              {
+                "lineHeight": "48px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "body-lg": [
+              "16px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-lg": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "letterSpacing": "0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "400"
+              }
+            ],
+            "headline-md": [
+              "22px",
+              {
+                "lineHeight": "28px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "label-md": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "letterSpacing": "0.02em",
+                "fontWeight": "600"
+              }
+            ],
+            "headline-lg": [
+              "28px",
+              {
+                "lineHeight": "34px",
+                "letterSpacing": "-0.015em",
+                "fontWeight": "600"
+              }
+            ]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-shadow-card {
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    }
+    .cushion-progress-groove {
+      box-shadow: inset 0 1.5px 3px rgba(15, 23, 42, 0.08);
+    }
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #000000;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      border: 2px solid #ffffff;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen pb-32 select-none relative overflow-x-hidden">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<header class="bg-primary shadow-sm sticky top-0 z-40">
+<div class="flex justify-between items-center w-full px-4 h-16 max-w-lg mx-auto">
+<span class="font-headline-md text-headline-md font-bold text-on-primary tracking-tight">Fondly</span>
+</div>
+</header>
+<div class="max-w-lg mx-auto px-4 pt-4">
+<div class="flex bg-surface-container-low rounded-full p-1">
+<button class="plan-tab-btn flex-1 py-2 rounded-full text-label-lg font-label-lg font-semibold transition-all bg-primary text-on-primary" data-plan-tab="goals" id="planTabGoalsBtn" type="button">Goals</button>
+<button class="plan-tab-btn flex-1 py-2 rounded-full text-label-lg font-label-lg font-semibold transition-all text-on-surface-variant" data-plan-tab="coach" id="planTabCoachBtn" type="button">Coach</button>
+</div>
+</div>
+
+<div class="max-w-lg mx-auto px-4 pt-4 space-y-4" id="goalsTabContent">
+<section class="flex flex-col gap-3" id="realGoalsSection">
+  <h3 class="text-headline-sm font-headline-sm text-primary px-1">Your Goals</h3>
+  <div id="realGoalsContainer" class="space-y-3"></div>
+</section>
+<button class="w-full p-4 rounded-xl border border-dashed border-outline/40 hover:border-primary bg-surface-container-low/60 hover:bg-surface-container-low transition-all duration-200 flex items-center justify-center gap-2 group active:scale-[0.99]" onclick="createNewGoal()">
+<div class="w-7 h-7 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary border border-outline-variant/40 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+</div>
+<span class="text-label-lg font-label-lg text-primary">Set new savings target or percentage cushion</span>
+</button>
+<section class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 custom-shadow-card space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary" data-icon="tune">tune</span>
+<h3 class="text-headline-sm font-headline-sm text-primary">Automated Cushion Rules</h3>
+</div>
+<span class="text-label-sm font-label-sm text-secondary font-semibold">2 Active</span>
+</div>
+<div class="space-y-3.5 divide-y divide-outline-variant/20 pt-1">
+<div class="flex items-start justify-between pt-2 gap-3">
+<div class="space-y-0.5 flex-1 pr-2">
+<label class="text-label-lg font-label-lg text-primary cursor-pointer block" for="toggle-sweep">
+                Rule: End-of-Cycle Surplus Sweep
+              </label>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                Automatically transfer leftover principal to primary goal on day 30
+              </p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer mt-1">
+<input checked="" class="sr-only peer" id="toggle-sweep" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container rounded-full peer peer-focus:ring-2 peer-focus:ring-primary/20 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="flex items-start justify-between pt-3.5 gap-3">
+<div class="space-y-0.5 flex-1 pr-2">
+<label class="text-label-lg font-label-lg text-primary cursor-pointer block" for="toggle-guardrail">
+                Rule: Daily Spend Guardrail
+              </label>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                Nudge when single-day spend &gt; $150
+              </p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer mt-1">
+<input checked="" class="sr-only peer" id="toggle-guardrail" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container rounded-full peer peer-focus:ring-2 peer-focus:ring-primary/20 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+</section>
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]" data-icon="psychology">psychology</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-snug">
+          Fondly Coach recommends maintaining your 20% cushion to comfortably weather unexpected variable bills next week.
+        </p>
+</div>
+</div>
+
+<div class="hidden max-w-lg mx-auto px-4 pt-4 space-y-5" id="coachTabContent">
+<section class="space-y-3">
+<div class="flex items-baseline justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h1 class="text-headline-lg font-headline-lg text-primary tracking-tight">Fondly Coach</h1>
+<span class="inline-flex items-center justify-center p-1 rounded-full bg-secondary-container text-on-secondary-container" title="Live Principal Engine Active">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1 leading-snug">
+            Smart conditional nudges based on your live principal flow.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-surface-container-low border border-surface-variant/70 text-body-sm font-body-sm text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[18px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span><strong class="font-semibold text-primary transition-all duration-300" id="actedCount">14 suggestions</strong> acted on this year</span>
+<span class="text-outline-variant">•</span>
+<span class="text-secondary font-bold transition-all duration-300" id="savedAmount">$1,420 saved</span>
+</div>
+<div class="flex items-center gap-2 overflow-x-auto pb-1 pt-0.5 no-scrollbar" id="filterBar">
+<button class="filter-chip px-3.5 py-1.5 rounded-full bg-primary text-on-primary text-label-sm font-label-sm shadow-sm active:scale-95 transition-all flex-shrink-0" data-filter="all">
+  All (<span id="allCount">2</span>)
+</button>
+<button class="filter-chip px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-variant text-on-surface text-label-sm font-label-sm hover:bg-surface-container active:scale-95 transition-all flex-shrink-0 flex items-center gap-1.5" data-filter="urgent">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+  Urgent (<span id="urgentCount">1</span>)
+</button>
+<button class="filter-chip px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-variant text-on-surface text-label-sm font-label-sm hover:bg-surface-container active:scale-95 transition-all flex-shrink-0 flex items-center gap-1.5" data-filter="savings">
+<span class="material-symbols-outlined text-[14px] text-secondary">savings</span>
+  Savings (<span id="savingsCount">1</span>)
+</button>
+<button class="filter-chip px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-variant text-on-surface text-label-sm font-label-sm hover:bg-surface-container active:scale-95 transition-all flex-shrink-0" data-filter="subscriptions">
+  Subscriptions (<span id="subCount">0</span>)
+</button>
+</div>
+</section>
+<article class="suggestion-card relative rounded-2xl bg-surface-container-lowest p-5 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.06)] border border-surface-variant/80 space-y-4 transition-all" data-category="urgent" id="card-urgent-spend">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center flex-shrink-0 transition-colors" id="urgentBadgeIcon">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-error font-bold uppercase tracking-wider" id="urgentBadgeText">High Priority</span>
+<span class="text-label-sm font-label-sm text-outline-variant">•</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant" id="urgentBadgeSub">Live Flow Rule</span>
+</div>
+<h2 class="text-headline-sm font-headline-sm text-primary" id="urgentTitle">Spend Rate Alert: Outpacing Cycle</h2>
+</div>
+</div>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-container-low space-y-2 border border-surface-variant/50" id="urgentGaugeCard">
+<div class="flex justify-between items-baseline text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Current Daily Burn</span>
+<span class="font-bold text-error">$241 <span class="font-normal text-on-surface-variant text-[11px]">/ day</span></span>
+</div>
+<div class="h-2.5 w-full bg-surface-variant rounded-full overflow-hidden relative shadow-inner">
+<div class="h-full bg-error rounded-full transition-all duration-500" style="width: 78%;"></div>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm text-on-surface-variant">
+<span>Target pace: <strong class="text-primary font-semibold">$194 / day</strong></span>
+<span class="text-error font-medium">+$47/day pace gap</span>
+</div>
+</div>
+<div class="space-y-1.5" id="urgentDetailArea">
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+  Daily burn is $241/day vs $194/day target to keep <span class="font-medium text-primary">20% principal untouched</span>.
+</p>
+<div class="flex items-start gap-2 p-3 rounded-lg bg-surface-container text-body-sm font-body-sm text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px] flex-shrink-0 mt-0.5">lightbulb</span>
+<p>
+<strong class="font-semibold text-primary">Proposed Fix:</strong> Set a temporary <strong class="text-primary">$140 daily limit</strong> for the next 7 days to recover target balance.
+</p>
+</div>
+</div>
+<div class="flex items-center gap-2.5 pt-1" id="urgentActionCluster">
+<button class="flex-1 py-3 px-4 rounded-full bg-primary text-on-primary text-label-md font-label-md shadow hover:bg-on-surface active:scale-[0.98] transition-all text-center flex items-center justify-center gap-1.5" id="applyLimitBtn" onclick="applyDailyLimit()">
+<span>Apply Daily Limit</span>
+</button>
+<button class="py-3 px-4 rounded-full border border-surface-variant text-on-surface-variant text-label-md font-label-md hover:bg-surface-container active:scale-[0.98] transition-all" onclick="dismissCard('card-urgent-spend', 'Spend Rate Alert ignored.')">
+  Ignore
+</button>
+</div>
+</article>
+<article class="suggestion-card relative rounded-2xl bg-surface-container-lowest p-5 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.06)] border border-surface-variant/80 space-y-4 transition-all" data-category="savings" id="card-savings-sweep">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">savings</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-secondary font-bold">Surplus Detected</span>
+<span class="text-label-sm font-label-sm text-outline-variant">•</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">11 days left</span>
+</div>
+<h2 class="text-headline-sm font-headline-sm text-primary">Safe Surplus Sweep</h2>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed text-label-sm font-label-sm font-bold" id="sweepBadge">+$250 Safe</span>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-surface-variant/50 space-y-2">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Food &amp; Dining Pace</span>
+<span class="text-secondary font-semibold">$120 under budget</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface leading-snug" id="sweepBufferText">
+  You have <strong class="text-primary font-bold" id="unspentBufferAmount">$340 unspent buffer</strong>. Auto-move $250 into your <strong class="text-primary font-bold">Tokyo Trip Goal</strong> before it leaks?
+</p>
+</div>
+<div class="pt-1 flex items-center gap-2.5" id="sweepActionArea">
+<button class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-secondary text-on-secondary text-label-md font-label-md shadow hover:opacity-95 active:scale-[0.98] transition-all" id="sweepBtn" onclick="executeSweep()">
+<span class="material-symbols-outlined text-[18px]">flight_takeoff</span>
+<span id="sweepBtnText">Move $250 to Goal</span>
+</button>
+<button class="py-3 px-4 rounded-full border border-surface-variant text-on-surface-variant text-label-md font-label-md hover:bg-surface-container active:scale-[0.98] transition-all" onclick="dismissCard('card-savings-sweep', 'Surplus Sweep dismissed.')">
+  Ignore
+</button>
+</div>
+</article>
+<div class="hidden text-center py-10 px-4 space-y-2 bg-surface-container-lowest rounded-2xl border border-dashed border-surface-variant" id="emptyFilterState">
+<span class="material-symbols-outlined text-[36px] text-outline">check_circle</span>
+<h3 class="text-headline-sm font-semibold text-primary">All caught up!</h3>
+<p class="text-body-sm text-on-surface-variant">No active suggestions in this category right now.</p>
+</div>
+<div class="p-4 rounded-2xl bg-surface-container-low border border-surface-variant/60 flex items-center justify-between cursor-pointer hover:bg-surface-container transition-all active:scale-[0.99]" id="teachFondlyPill" onclick="openTeachModal()">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-[20px]">psychology_alt</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+  Want custom coaching rules? <span class="text-primary font-semibold underline underline-offset-2">Teach Fondly</span>
+</p>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">arrow_forward</span>
+</div>
+</div>
+
+<!-- Bottom Nav Bar Anchor -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full z-40 flex justify-around items-center px-2 py-2 max-w-lg mx-auto bg-surface shadow-lg border-t border-outline-variant/20">
+<!-- Tab 1: Home -->
+<a class="nav-tab flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-full transition-all duration-200 active:scale-95" data-tab="Home" href="home.html">
+<span class="material-symbols-outlined text-[20px]">home</span>
+<span class="font-label-sm text-label-sm mt-0.5">Home</span>
+</a>
+<!-- Tab 2: Breakdown -->
+<a class="nav-tab flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-full transition-all duration-200 active:scale-95" data-tab="Breakdown" href="breakdown.html">
+<span class="material-symbols-outlined text-[20px]">pie_chart</span>
+<span class="font-label-sm text-label-sm mt-0.5">Breakdown</span>
+</a>
+<!-- Tab 3: Plan (active on this page) -->
+<a class="nav-tab flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-3 py-1.5 transition-all duration-200 active:scale-95" data-tab="Plan" href="plan.html">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">checklist</span>
+<span class="font-label-sm text-label-sm mt-0.5 font-bold">Plan</span>
+</a>
+<!-- Tab 4: Activity -->
+<a class="nav-tab flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:bg-surface-container rounded-full transition-all duration-200 active:scale-95" data-tab="Activity" href="log-outflow.html">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-0.5">Activity</span>
+</a>
+</nav>
+
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm transition-opacity" id="teachModal">
+<div class="relative w-full max-w-md bg-surface-container-lowest rounded-3xl p-6 shadow-2xl border border-surface-variant space-y-4 animate-in fade-in zoom-in-95">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm text-primary">Teach Fondly</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Create a custom coaching trigger</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:bg-surface-container transition-colors" onclick="closeTeachModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<form class="space-y-3.5 pt-1" id="teachForm" onsubmit="saveCustomRule(event)">
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1 font-semibold">When this happens:</label>
+<select class="w-full py-2.5 px-3 rounded-xl bg-surface-container border border-surface-variant text-body-sm text-on-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none" id="ruleCondition">
+<option value="Dining exceeds">Dining outflows exceed $50 in a single day</option>
+<option value="Daily spend rate">Pace exceeds 15% of remaining cycle</option>
+<option value="Impulse category">Shopping activity occurs between 10PM - 6AM</option>
+<option value="Surplus buffer">Unspent buffer crosses $200 at mid-cycle</option>
+</select>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1 font-semibold">Fondly Coach should nudge me to:</label>
+<input class="w-full py-2.5 px-3 rounded-xl bg-surface-container border border-surface-variant text-body-sm text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary focus:border-transparent outline-none" id="ruleAction" placeholder="e.g. Prompt me to log a zero-spend day tomorrow" required="" type="text"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1 font-semibold">Sensitivity / Priority</label>
+<div class="grid grid-cols-2 gap-2">
+<label class="flex items-center gap-2 p-2 rounded-xl bg-surface-container border border-surface-variant/60 cursor-pointer text-body-sm">
+<input checked="" class="accent-primary" name="priority" type="radio" value="Urgent"/>
+<span class="font-medium text-primary">High Priority</span>
+</label>
+<label class="flex items-center gap-2 p-2 rounded-xl bg-surface-container border border-surface-variant/60 cursor-pointer text-body-sm">
+<input class="accent-primary" name="priority" type="radio" value="Gentle"/>
+<span class="font-medium text-primary">Gentle Nudge</span>
+</label>
+</div>
+</div>
+<div class="pt-2 flex items-center gap-2.5">
+<button class="flex-1 py-3 px-4 rounded-full bg-primary text-on-primary text-label-md font-label-md font-semibold hover:bg-on-surface active:scale-95 transition-all shadow" type="submit">
+          Create Coaching Rule
+        </button>
+<button class="py-3 px-4 rounded-full border border-surface-variant text-on-surface-variant text-label-md font-label-md hover:bg-surface-container active:scale-95 transition-all" onclick="closeTeachModal()" type="button">
+          Cancel
+        </button>
+</div>
+</form>
+</div>
+</div>
+<div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-4 py-3 bg-inverse-surface text-inverse-on-surface rounded-full shadow-xl transition-all duration-300 opacity-0 pointer-events-none -translate-y-2 max-w-[90%] w-max" id="toast">
+<span class="material-symbols-outlined text-[20px] text-secondary-fixed" id="toastIcon">check_circle</span>
+<span class="text-body-sm font-body-sm font-medium" id="toastMsg">Notification message</span>
+</div>
+<script>
+  let actedCount = 14;
+  let savedTotal = 1420;
+  let activeFilter = 'all';
+
+  function showToast(message, icon = 'check_circle') {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    const toastIcon = document.getElementById('toastIcon');
+    toastMsg.textContent = message;
+    toastIcon.textContent = icon;
+    toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
+    }, 3200);
+  }
+
+  function incrementActed() {
+    actedCount++;
+    const countEl = document.getElementById('actedCount');
+    countEl.textContent = `${actedCount} suggestions`;
+    countEl.classList.add('text-secondary', 'scale-105');
+    setTimeout(() => {
+      countEl.classList.remove('scale-105');
+    }, 300);
+  }
+
+  function addSaved(amount) {
+    savedTotal += amount;
+    const savedEl = document.getElementById('savedAmount');
+    savedEl.textContent = `$${savedTotal.toLocaleString()} saved`;
+    savedEl.classList.add('scale-110');
+    setTimeout(() => {
+      savedEl.classList.remove('scale-110');
+    }, 300);
+  }
+
+  const filterButtons = document.querySelectorAll('.filter-chip');
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+        b.classList.add('bg-surface-container-lowest', 'border', 'border-surface-variant', 'text-on-surface');
+      });
+      btn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+      btn.classList.remove('bg-surface-container-lowest', 'border', 'border-surface-variant', 'text-on-surface');
+
+      activeFilter = btn.getAttribute('data-filter');
+      applyFilter(activeFilter);
+    });
+  });
+
+  function applyFilter(filter) {
+    const cards = document.querySelectorAll('.suggestion-card');
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      if (card.dataset.dismissed === 'true') return;
+      const category = card.getAttribute('data-category');
+      if (filter === 'all' || category === filter) {
+        card.style.display = 'block';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    const emptyState = document.getElementById('emptyFilterState');
+    if (visibleCount === 0) {
+      emptyState.classList.remove('hidden');
+    } else {
+      emptyState.classList.add('hidden');
+    }
+  }
+
+  function recalculateCounts() {
+    const cards = Array.from(document.querySelectorAll('.suggestion-card')).filter(c => c.dataset.dismissed !== 'true');
+    const urgent = cards.filter(c => c.dataset.category === 'urgent').length;
+    const savings = cards.filter(c => c.dataset.category === 'savings').length;
+    const subs = cards.filter(c => c.dataset.category === 'subscriptions').length;
+
+    document.getElementById('allCount').textContent = cards.length;
+    document.getElementById('urgentCount').textContent = urgent;
+    document.getElementById('savingsCount').textContent = savings;
+    document.getElementById('subCount').textContent = subs;
+  }
+
+  function applyDailyLimit() {
+    const card = document.getElementById('card-urgent-spend');
+    const badgeIcon = document.getElementById('urgentBadgeIcon');
+    const badgeText = document.getElementById('urgentBadgeText');
+    const badgeSub = document.getElementById('urgentBadgeSub');
+    const title = document.getElementById('urgentTitle');
+    const gaugeCard = document.getElementById('urgentGaugeCard');
+    const detailArea = document.getElementById('urgentDetailArea');
+    const actionCluster = document.getElementById('urgentActionCluster');
+
+    badgeIcon.className = "w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0 transition-colors";
+    badgeIcon.innerHTML = '<span class="material-symbols-outlined text-[18px]">verified_user</span>';
+
+    badgeText.className = "text-label-sm font-label-sm text-secondary font-bold uppercase tracking-wider";
+    badgeText.textContent = "Active Guardrail";
+    badgeSub.textContent = "7 Days Locked";
+
+    title.textContent = "$140 Daily Limit Active";
+
+    gaugeCard.innerHTML = `
+      <div class="flex justify-between items-baseline text-body-sm font-body-sm">
+        <span class="text-on-surface font-medium">Temporary Daily Cap</span>
+        <span class="font-bold text-secondary">$140 <span class="font-normal text-on-surface-variant text-[11px]">/ day</span></span>
+      </div>
+      <div class="h-2.5 w-full bg-surface-variant rounded-full overflow-hidden relative shadow-inner">
+        <div class="h-full bg-secondary rounded-full transition-all duration-700" style="width: 100%;"></div>
+      </div>
+      <div class="flex justify-between items-center text-label-sm font-label-sm text-secondary">
+        <span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[14px]">lock</span> Enacted until Nov 22</span>
+        <span>Target back on track</span>
+      </div>
+    `;
+
+    detailArea.innerHTML = `
+      <div class="flex items-start gap-2 p-3 rounded-lg bg-secondary-container/30 text-body-sm font-body-sm text-on-secondary-container border border-secondary-container">
+        <span class="material-symbols-outlined text-secondary text-[18px] flex-shrink-0 mt-0.5">check_circle</span>
+        <p>Guardrail locked: Overages beyond $140 will require 2-step cycle confirmation.</p>
+      </div>
+    `;
+
+    actionCluster.innerHTML = `
+      <div class="flex items-center justify-between w-full py-2 text-label-sm text-on-surface-variant">
+        <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span> Guardrail Live</span>
+        <button onclick="dismissCard('card-urgent-spend', 'Limit archived')" class="text-primary hover:underline font-semibold">Archive</button>
+      </div>
+    `;
+
+    incrementActed();
+    addSaved(47 * 7);
+    showToast('$140/day limit enacted for 7 days!', 'shield');
+  }
+
+  function executeSweep() {
+    const btn = document.getElementById('sweepBtn');
+    const sweepBadge = document.getElementById('sweepBadge');
+    const bufferText = document.getElementById('sweepBufferText');
+    const actionArea = document.getElementById('sweepActionArea');
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> Sweeping...';
+
+    setTimeout(() => {
+      sweepBadge.textContent = "Swept to Goal";
+      sweepBadge.className = "px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface text-label-sm font-label-sm font-semibold";
+      
+      bufferText.innerHTML = `
+        <span class="text-secondary font-semibold flex items-center gap-1">
+          <span class="material-symbols-outlined text-[16px]">check_circle</span>
+          $250 transferred into Tokyo Trip Goal.
+        </span>
+        Remaining buffer is safely balanced at <strong class="text-primary font-bold">$90</strong>.
+      `;
+
+      actionArea.innerHTML = `
+        <div class="w-full flex items-center justify-between p-2 rounded-xl bg-surface-container-low text-body-sm">
+          <span class="text-secondary font-semibold flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">verified</span> Goal Boosted</span>
+          <button onclick="dismissCard('card-savings-sweep', 'Sweep acknowledged.')" class="text-label-sm font-semibold text-primary underline">Done</button>
+        </div>
+      `;
+
+      incrementActed();
+      addSaved(250);
+      showToast('$250 swept into Tokyo Trip Goal!', 'flight_takeoff');
+    }, 600);
+  }
+
+  function markForCancellation() {
+    const tag = document.getElementById('subStatusTag');
+    const box = document.getElementById('subDetailBox');
+    const actions = document.getElementById('subActions');
+
+    tag.textContent = "Cancellation Queued";
+    tag.className = "text-label-sm font-label-sm text-secondary font-bold";
+
+    box.innerHTML = `
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-body-sm">
+          <span class="font-semibold text-primary">Cancellation Assistant Checklist</span>
+          <span class="text-secondary font-bold text-label-sm">+$240/yr protected</span>
+        </div>
+        <div class="space-y-1 text-body-sm text-on-surface">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" checked disabled class="rounded text-secondary focus:ring-0"/>
+            <span class="line-through text-outline">Export cloud playlists</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="chkRemind" checked class="rounded text-secondary focus:ring-0"/>
+            <span>Reminder sent before next auto-renew</span>
+          </label>
+        </div>
+      </div>
+    `;
+
+    actions.innerHTML = `
+      <button onclick="completeSubCancel()" class="flex-1 py-3 px-4 rounded-full bg-secondary text-on-secondary text-label-md font-label-md shadow hover:opacity-95 active:scale-98 transition-all text-center">
+        Open Streaming Pass & Confirm Cancel
+      </button>
+    `;
+
+    incrementActed();
+    addSaved(240);
+    showToast('Streaming Pass marked for cancellation (+$240/yr)!', 'cancel');
+  }
+
+  function completeSubCancel() {
+    dismissCard('card-subscriptions-unused', 'Streaming Pass marked as cancelled.');
+  }
+
+  function keepActiveSub() {
+    const card = document.getElementById('card-subscriptions-unused');
+    const tag = document.getElementById('subStatusTag');
+    tag.textContent = "Kept Active";
+    tag.className = "text-label-sm font-label-sm text-on-surface-variant font-medium";
+    showToast('Subscription kept active. Audit snoozed for 90 days.', 'schedule');
+    setTimeout(() => {
+      dismissCard('card-subscriptions-unused', 'Subscription kept active.');
+    }, 600);
+  }
+
+  function toggleCapDrawer(show) {
+    const drawer = document.getElementById('capSliderContainer');
+    const actionRow = document.getElementById('capActionRow');
+    if (show) {
+      drawer.classList.remove('hidden');
+      actionRow.classList.add('hidden');
+    } else {
+      drawer.classList.add('hidden');
+      actionRow.classList.remove('hidden');
+    }
+  }
+
+  function updateCapValue(val) {
+    document.getElementById('capSliderVal').textContent = `$${val}`;
+    document.getElementById('capDisplayTarget').textContent = `$${val}`;
+  }
+
+  function saveCapSetting() {
+    const chosenVal = document.getElementById('capRange').value;
+    const card = document.getElementById('card-savings-cap');
+    const drawer = document.getElementById('capSliderContainer');
+    const desc = document.getElementById('capDescriptionArea');
+    const actionRow = document.getElementById('capActionRow');
+
+    drawer.classList.add('hidden');
+    actionRow.classList.remove('hidden');
+
+    desc.innerHTML = `
+      <div class="p-3 rounded-xl bg-secondary-container/30 border border-secondary-container space-y-1">
+        <div class="flex items-center gap-1.5 text-secondary font-bold text-body-sm">
+          <span class="material-symbols-outlined text-[18px]">verified</span> Cap set at $${chosenVal}/month
+        </div>
+        <p class="text-body-sm text-on-surface">Scheduled to activate next cycle. Fondly will notify you at 80% usage.</p>
+      </div>
+    `;
+
+    actionRow.innerHTML = `
+      <div class="flex items-center justify-between w-full py-1 text-label-sm text-on-surface-variant">
+        <span>Cap: <strong>$${chosenVal}/mo</strong></span>
+        <button onclick="toggleCapDrawer(true)" class="text-primary underline font-medium">Edit Cap</button>
+      </div>
+    `;
+
+    incrementActed();
+    showToast(`Next cycle shopping cap set at $${chosenVal}`, 'check_circle');
+  }
+
+  function openTeachModal() {
+    document.getElementById('teachModal').classList.remove('hidden');
+  }
+
+  function closeTeachModal() {
+    document.getElementById('teachModal').classList.add('hidden');
+  }
+
+  function saveCustomRule(e) {
+    e.preventDefault();
+    const condition = document.getElementById('ruleCondition').value;
+    const action = document.getElementById('ruleAction').value;
+
+    closeTeachModal();
+    showToast(`Custom rule saved: "${action.slice(0, 28)}..."`, 'psychology');
+
+    const newCard = document.createElement('article');
+    newCard.id = `card-custom-${Date.now()}`;
+    newCard.setAttribute('data-category', 'urgent');
+    newCard.className = "suggestion-card relative rounded-2xl bg-surface-container-lowest p-5 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.06)] border border-surface-variant/80 space-y-3 transition-all";
+    newCard.innerHTML = `
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-[18px]">auto_fix_high</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-label-sm font-label-sm text-secondary font-bold">Custom Coach Rule</span>
+              <span class="text-label-sm font-label-sm text-outline-variant">•</span>
+              <span class="text-label-sm font-label-sm text-on-surface-variant">Just now</span>
+            </div>
+            <h2 class="text-headline-sm font-headline-sm text-primary">${condition}</h2>
+          </div>
+        </div>
+        <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">Learned</span>
+      </div>
+      <p class="text-body-sm text-on-surface">${action}</p>
+      <div class="pt-1 flex items-center gap-2">
+        <button onclick="dismissCard('${newCard.id}', 'Custom rule paused.')" class="py-2 px-3 rounded-full border border-surface-variant text-on-surface-variant text-label-sm hover:bg-surface-container transition-all">Pause Rule</button>
+      </div>
+    `;
+
+    const mainContainer = document.getElementById('coachTabContent');
+    const teachPill = document.getElementById('teachFondlyPill');
+    mainContainer.insertBefore(newCard, teachPill);
+    recalculateCounts();
+    applyFilter(activeFilter);
+  }
+
+  function dismissCard(cardId, message = 'Suggestion dismissed.') {
+    const card = document.getElementById(cardId);
+    if (!card) return;
+    card.classList.add('card-exit');
+    setTimeout(() => {
+      card.dataset.dismissed = 'true';
+      card.style.display = 'none';
+      recalculateCounts();
+      applyFilter(activeFilter);
+      showToast(message, 'inventory_2');
+    }, 280);
+  }
+</script>
+<script>
+(function(){
+  const API_BASE_URL = 'http://localhost:3000';
+  const SUPABASE_URL = 'https://ieauwvbivmmgfkbbejtd.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_d5JSuSnKziL9PxzqYwf2Bg_1b8ZyDmC';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function requireLogin() {
+    const { data } = await supabaseClient.auth.getSession();
+    if (!data.session) {
+      window.location.href = 'index.html';
+    }
+    return data.session;
+  }
+
+  function formatPeso(amount) {
+    return '₱' + Number(amount).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function formatPesoRound(amount) {
+    return '₱' + Number(amount).toLocaleString('en-PH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  // ---------------- Goals ----------------
+  window.addMoneyToGoal = async function(goalId, currentAmount) {
+    const add = prompt('How much to add (PHP)?');
+    if (!add || isNaN(parseFloat(add))) return;
+
+    const session = await requireLogin();
+    if (!session) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/goals/${goalId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          current_amount: currentAmount + parseFloat(add)
+        })
+      });
+      if (!res.ok) throw new Error('Could not update goal');
+      await loadRealGoals();
+    } catch (err) {
+      alert('Could not add money: ' + err.message);
+    }
+  };
+
+  window.createNewGoal = async function() {
+    const name = prompt('What are you saving for?');
+    if (!name) return;
+    const target = prompt('Target amount (PHP)?');
+    if (!target || isNaN(parseFloat(target))) return;
+
+    const session = await requireLogin();
+    if (!session) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/goals`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          name: name,
+          target_amount: parseFloat(target)
+        })
+      });
+
+      if (res.status === 403) {
+        const errData = await res.json();
+        if (errData.premiumRequired) {
+          if (confirm('Free plan is limited to 1 goal. Upgrade to Fondly Premium for unlimited goals?')) {
+            window.location.href = 'premium-upgrade.html';
+          }
+          return;
+        }
+      }
+
+      if (!res.ok) throw new Error('Could not save goal');
+      await loadRealGoals();
+    } catch (err) {
+      alert('Could not save goal: ' + err.message);
+    }
+  };
+
+  async function loadRealGoals() {
+    const session = await requireLogin();
+    if (!session) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/goals`, {
+        headers: { Authorization: `Bearer ${session.access_token}` }
+      });
+      if (!res.ok) throw new Error('Could not load goals');
+      const goals = await res.json();
+
+      const container = document.getElementById('realGoalsContainer');
+      container.innerHTML = '';
+
+      if (goals.length === 0) {
+        container.innerHTML = '<p class="text-body-sm text-on-surface-variant px-1">No goals yet. Tap below to add one.</p>';
+        return;
+      }
+
+      goals.forEach(goal => {
+        const pct = goal.target_amount > 0 ? Math.min(100, Math.round((goal.current_amount / goal.target_amount) * 100)) : 0;
+        const card = document.createElement('section');
+        card.className = 'bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 custom-shadow-card';
+        card.innerHTML = `
+          <div class="flex justify-between items-start">
+            <h3 class="text-headline-sm font-headline-sm text-primary">${goal.name}</h3>
+            <span class="text-headline-sm font-headline-sm font-bold text-secondary">${pct}%</span>
+          </div>
+          <div class="mt-4 flex justify-between items-baseline">
+            <div class="text-headline-md font-headline-md font-bold text-primary">${formatPeso(goal.current_amount)} <span class="text-body-md font-body-md font-normal text-on-surface-variant">/ ${formatPeso(goal.target_amount)}</span></div>
+          </div>
+          <div class="mt-2.5 w-full h-2.5 bg-surface-container rounded-full cushion-progress-groove overflow-hidden">
+           <div class="h-full bg-secondary rounded-full transition-all duration-500" style="width: ${pct}%;"></div>
+          </div>
+          <button class="mt-3 w-full py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-primary text-label-md font-semibold transition-all active:scale-95" onclick="addMoneyToGoal('${goal.id}', ${goal.current_amount})">
+            + Add Money
+          </button>
+        `;
+        container.appendChild(card);
+      });
+    } catch (err) {
+      console.warn('Could not load real goals:', err.message);
+    }
+  }
+
+  // ---------------- Coach ----------------
+  async function loadRealCoachInsights() {
+    const session = await requireLogin();
+    if (!session) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/coach-insights`, {
+        headers: { Authorization: `Bearer ${session.access_token}` }
+      });
+
+      if (res.status === 403) {
+        const errData = await res.json();
+        if (errData.premiumRequired) {
+          showPremiumLock();
+          return;
+        }
+      }
+
+      if (!res.ok) throw new Error('Could not load insights');
+      const insights = await res.json();
+
+      const card = document.getElementById('card-urgent-spend');
+      if (!card) return;
+
+      if (!insights.isOverPace) {
+        card.style.display = 'none';
+        return;
+      }
+
+      document.querySelector('#urgentGaugeCard span.font-bold.text-error').innerHTML =
+        `${formatPesoRound(insights.dailyBurn)} <span class="font-normal text-on-surface-variant text-[11px]">/ day</span>`;
+
+      const gaugeBar = document.querySelector('#urgentGaugeCard .h-full.bg-error');
+      if (gaugeBar) {
+        const pct = Math.min(100, Math.round((insights.dailyBurn / (insights.targetDaily || 1)) * 100));
+        gaugeBar.style.width = pct + '%';
+      }
+
+      const targetSpan = document.querySelector('#urgentGaugeCard span.font-semibold.text-primary');
+      if (targetSpan) targetSpan.textContent = formatPesoRound(insights.targetDaily) + ' / day';
+
+      const gapSpan = document.querySelector('#urgentGaugeCard span.text-error.font-medium');
+      if (gapSpan) gapSpan.textContent = `+${formatPesoRound(insights.paceGap)}/day pace gap`;
+
+      document.getElementById('urgentDetailArea').querySelector('p').innerHTML =
+        `Daily burn is ${formatPesoRound(insights.dailyBurn)}/day vs ${formatPesoRound(insights.targetDaily)}/day target to keep <span class="font-medium text-primary">20% principal untouched</span>.`;
+    } catch (err) {
+      console.warn('Could not load coach insights:', err.message);
+    }
+  }
+
+  function showPremiumLock() {
+    const coachTab = document.getElementById('coachTabContent');
+    if (!coachTab) return;
+    coachTab.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 16px;gap:16px;">
+        <div style="width:64px;height:64px;border-radius:50%;background:#82f5c1;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="font-size:32px;color:#006c4a;">workspace_premium</span>
+        </div>
+        <h2 style="font-size:20px;font-weight:700;color:#1a1c1b;">Coach is a Premium Feature</h2>
+        <p style="font-size:14px;color:#45464d;max-width:320px;">Unlock smart nudges, Safe Surplus Sweep, and Teach Fondly custom rules with a one-time Fondly Premium upgrade.</p>
+        <button onclick="window.location.href='premium-upgrade.html'" style="margin-top:8px;padding:12px 28px;border-radius:999px;background:#123524;color:#fff;font-weight:700;font-size:14px;border:none;cursor:pointer;">
+          Unlock Premium
+        </button>
+      </div>
+    `;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadRealGoals();
+    loadRealCoachInsights();
+  });
+})();
+</script>
+<script>
+(function(){
+  const goalsBtn = document.getElementById('planTabGoalsBtn');
+  const coachBtn = document.getElementById('planTabCoachBtn');
+  const goalsContent = document.getElementById('goalsTabContent');
+  const coachContent = document.getElementById('coachTabContent');
+
+  function activateTab(tab) {
+    if (tab === 'goals') {
+      goalsContent.classList.remove('hidden');
+      coachContent.classList.add('hidden');
+      goalsBtn.classList.add('bg-primary', 'text-on-primary');
+      goalsBtn.classList.remove('text-on-surface-variant');
+      coachBtn.classList.remove('bg-primary', 'text-on-primary');
+      coachBtn.classList.add('text-on-surface-variant');
+    } else {
+      coachContent.classList.remove('hidden');
+      goalsContent.classList.add('hidden');
+      coachBtn.classList.add('bg-primary', 'text-on-primary');
+      coachBtn.classList.remove('text-on-surface-variant');
+      goalsBtn.classList.remove('bg-primary', 'text-on-primary');
+      goalsBtn.classList.add('text-on-surface-variant');
+    }
+  }
+
+  goalsBtn.addEventListener('click', () => activateTab('goals'));
+  coachBtn.addEventListener('click', () => activateTab('coach'));
+})();
+</script>
+<script>if ('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('service-worker.js').catch(() => {});});}</script></body></html>

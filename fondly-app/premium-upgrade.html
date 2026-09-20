@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link href="manifest.json" rel="manifest"/><meta content="#f9f9f7" name="theme-color"/><link href="assets/icons/apple-touch-icon.png" rel="apple-touch-icon"/><link href="assets/icons/favicon-32.png" rel="icon" type="image/png"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="default" name="apple-mobile-web-app-status-bar-style"/><meta content="Fondly" name="apple-mobile-web-app-title"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fondly Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #f9f9f7;
+    color: #1a1c1b;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap {
+    width: 100%;
+    max-width: 480px;
+    padding: 24px 20px 40px;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  header button {
+    width: 36px; height: 36px;
+    border-radius: 999px;
+    border: none;
+    background: #eeeeec;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 22px;
+  }
+  .hero {
+    background: linear-gradient(135deg, #006c4a, #003d29);
+    color: #fff;
+    border-radius: 20px;
+    padding: 28px 22px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .hero .badge {
+    font-size: 13px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  .hero .price {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 44px;
+    font-weight: 800;
+    margin: 8px 0 4px;
+  }
+  .hero .price span {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+  .hero p {
+    font-size: 13px;
+    opacity: 0.85;
+    margin: 0;
+  }
+  .features {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e2e3e1;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+  }
+  .features h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #45464d;
+    margin: 0 0 12px;
+  }
+  .feature-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .feature-row .check {
+    color: #006c4a;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .pay-btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid #e2e3e1;
+    background: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: all 0.15s ease;
+  }
+  .pay-btn:active { transform: scale(0.98); }
+  .pay-btn.gcash { background: #0072ce; color: #fff; border: none; }
+  .pay-btn.qrph { background: #123524; color: #fff; border: none; }
+  .status-msg {
+    text-align: center;
+    font-size: 13px;
+    color: #45464d;
+    margin-top: 8px;
+    min-height: 18px;
+  }
+  .note {
+    font-size: 12px;
+    color: #76777d;
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <button onclick="window.location.href='home.html'">✕</button>
+    <h1>Fondly Premium</h1>
+  </header>
+
+  <div class="hero">
+    <div class="badge">One-time unlock</div>
+        <div class="price">₱1 <span>/ forever</span></div>
+    <p>No subscriptions. Pay once, unlocked for life.</p>
+  </div>
+
+  <div class="features">
+    <h3>What you unlock</h3>
+    <div class="feature-row"><span class="check">✓</span><span>Detailed Statistics — category breakdowns, burn trajectory, cycle reports</span></div>
+    <div class="feature-row"><span class="check">✓</span><span>Fondly Coach — smart nudges, Safe Surplus Sweep, Teach Fondly rules</span></div>
+    <div class="feature-row"><span class="check">✓</span><span>Unlimited Goals — track as many savings targets as you want</span></div>
+  </div>
+
+    <button class="pay-btn gcash" onclick="payWithGcash()">Pay with GCash — ₱1</button>
+  <button class="pay-btn qrph" onclick="payWithQrph()">Pay with QR Ph — ₱1</button>
+
+  <div class="status-msg" id="statusMsg"></div>
+
+  <p class="note">Your payment is processed securely through PayMongo. Fondly never stores your card or wallet details.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const API_BASE_URL = 'http://localhost:3000';
+  const SUPABASE_URL = 'https://ieauwvbivmmgfkbbejtd.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_d5JSuSnKziL9PxzqYwf2Bg_1b8ZyDmC';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function requireLogin() {
+    const { data } = await supabaseClient.auth.getSession();
+    if (!data.session) {
+      window.location.href = 'index.html';
+    }
+    return data.session;
+  }
+
+  function setStatus(msg) {
+    document.getElementById('statusMsg').textContent = msg;
+  }
+
+  async function payWithGcash() {
+    setStatus('Opening GCash...');
+    const session = await requireLogin();
+    if (!session) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/premium/gcash/create-source`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not start GCash payment');
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      setStatus('Could not start payment: ' + err.message);
+    }
+  }
+
+  let qrPollInterval = null;
+
+  async function payWithQrph() {
+    setStatus('Generating QR code...');
+    const session = await requireLogin();
+    if (!session) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/premium/qrph/create-intent`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not start QR Ph payment');
+
+      showQrModal(data.qrImageUrl);
+      pollQrStatus(data.intentId);
+    } catch (err) {
+      setStatus('Could not start payment: ' + err.message);
+    }
+  }
+
+  function showQrModal(qrImageUrl) {
+    const modal = document.createElement('div');
+    modal.id = 'qrModal';
+    modal.style.cssText = 'position:fixed;inset:0;z-index:60;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;padding:16px;';
+    modal.innerHTML = `
+      <div style="background:#fff;border-radius:20px;padding:24px;max-width:320px;width:100%;text-align:center;">
+               <p style="font-weight:700;font-size:16px;margin-bottom:12px;">Scan to pay ₱1</p>
+        <img src="${qrImageUrl}" style="width:100%;border-radius:12px;" />
+        <p style="margin-top:16px;font-size:13px;color:#45464d;">Waiting for payment...</p>
+        <button id="qrCancelBtn" style="margin-top:12px;padding:10px 20px;border-radius:999px;border:1px solid #c6c6cd;background:#fff;font-weight:600;cursor:pointer;">Cancel</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    document.getElementById('qrCancelBtn').addEventListener('click', () => {
+      if (qrPollInterval) clearInterval(qrPollInterval);
+      modal.remove();
+    });
+  }
+
+  function pollQrStatus(intentId) {
+    qrPollInterval = setInterval(async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/premium/qrph/status/${intentId}`);
+        const data = await res.json();
+        if (data.status === 'succeeded') {
+          clearInterval(qrPollInterval);
+          window.location.href = 'premium-success.html';
+        }
+      } catch (err) {
+        console.warn('QR poll error:', err.message);
+      }
+    }, 3000);
+  }
+</script>
+<script>if ('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('service-worker.js').catch(() => {});});}</script></body>
+</html>

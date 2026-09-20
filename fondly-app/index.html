@@ -1,0 +1,273 @@
+<!DOCTYPE html><html lang="en" style=""><head><link href="manifest.json" rel="manifest"/><meta content="#f9f9f7" name="theme-color"/><link href="assets/icons/apple-touch-icon.png" rel="apple-touch-icon"/><link href="assets/icons/favicon-32.png" rel="icon" type="image/png"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="default" name="apple-mobile-web-app-status-bar-style"/><meta content="Fondly" name="apple-mobile-web-app-title"/>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Sign In - Fondly</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS with Forms & Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed": "#e2dfff",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed-variant": "#005137",
+            "on-primary-container": "#0f3d2b",
+            "inverse-surface": "#2f3130",
+            "on-surface": "#1a1c1b",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#d7f2e3",
+            "surface-dim": "#dadad8",
+            "surface-container-high": "#e8e8e6",
+            "on-primary-fixed": "#0b2e20",
+            "primary": "#123524",
+            "on-tertiary-container": "#7671ff",
+            "on-error": "#ffffff",
+            "inverse-primary": "#8fd6ae",
+            "primary-fixed": "#d7f2e3",
+            "surface-tint": "#123524",
+            "surface-variant": "#e2e3e1",
+            "surface-container-low": "#f4f4f2",
+            "on-secondary": "#ffffff",
+            "tertiary": "#000000",
+            "on-primary-fixed-variant": "#1f5b3f",
+            "on-background": "#1a1c1b",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed-variant": "#3323cc",
+            "error-container": "#ffdad6",
+            "secondary": "#006c4a",
+            "inverse-on-surface": "#f1f1ef",
+            "surface-container": "#eeeeec",
+            "on-secondary-container": "#00714e",
+            "on-tertiary-fixed": "#0f0069",
+            "surface-bright": "#f9f9f7",
+            "background": "#f9f9f7",
+            "tertiary-container": "#0f0069",
+            "surface": "#f9f9f7",
+            "secondary-fixed-dim": "#68dba9",
+            "tertiary-fixed-dim": "#c3c0ff",
+            "outline-variant": "#c6c6cd",
+            "outline": "#76777d",
+            "on-primary": "#ffffff",
+            "secondary-fixed": "#85f8c4",
+            "on-surface-variant": "#45464d",
+            "secondary-container": "#82f5c1",
+            "surface-container-highest": "#e2e3e1",
+            "error": "#ba1a1a",
+            "on-secondary-fixed": "#002114",
+            "primary-fixed-dim": "#8fd6ae"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-lg": "2rem",
+            "margin-sm": "1rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "gutter-sm": "0.75rem",
+            "space-xs": "0.25rem",
+            "gutter-lg": "1.5rem",
+            "space-xl": "2.25rem",
+            "margin": "1.25rem",
+            "gutter": "1rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Mobile Container Framing -->
+<main class="w-full max-w-lg mx-auto min-h-screen flex flex-col justify-between px-margin py-margin relative">
+<!-- Top Decorative Ambient Element -->
+<div class="pt-space-md flex flex-col items-center text-center">
+<!-- Brand Logo / Emblem -->
+<div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-surface-container-lowest shadow-sm border border-outline-variant/30 mb-space-md overflow-hidden p-1.5"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuATt0yw5fhVfWE6NfMkloFR8ZzmWn3f2ZPNeY5FPhnRxJsWrsjp8G_aieNQ3eFykvppQEqcv15jDCGAEo3_GuR0jMdb5CYdEn_ydxso3L_HdtVVxoNEh6yAZgUlJqAXNSjbjWsVIo67erCWSIdthk8CidmMz9TNJDGHab7y2ItK-JWOzmMLcPDpGnmMcDSei5uPRhRiH9SPEzeqTFRo7ATTlRRvPdt4RZ1b3MaWDFxZ7AEl6zXl9MThHg" alt="Fondly Squirrel Holding Coin Logo" class="w-full h-full object-contain rounded-xl"></div>
+<!-- Headline & Tagline -->
+<h1 class="text-headline-xl-mobile font-headline-xl-mobile text-primary tracking-tight mb-space-xs">
+        Fondly
+      </h1>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-xs">
+        Mindful wealth and cash flow protection
+      </p>
+</div>
+<!-- Central Authentication Card -->
+<div class="w-full my-auto py-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm border border-outline-variant/20">
+<header class="mb-space-lg text-left">
+<h2 class="text-headline-sm font-headline-sm text-primary mb-1">
+            Welcome back
+          </h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+            Enter your credentials to securely access your portfolio
+          </p>
+</header>
+<form class="space-y-space-md" id="loginForm" onsubmit="event.preventDefault();">
+<!-- Username / Email Field -->
+<div class="space-y-1 text-left">
+<label class="block text-label-md font-label-md text-on-surface" for="identifier">
+              Email
+            </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-outline text-[20px] pointer-events-none" data-icon="person">person</span>
+<input autocomplete="username" class="w-full pl-11 pr-4 py-3 bg-surface-bright border border-outline-variant/40 rounded-xl text-body-md font-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200" id="identifier" inputmode="email" placeholder="name@example.com" required="" type="text">
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-1 text-left">
+<div class="flex items-center justify-between">
+<label class="block text-label-md font-label-md text-on-surface" for="password">
+                Password
+              </label>
+<a class="text-label-sm font-label-sm text-secondary hover:underline transition-colors focus:outline-none focus:ring-1 focus:ring-secondary rounded-sm" href="#">
+                Forgot password?
+              </a>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-outline text-[20px] pointer-events-none" data-icon="lock">lock</span>
+<input autocomplete="current-password" class="w-full pl-11 pr-12 py-3 bg-surface-bright border border-outline-variant/40 rounded-xl text-body-md font-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200" id="password" placeholder="••••••••••••" required="" type="password">
+<button aria-label="Toggle password visibility" class="absolute right-3.5 text-outline hover:text-on-surface p-1 rounded-full flex items-center justify-center transition-colors focus:outline-none" id="togglePassword" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility" id="eyeIcon">visibility</span>
+</button>
+</div>
+</div>
+<p class="hidden text-label-sm font-label-sm text-error" id="loginErrorNote"></p>
+<!-- Primary Submit Button -->
+<div class="pt-2">
+<button class="w-full py-3.5 px-6 rounded-full bg-primary text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 hover:opacity-95 active:scale-[0.98] transition-all duration-200 shadow-sm" type="submit">
+<span class="">Sign In</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Divider / Alternative Login -->
+<div class="relative flex py-2 items-center">
+<div class="flex-grow border-t border-outline-variant/20"></div>
+<span class="flex-shrink mx-3 text-label-sm font-label-sm text-outline">or instantly with</span>
+<div class="flex-grow border-t border-outline-variant/20"></div>
+</div>
+<!-- Biometrics Shortcut Button -->
+<button class="w-full py-3 px-4 rounded-full border border-outline-variant/40 bg-surface-bright text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-surface-container active:scale-[0.98] transition-all duration-200" type="button">
+<span class="material-symbols-outlined text-[22px] text-secondary" data-icon="fingerprint">fingerprint</span>
+<span class="">Biometric Passkey</span>
+</button>
+</form>
+</div>
+<!-- Security Microcopy & Trust Seal -->
+<div class="mt-space-md flex items-center justify-center gap-2 text-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="verified_user">verified_user</span>
+<span class="text-label-sm font-label-sm">
+          Bank-grade 256-bit encryption • PH e-wallets protected
+        </span>
+</div>
+</div>
+<!-- Footer Register Prompt -->
+<footer class="py-space-md text-center">
+<p class="text-body-md font-body-md text-on-surface-variant">
+        Don't have an account? 
+        <a class="text-label-lg font-label-lg text-primary font-semibold hover:underline ml-1 focus:outline-none focus:ring-1 focus:ring-primary rounded-sm" href="signup.html">
+          Create an account
+        </a>
+</p>
+</footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Same Project URL and anon/publishable key used in signup.html
+    const SUPABASE_URL = 'https://ieauwvbivmmgfkbbejtd.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_d5JSuSnKziL9PxzqYwf2Bg_1b8ZyDmC';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+<script>
+    // Lightweight micro-interaction for password toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    if (togglePassword && passwordField && eyeIcon) {
+      togglePassword.addEventListener('click', () => {
+        const isPassword = passwordField.getAttribute('type') === 'password';
+        passwordField.setAttribute('type', isPassword ? 'text' : 'password');
+        eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+      });
+    }
+
+    // Real auth: sign in with Supabase
+    const loginForm = document.getElementById('loginForm');
+    const identifierField = document.getElementById('identifier');
+    const loginErrorNote = document.getElementById('loginErrorNote');
+
+    if (loginForm) {
+      loginForm.addEventListener('submit', async () => {
+        loginErrorNote.classList.add('hidden');
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
+
+        try {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: identifierField.value.trim(),
+            password: passwordField.value
+          });
+
+          if (error) throw error;
+
+          window.location.href = 'home.html';
+        } catch (err) {
+          loginErrorNote.textContent = err.message || 'Could not sign in. Please try again.';
+          loginErrorNote.classList.remove('hidden');
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    }
+    const biometricBtn = document.querySelector('button[type="button"]');
+    if (biometricBtn && biometricBtn.textContent.includes('Biometric')) {
+      biometricBtn.addEventListener('click', () => {
+        loginErrorNote.textContent = 'Biometric login isn\'t set up yet — please sign in with email and password for now.';
+        loginErrorNote.classList.remove('hidden');
+      });
+    }
+  </script>
+
+
+
+
+<script>if ('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('service-worker.js').catch(() => {});});}</script></body></html>
