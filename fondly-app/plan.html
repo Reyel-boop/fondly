@@ -916,6 +916,24 @@
     }
   };
 
+  window.deleteGoal = async function(goalId, goalName) {
+    if (!confirm(`Delete "${goalName}"? This can't be undone.`)) return;
+
+    const session = await requireLogin();
+    if (!session) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/goals/${goalId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      if (!res.ok) throw new Error('Could not delete goal');
+      await loadRealGoals();
+    } catch (err) {
+      alert('Could not delete goal: ' + err.message);
+    }
+  };
+
   window.createNewGoal = async function() {
     const name = prompt('What are you saving for?');
     if (!name) return;
@@ -979,9 +997,14 @@
         const card = document.createElement('section');
         card.className = 'bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 custom-shadow-card';
         card.innerHTML = `
-          <div class="flex justify-between items-start">
+          <div class="flex justify-between items-start gap-2">
             <h3 class="text-headline-sm font-headline-sm text-primary">${goal.name}</h3>
-            <span class="text-headline-sm font-headline-sm font-bold text-secondary">${pct}%</span>
+            <div class="flex items-center gap-2 shrink-0">
+              <span class="text-headline-sm font-headline-sm font-bold text-secondary">${pct}%</span>
+              <button class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:text-error hover:bg-error-container/40 transition-colors" onclick="deleteGoal('${goal.id}', '${goal.name.replace(/'/g, "\\'")}')" aria-label="Delete goal" title="Delete goal">
+                <span class="material-symbols-outlined text-[20px]">delete</span>
+              </button>
+            </div>
           </div>
           <div class="mt-4 flex justify-between items-baseline">
             <div class="text-headline-md font-headline-md font-bold text-primary">${formatPeso(goal.current_amount)} <span class="text-body-md font-body-md font-normal text-on-surface-variant">/ ${formatPeso(goal.target_amount)}</span></div>
