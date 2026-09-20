@@ -922,6 +922,18 @@ app.patch('/goals/:id', requireAuth, async (req, res) => {
   res.json(data);
 });
 
+app.delete('/goals/:id', requireAuth, async (req, res) => {
+  const { data, error } = await req.supabase
+    .from('goals')
+    .delete()
+    .eq('id', req.params.id)
+    .eq('user_id', req.user.id)
+    .select();
+  if (error) return res.status(500).json({ error: error.message });
+  if (!data || data.length === 0) return res.status(404).json({ error: 'Goal not found' });
+  res.json({ success: true });
+});
+
 app.get('/accounts', requireAuth, async (req, res) => {
   // Every user gets exactly one FondlyCash account
   const { data: existing, error: existingError } = await req.supabase
