@@ -192,7 +192,10 @@
             </label>
 <div class="relative flex items-center">
 <span class="material-symbols-outlined absolute left-3.5 text-outline text-[20px] pointer-events-none" data-icon="lock">lock</span>
-<input autocomplete="new-password" class="w-full pl-11 pr-4 py-3 bg-surface-bright border border-outline-variant/40 rounded-xl text-body-md font-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200" id="confirmPassword" placeholder="Re-enter your password" required="" type="password" minlength="8">
+<input autocomplete="new-password" class="w-full pl-11 pr-12 py-3 bg-surface-bright border border-outline-variant/40 rounded-xl text-body-md font-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200" id="confirmPassword" placeholder="Re-enter your password" required="" type="password" minlength="8">
+<button aria-label="Toggle password visibility" class="absolute right-3.5 text-outline hover:text-on-surface p-1 rounded-full flex items-center justify-center transition-colors focus:outline-none" id="toggleConfirmPassword" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility" id="confirmEyeIcon">visibility</span>
+</button>
 </div>
 <p class="hidden text-label-sm font-label-sm text-error mt-1" id="passwordMismatchNote">Passwords don't match yet.</p>
 <p class="hidden text-label-sm font-label-sm text-error mt-1" id="signupErrorNote"></p>
@@ -254,6 +257,18 @@
         const isPassword = signupPasswordField.getAttribute('type') === 'password';
         signupPasswordField.setAttribute('type', isPassword ? 'text' : 'password');
         signupEyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+      });
+    }
+
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const confirmEyeIcon = document.getElementById('confirmEyeIcon');
+
+    if (toggleConfirmPassword && confirmEyeIcon) {
+      toggleConfirmPassword.addEventListener('click', () => {
+        const confirmField = document.getElementById('confirmPassword');
+        const isPassword = confirmField.getAttribute('type') === 'password';
+        confirmField.setAttribute('type', isPassword ? 'text' : 'password');
+        confirmEyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
       });
     }
 

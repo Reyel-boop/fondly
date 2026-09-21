@@ -663,23 +663,6 @@
 <!-- Rendered via loadBudgetCaps() -->
 </div>
 </section>
-<!-- Quick Prominent Cash In / Log Outflow CTA Buttons -->
-<section class="grid grid-cols-2 gap-2.5">
-<button class="w-full bg-secondary-container/40 hover:bg-secondary-container/60 border border-dashed border-secondary/50 rounded-xl p-3.5 flex flex-col items-center justify-center gap-1.5 transition-all duration-200 active:scale-98 group focus:outline-none" onclick="window.location.href='cash-in.html'" type="button">
-<div class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center group-hover:scale-105 transition-transform">
-<span class="material-symbols-outlined text-[18px]">add</span>
-</div>
-<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Cash In</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant font-normal text-center">Add income to your pot</span>
-</button>
-<button class="w-full bg-surface-container-low hover:bg-surface-container border border-dashed border-outline-variant/80 rounded-xl p-3.5 flex flex-col items-center justify-center gap-1.5 transition-all duration-200 active:scale-98 group focus:outline-none" id="openLogExpenseBtn">
-<div class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center group-hover:scale-105 transition-transform">
-<span class="material-symbols-outlined text-[18px]">remove</span>
-</div>
-<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Log Expense</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant font-normal text-center">GCash, Maya, QR Ph, Cash</span>
-</button>
-</section>
 <!-- Recent Outflow Activity Feed -->
 <section class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.04)]">
 <div class="flex items-center justify-between mb-2">
@@ -687,7 +670,6 @@
 <span class="material-symbols-outlined text-on-surface-variant text-lg">receipt_long</span>
 <h3 class="font-headline-sm text-headline-sm text-on-surface">Recent Outflow Activity</h3>
 </div>
-<button class="font-label-sm text-label-sm text-secondary hover:underline font-semibold" id="viewAllBtn">View All</button>
 </div>
 <div class="divide-y divide-outline-variant/20" id="transactionsContainer">
 <p class="py-4 text-center font-body-sm text-body-sm text-on-surface-variant" id="transactionsEmptyState">Loading…</p>
@@ -712,73 +694,6 @@
 <span class="font-label-sm text-label-sm mt-0.5">Activity</span>
 </button>
 </nav>
-<!-- Modal: Log Expense Drawer -->
-<div class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity p-0 sm:p-4" id="logExpenseModal">
-<div class="w-full max-w-lg bg-surface-container-lowest rounded-t-3xl sm:rounded-2xl shadow-2xl p-6 border border-outline-variant/30 animate-slide-up max-h-[90vh] overflow-y-auto">
-<div class="flex items-center justify-between pb-3 border-b border-outline-variant/20">
-<div class="flex items-center gap-2">
-<div class="w-8 h-8 rounded-full bg-secondary-container text-secondary flex items-center justify-center">
-<span class="material-symbols-outlined text-lg">add_card</span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface">Log Outflow</h3>
-</div>
-<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant transition-colors" id="closeLogModalBtn">
-<span class="material-symbols-outlined text-base">close</span>
-</button>
-</div>
-<form class="mt-4 space-y-4" id="expenseForm">
-<div>
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Amount (PHP)</label>
-<div class="relative flex items-center">
-<span class="absolute left-4 text-2xl font-bold text-on-surface">₱</span>
-<input class="w-full pl-10 pr-4 py-3 bg-surface-container-low rounded-xl border border-outline-variant/40 text-2xl font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary" id="expenseAmount" min="1" placeholder="0.00" required="" step="0.01" type="number"/>
-</div>
-</div>
-<div>
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Merchant / Title</label>
-<input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary" id="expenseMerchant" placeholder="e.g. Starbucks, Mercury Drug" required="" type="text"/>
-</div>
-
-<div>
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">From Account</label>
-<select class="w-full px-3 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="expenseAccount">
-<option value="">Loading accounts...</option>
-</select>
-</div>
-
-<div class="grid grid-cols-2 gap-3">
-<div>
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Category</label>
-<select class="w-full px-3 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="expenseCategory">
-<option value="Groceries">Groceries</option>
-<option selected="" value="Dining">Dining</option>
-<option value="Bills">Bills &amp; Utility</option>
-<option value="Transport">Transport</option>
-<option value="Shopping">Shopping</option>
-<option value="Health">Health</option>
-</select>
-</div>
-<div>
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Channel / Method</label>
-<select class="w-full px-3 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="expenseMethod">
-<option selected="" value="GCash">GCash</option>
-<option value="Maya">Maya</option>
-<option value="QR Ph">QR Ph</option>
-<option value="Cash">Cash</option>
-<option value="InstaPay">InstaPay</option>
-</select>
-</div>
-</div>
-<div class="pt-2">
-<button class="w-full bg-primary hover:bg-on-surface text-on-primary py-3 rounded-full font-label-lg text-label-lg font-semibold transition-all duration-200 active:scale-98 shadow-md flex items-center justify-center gap-2" type="submit">
-<span class="material-symbols-outlined text-lg">check_circle</span>
-          Record Outflow
-        </button>
-</div>
-</form>
-</div>
-</div>
-
 <!-- Modal: Add Account -->
 <div class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity p-0 sm:p-4" id="addAccountModal">
 <div class="w-full max-w-lg bg-surface-container-lowest rounded-t-3xl sm:rounded-2xl shadow-2xl p-6 border border-outline-variant/30 animate-slide-up max-h-[90vh] overflow-y-auto">
@@ -1109,15 +1024,6 @@ Discard
 </button>
 </div>
 <div class="mt-4 flex flex-col gap-2.5">
-<button class="w-full bg-surface-container hover:bg-surface-container-high rounded-xl p-4 flex items-center gap-3 transition-all active:scale-98 text-left" id="fondlyCashCashInBtn" type="button">
-<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-secondary">add_card</span>
-</div>
-<div>
-<div class="font-label-lg font-label-lg font-semibold text-on-surface">Cash In</div>
-<div class="font-body-sm text-body-sm text-on-surface-variant">Add money via GCash or QR Ph</div>
-</div>
-</button>
 <button class="w-full bg-surface-container rounded-xl p-4 flex items-center gap-3 opacity-60 cursor-not-allowed text-left" id="fondlyCashBuyLoadBtn" type="button" disabled>
 <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
 <span class="material-symbols-outlined text-on-surface-variant">sim_card</span>
@@ -1234,22 +1140,6 @@ Done
     }, 4000);
   }
 
-  // 2. Log Expense Modal & Feature
-  const openLogExpenseBtn = document.getElementById('openLogExpenseBtn');
-  const logExpenseModal = document.getElementById('logExpenseModal');
-  const closeLogModalBtn = document.getElementById('closeLogModalBtn');
-  const expenseForm = document.getElementById('expenseForm');
-  const expenseAmount = document.getElementById('expenseAmount');
-  const expenseMerchant = document.getElementById('expenseMerchant');
-  const expenseCategory = document.getElementById('expenseCategory');
-  const expenseMethod = document.getElementById('expenseMethod');
-
-   openLogExpenseBtn.addEventListener('click', async () => {
-    logExpenseModal.classList.remove('hidden');
-    expenseAmount.focus();
-    await populateExpenseAccountDropdown();
-  });
-
   // Remembers the last account the person picked for a quick log, so the
   // "Deduct from" selector on Today's Spend defaults to it next time
   // instead of silently falling back to FondlyCash.
@@ -1288,81 +1178,6 @@ Done
     }
   }
 
-  async function populateExpenseAccountDropdown() {
-    await populateAccountDropdown('expenseAccount');
-  }
-
-  closeLogModalBtn.addEventListener('click', () => {
-    logExpenseModal.classList.add('hidden');
-  });
-
-  logExpenseModal.addEventListener('click', (e) => {
-    if (e.target === logExpenseModal) {
-      logExpenseModal.classList.add('hidden');
-    }
-  });
-expenseForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const val = parseFloat(expenseAmount.value);
-    if (!val || val <= 0) return;
-
-    const merchant = expenseMerchant.value.trim() || 'Quick Expense';
-    const category = expenseCategory.value;
-    const method = expenseMethod.value;
-
-        const accountId = document.getElementById('expenseAccount').value;
-
-    if (accountId && !confirmIfInsufficientBalance(val, accountId)) return;
-
-    const SUPABASE_URL = 'https://ieauwvbivmmgfkbbejtd.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_d5JSuSnKziL9PxzqYwf2Bg_1b8ZyDmC';
-    const tempClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const { data: { session } } = await tempClient.auth.getSession();
-
-    if (!session) {
-      showToast('Please log in again');
-      return;
-    }
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/transactions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
-        },
-               body: JSON.stringify({
-          type: 'outflow',
-          amount: val,
-          category: category,
-          payment_method: method,
-          note: merchant,
-          account_id: accountId || null
-        })
-      });
-      if (!res.ok) {
-        const errBody = await res.json().catch(() => ({}));
-        throw new Error(errBody.error || 'Save failed');
-      }
-    } catch (err) {
-      showToast(err.message || 'Could not save transaction. Try again.');
-      return;
-    }
-
-    // Refresh the activity feed from the server so the new entry shows up
-    // with a real id (and a working delete button).
-    await loadRecentTransactions();
-
-    // Close & reset
-    logExpenseModal.classList.add('hidden');
-    expenseForm.reset();
-
-    const logToastMsg = `Logged -${fmt(val)} via ${method}`;
-    showToast(logToastMsg);
-
-        loadRealAccounts();
-    loadBudgetCaps();
-  });
 
   // 3. Spend Rate Alert & Smart Pacing Coach Modal
   const spendRateAlertBanner = document.getElementById('spendRateAlertBanner');
@@ -1488,17 +1303,10 @@ expenseForm.addEventListener('submit', async (e) => {
     });
   });
 
-  // View All button
-  const viewAllBtn = document.getElementById('viewAllBtn');
-  if (viewAllBtn) {
-    viewAllBtn.addEventListener('click', () => {
-      window.location.href = 'log-outflow.html';
-    });
-  }
 </script>
 <script>
 (function(){
-  var routes = {"Home": "home.html", "Breakdown": "breakdown.html", "Activity": "log-outflow.html"};
+  var routes = {"Home": "home.html", "Breakdown": "breakdown.html", "Activity": "home.html"};
   document.querySelectorAll("[data-tab]").forEach(function(el){
     var dest = routes[el.getAttribute("data-tab")];
     if(!dest) return;
@@ -3213,13 +3021,6 @@ expenseForm.addEventListener('submit', async (e) => {
     const closeFondlyCashMenuModalBtn = document.getElementById('closeFondlyCashMenuModalBtn');
     if (closeFondlyCashMenuModalBtn) {
       closeFondlyCashMenuModalBtn.addEventListener('click', () => fondlyCashMenuModal.classList.add('hidden'));
-    }
-
-    const fondlyCashCashInBtn = document.getElementById('fondlyCashCashInBtn');
-    if (fondlyCashCashInBtn) {
-      fondlyCashCashInBtn.addEventListener('click', () => {
-        window.location.href = 'cash-in.html';
-      });
     }
 
     const buyLoadModal = document.getElementById('buyLoadModal');

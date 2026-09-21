@@ -117,7 +117,7 @@
 </head>
 <body class="bg-background text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-secondary-container selection:text-on-secondary-container">
 <!-- Mobile Container Framing -->
-<main class="w-full max-w-lg mx-auto min-h-screen flex flex-col justify-between px-margin py-margin relative">
+<main class="w-full max-w-lg mx-auto min-h-screen flex flex-col justify-between px-margin py-margin relative" id="signInMain" style="visibility:hidden;">
 <!-- Top Decorative Ambient Element -->
 <div class="pt-space-md flex flex-col items-center text-center">
 <!-- Brand Logo / Emblem -->
@@ -216,6 +216,23 @@
     const SUPABASE_URL = 'https://ieauwvbivmmgfkbbejtd.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_d5JSuSnKziL9PxzqYwf2Bg_1b8ZyDmC';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Auto login: if a session is already saved on this device (from a
+    // previous sign-in), skip straight to the app instead of asking the
+    // person to log in again.
+    (async () => {
+      try {
+        const { data } = await supabaseClient.auth.getSession();
+        if (data.session) {
+          window.location.replace('home.html');
+          return;
+        }
+      } catch (err) {
+        console.warn('Could not check existing session:', err.message);
+      }
+      const mainEl = document.getElementById('signInMain');
+      if (mainEl) mainEl.style.visibility = 'visible';
+    })();
   </script>
 <script>
     // Lightweight micro-interaction for password toggle

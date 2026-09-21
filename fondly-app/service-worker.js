@@ -9,7 +9,6 @@ const APP_SHELL = [
   'home.html',
   'breakdown.html',
   'plan.html',
-  'log-outflow.html',
   'bills.html',
   'debt.html',
   'split.html',
