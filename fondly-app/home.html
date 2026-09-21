@@ -411,6 +411,9 @@
 </button>
 </div>
 </div>
+<button class="bg-white/15 hover:bg-white/25 transition-all duration-200 active:scale-95 rounded-full w-9 h-9 flex items-center justify-center focus:outline-none border border-white/20" id="logoutBtn" title="Log out" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-primary">logout</span>
+</button>
 </div>
 </div>
 </header>
@@ -1590,6 +1593,19 @@ expenseForm.addEventListener('submit', async (e) => {
   }
 
     window.requireLogin = requireLogin;
+
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      if (!confirm('Log out of Fondly?')) return;
+      try {
+        await supabaseClient.auth.signOut();
+      } catch (err) {
+        console.warn('Sign out error:', err.message);
+      }
+      window.location.href = 'index.html';
+    });
+  }
 
   function formatPHP(amount) {
     return '₱' + amount.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
