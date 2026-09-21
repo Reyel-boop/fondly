@@ -514,7 +514,7 @@
       }, 150);
 
       recalculateBalances();
-      showToast(`Added +₱${val}`);
+      showToast(`Added +${formatPHP(val)}`);
     }
 
     function selectPaymentMethod(element, name, note) {
@@ -651,7 +651,7 @@ function pollQrphStatus(intentId, amount) {
         clearInterval(qrPollInterval);
         const modal = document.getElementById('qrphModal');
         if (modal) modal.remove();
-        showToast(`Cash In successful: ₱${Number(amount).toFixed(2)}`);
+        showToast(`Cash In successful: ${formatPHP(amount)}`);
         loadRealPot();
       }
     } catch (err) {
@@ -754,7 +754,7 @@ function pollQrphStatus(intentId, amount) {
       });
 
       recalculateBalances();
-      showToast(`Scanned: ${note} • ₱${amt.toFixed(2)}`);
+      showToast(`Scanned: ${note} • ${formatPHP(amt)}`);
     }
 
     function showToast(msg) {

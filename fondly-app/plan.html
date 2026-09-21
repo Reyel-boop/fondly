@@ -533,6 +533,10 @@
   let savedTotal = 1420;
   let activeFilter = 'all';
 
+  function formatPHPDemo(amount) {
+    return '₱' + Number(amount).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
   function showToast(message, icon = 'check_circle') {
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toastMsg');
@@ -561,7 +565,7 @@
   function addSaved(amount) {
     savedTotal += amount;
     const savedEl = document.getElementById('savedAmount');
-    savedEl.textContent = `$${savedTotal.toLocaleString()} saved`;
+    savedEl.textContent = `${formatPHPDemo(savedTotal)} saved`;
     savedEl.classList.add('scale-110');
     setTimeout(() => {
       savedEl.classList.remove('scale-110');
@@ -770,8 +774,8 @@
   }
 
   function updateCapValue(val) {
-    document.getElementById('capSliderVal').textContent = `$${val}`;
-    document.getElementById('capDisplayTarget').textContent = `$${val}`;
+    document.getElementById('capSliderVal').textContent = formatPHPDemo(val);
+    document.getElementById('capDisplayTarget').textContent = formatPHPDemo(val);
   }
 
   function saveCapSetting() {
@@ -787,7 +791,7 @@
     desc.innerHTML = `
       <div class="p-3 rounded-xl bg-secondary-container/30 border border-secondary-container space-y-1">
         <div class="flex items-center gap-1.5 text-secondary font-bold text-body-sm">
-          <span class="material-symbols-outlined text-[18px]">verified</span> Cap set at $${chosenVal}/month
+          <span class="material-symbols-outlined text-[18px]">verified</span> Cap set at ${formatPHPDemo(chosenVal)}/month
         </div>
         <p class="text-body-sm text-on-surface">Scheduled to activate next cycle. Fondly will notify you at 80% usage.</p>
       </div>
@@ -795,13 +799,13 @@
 
     actionRow.innerHTML = `
       <div class="flex items-center justify-between w-full py-1 text-label-sm text-on-surface-variant">
-        <span>Cap: <strong>$${chosenVal}/mo</strong></span>
+        <span>Cap: <strong>${formatPHPDemo(chosenVal)}/mo</strong></span>
         <button onclick="toggleCapDrawer(true)" class="text-primary underline font-medium">Edit Cap</button>
       </div>
     `;
 
     incrementActed();
-    showToast(`Next cycle shopping cap set at $${chosenVal}`, 'check_circle');
+    showToast(`Next cycle shopping cap set at ${formatPHPDemo(chosenVal)}`, 'check_circle');
   }
 
   function openTeachModal() {
@@ -887,7 +891,7 @@
   }
 
   function formatPesoRound(amount) {
-    return '₱' + Number(amount).toLocaleString('en-PH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return formatPeso(amount);
   }
 
   // ---------------- Goals ----------------

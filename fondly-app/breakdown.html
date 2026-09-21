@@ -964,8 +964,8 @@
     });
 
     // Update Velocity & Burn headline
-    const spentFmt = '₱' + period.spent.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const budgetFmt = '₱' + period.budget.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    const spentFmt = formatPHP(period.spent);
+    const budgetFmt = formatPHP(period.budget);
     document.getElementById('burnSpentHeadline').innerHTML = `${spentFmt} <span id="burnBudgetSubline" class="text-label-md font-label-md text-on-surface-variant font-normal">spent of ${budgetFmt}</span>`;
 
     // Spike alert badge
@@ -1060,8 +1060,8 @@
             </div>
           </div>
           <div class="text-right">
-            <div class="text-label-lg font-label-lg font-bold ${isOver ? 'text-error' : 'text-primary'}">₱${cat.spent.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-            <div class="text-label-sm font-label-sm ${isOver ? 'text-outline' : 'text-on-surface-variant'}">of ₱${cat.budget.toLocaleString('en-US')} cap</div>
+            <div class="text-label-lg font-label-lg font-bold ${isOver ? 'text-error' : 'text-primary'}">${formatPHP(cat.spent)}</div>
+            <div class="text-label-sm font-label-sm ${isOver ? 'text-outline' : 'text-on-surface-variant'}">of ${formatPHP(cat.budget)} cap</div>
           </div>
         </div>
 
@@ -1088,8 +1088,8 @@
     document.getElementById('catModalTitle').textContent = cat.name;
     document.getElementById('catModalSubtitle').textContent = `${cat.transactions.length} recent transactions`;
     document.getElementById('catModalIcon').textContent = cat.icon;
-    document.getElementById('catModalSpent').textContent = `₱${cat.spent.toFixed(2)}`;
-    document.getElementById('catModalBudget').textContent = `₱${cat.budget.toFixed(2)}`;
+    document.getElementById('catModalSpent').textContent = formatPHP(cat.spent);
+    document.getElementById('catModalBudget').textContent = formatPHP(cat.budget);
 
     const txContainer = document.getElementById('catModalTxList');
     txContainer.innerHTML = '';
@@ -1131,15 +1131,15 @@
       div.innerHTML = `
         <div class="flex items-center justify-between">
           <span class="text-label-md font-bold text-primary">${cat.name}</span>
-          <span id="targetVal-${cat.id}" class="text-label-md font-bold text-secondary">₱${cat.budget}</span>
+          <span id="targetVal-${cat.id}" class="text-label-md font-bold text-secondary">${formatPHP(cat.budget)}</span>
         </div>
-        <input type="range" min="${Math.round(cat.spent * 0.7)}" max="${Math.round(cat.spent * 2.2)}" step="25" value="${cat.budget}" 
-               oninput="document.getElementById('targetVal-${cat.id}').textContent = '₱' + this.value"
+        <input type="range" min="${Math.round(cat.spent * 0.7)}" max="${Math.round(cat.spent * 2.2)}" step="25" value="${cat.budget}"
+               oninput="document.getElementById('targetVal-${cat.id}').textContent = formatPHP(Number(this.value))"
                class="w-full accent-secondary h-2 bg-surface-variant rounded-lg cursor-pointer" id="slider-${cat.id}">
         <div class="flex justify-between text-[11px] text-outline">
-          <span>Min: ₱${Math.round(cat.spent * 0.7)}</span>
-          <span>Current Spent: ₱${cat.spent.toFixed(0)}</span>
-          <span>Cap: ₱${Math.round(cat.spent * 2.2)}</span>
+          <span>Min: ${formatPHP(Math.round(cat.spent * 0.7))}</span>
+          <span>Current Spent: ${formatPHP(cat.spent)}</span>
+          <span>Cap: ${formatPHP(Math.round(cat.spent * 2.2))}</span>
         </div>
       `;
       container.appendChild(div);
@@ -1169,8 +1169,8 @@
     renderCategories();
 
     // Recalculate Burn Headings
-    const spentFmt = '₱' + period.spent.toLocaleString('en-US', { minimumFractionDigits: 2 });
-    const budgetFmt = '₱' + period.budget.toLocaleString('en-US', { minimumFractionDigits: 0 });
+    const spentFmt = formatPHP(period.spent);
+    const budgetFmt = formatPHP(period.budget);
     document.getElementById('burnSpentHeadline').innerHTML = `${spentFmt} <span id="burnBudgetSubline" class="text-label-md font-label-md text-on-surface-variant font-normal">spent of ${budgetFmt}</span>`;
 
     showToast('Target allocations calibrated & saved successfully!', 'check_circle');
@@ -1259,10 +1259,10 @@
     const period = DATA[currentPeriod];
     document.getElementById('modalCycleSubtitle').textContent = period.cycleSubtitle;
     document.getElementById('reportCycleName').textContent = `${period.shortName} Full Audit`;
-    document.getElementById('modalTotalSpent').textContent = '₱' + period.spent.toLocaleString('en-US', { minimumFractionDigits: 2 });
-    
+    document.getElementById('modalTotalSpent').textContent = formatPHP(period.spent);
+
     const cushion = Math.max(0, period.budget - period.spent);
-    document.getElementById('modalTotalCushion').textContent = '₱' + cushion.toLocaleString('en-US', { minimumFractionDigits: 2 });
+    document.getElementById('modalTotalCushion').textContent = formatPHP(cushion);
     document.getElementById('modalVelocityText').textContent = period.velocity;
 
     // Populate Report Categories Matrix
@@ -1278,8 +1278,8 @@
           <span class="font-medium text-primary">${c.name}</span>
         </div>
         <div class="text-right">
-          <span class="font-bold text-primary">₱${c.spent.toFixed(2)}</span>
-          <span class="text-[11px] text-outline block">${pct}% of ₱${c.budget}</span>
+          <span class="font-bold text-primary">${formatPHP(c.spent)}</span>
+          <span class="text-[11px] text-outline block">${pct}% of ${formatPHP(c.budget)}</span>
         </div>
       `;
       table.appendChild(row);

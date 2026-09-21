@@ -25,6 +25,13 @@ const APP_BASE_URL = process.env.APP_BASE_URL || `http://localhost:${PORT}`;
 const anonClient = require('./supabaseClient');
 const pendingGcashSources = new Map();
 
+// Formats a peso amount with thousands separators and exactly 2 decimal
+// places, for any money value that ends up in server-generated text
+// (error messages, AI assistant context/replies, etc.).
+function formatPHP(amount) {
+  return '₱' + Number(amount).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 
 async function requirePremium(req, res, next) {
   const { data, error } = await req.supabase
@@ -217,7 +224,7 @@ app.post('/load/buy', requireAuth, async (req, res) => {
   if (acctError) return res.status(500).json({ error: acctError.message });
   if (!fondlyCash) return res.status(400).json({ error: 'FondlyCash account not found' });
   if (Number(fondlyCash.current_balance) < totalCharge) {
-    return res.status(400).json({ error: `Insufficient FondlyCash balance (need ₱${totalCharge.toFixed(2)} incl. ₱${LOAD_SERVICE_FEE} service fee)` });
+    return res.status(400).json({ error: `Insufficient FondlyCash balance (need ${formatPHP(totalCharge)} incl. ${formatPHP(LOAD_SERVICE_FEE)} service fee)` });
   }
 
   const maskedNumber = cleanedNumber.slice(0, 4) + '****' + cleanedNumber.slice(-3);
@@ -2072,16 +2079,16 @@ async function buildFinancialSnapshot(req) {
   const topCategories = Object.entries(categoryTotals)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
-    .map(([cat, amt]) => `${cat}: ₱${amt.toFixed(2)}`)
+    .map(([cat, amt]) => `${cat}: ${formatPHP(amt)}`)
     .join(', ') || 'none yet';
 
   const openDebts = safeDebts.filter(d => d.status !== 'settled');
   const debtSummary = openDebts.length > 0
-    ? openDebts.map(d => `${d.type === 'owed_by_me' ? 'owes' : 'owed by'} ${d.person_name}: ₱${(Number(d.original_amount) - Number(d.amount_paid || 0)).toFixed(2)}`).join('; ')
+    ? openDebts.map(d => `${d.type === 'owed_by_me' ? 'owes' : 'owed by'} ${d.person_name}: ${formatPHP(Number(d.original_amount) - Number(d.amount_paid || 0))}`).join('; ')
     : 'none';
 
-  return `Net worth: ₱${(assets - liabilities).toFixed(2)} (assets ₱${assets.toFixed(2)}, liabilities ₱${liabilities.toFixed(2)}).
-This month so far: spent ₱${monthSpent.toFixed(2)}, income ₱${monthIncome.toFixed(2)}.
+  return `Net worth: ${formatPHP(assets - liabilities)} (assets ${formatPHP(assets)}, liabilities ${formatPHP(liabilities)}).
+This month so far: spent ${formatPHP(monthSpent)}, income ${formatPHP(monthIncome)}.
 Top spending categories this month: ${topCategories}.
 Open debts: ${debtSummary}.`;
 }
@@ -2138,7 +2145,7 @@ app.post('/assistant/chat', requireAuth, async (req, res) => {
           content: [{
             type: 'tool_result',
             tool_use_id: toolUse.id,
-            content: `Logged: ₱${amount} on ${category}${note ? ' (' + note + ')' : ''}.`
+            content: `Logged: ${formatPHP(amount)} on ${category}${note ? ' (' + note + ')' : ''}.`
           }]
         }
       ];

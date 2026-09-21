@@ -539,7 +539,7 @@
       }, 150);
 
       recalculateBalances();
-      showToast(`Added +₱${val}`);
+      showToast(`Added +${formatPHP(val)}`);
     }
 
     function selectPaymentMethod(element, name, note) {
@@ -731,7 +731,7 @@ async function loadRealPot() {
       });
 
       recalculateBalances();
-      showToast(`Scanned: ${merchant} • ₱${amt.toFixed(2)}`);
+      showToast(`Scanned: ${merchant} • ${formatPHP(amt)}`);
     }
 
     function showToast(msg) {

@@ -1381,17 +1381,21 @@ expenseForm.addEventListener('submit', async (e) => {
   closePacingModalBtn.addEventListener('click', () => pacingModal.classList.add('hidden'));
   cancelPacingBtn.addEventListener('click', () => pacingModal.classList.add('hidden'));
 
+  function formatPHPPacing(amount) {
+    return '₱' + Number(amount).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
   pacingRangeInput.addEventListener('input', (e) => {
     const val = parseInt(e.target.value);
-    pacingSliderVal.textContent = '₱' + val.toLocaleString('en-US') + ' / day';
+    pacingSliderVal.textContent = formatPHPPacing(val) + ' / day';
   });
 
   applyPacingBtn.addEventListener('click', () => {
     const chosenPace = parseInt(pacingRangeInput.value);
-    recPaceDisplay.innerHTML = `₱${chosenPace.toLocaleString('en-US')} <span class="font-normal text-body-sm">/ day</span>`;
-    
+    recPaceDisplay.innerHTML = `${formatPHPPacing(chosenPace)} <span class="font-normal text-body-sm">/ day</span>`;
+
     // Calibrate velocity status
-    actVelocityDisplay.textContent = `₱${chosenPace.toLocaleString('en-US')}`;
+    actVelocityDisplay.textContent = formatPHPPacing(chosenPace);
     actVelocityDisplay.classList.remove('text-error');
     actVelocityDisplay.classList.add('text-secondary');
 
@@ -1399,12 +1403,12 @@ expenseForm.addEventListener('submit', async (e) => {
     velocityBadge.innerHTML = '<span class="material-symbols-outlined text-[14px]">check_circle</span> Calibrated & Safe';
 
     // Update banner text
-    alertBannerText.textContent = `Pacing calibrated to ₱${chosenPace.toLocaleString('en-US')}/day. Velocity in harmony.`;
+    alertBannerText.textContent = `Pacing calibrated to ${formatPHPPacing(chosenPace)}/day. Velocity in harmony.`;
     spendRateAlertBanner.classList.remove('bg-error-container/60', 'hover:bg-error-container/80');
     spendRateAlertBanner.classList.add('bg-secondary-container/40', 'border-secondary/30');
 
     pacingModal.classList.add('hidden');
-    showToast('Daily cap updated to ₱' + chosenPace.toLocaleString('en-US') + '/day');
+    showToast('Daily cap updated to ' + formatPHPPacing(chosenPace) + '/day');
   });
 
   // 4. Cycle Dropdown ("This Month")
