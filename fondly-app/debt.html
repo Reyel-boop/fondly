@@ -274,24 +274,14 @@ Save
 </div>
 <div class="mt-4 space-y-4">
 <div>
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">How often do you get paid?</label>
-<div class="grid grid-cols-2 gap-2" id="payFrequencyToggle">
-<button class="pay-freq-btn px-3 py-2.5 rounded-xl border-2 border-primary bg-primary/5 text-primary text-sm font-semibold transition-all" data-freq="monthly" type="button">
-Once a month
-</button>
-<button class="pay-freq-btn px-3 py-2.5 rounded-xl border border-outline-variant/40 bg-surface-container-low text-on-surface text-sm font-semibold transition-all" data-freq="semi_monthly" type="button">
-Twice a month<br/><span class="font-normal text-xs text-on-surface-variant">15th &amp; 30th</span>
-</button>
-</div>
-</div>
-<div id="payslipDayWrap">
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Payday (day of month)</label>
-<input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="payslipDayInput" max="31" min="1" placeholder="e.g. 15" type="number"/>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Which day(s) of the month do you get paid?</label>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">Tap every day your salary lands — once, twice, or as many times a month as it actually happens.</p>
+<div class="grid grid-cols-7 gap-1.5" id="paydayCalendarGrid"></div>
 </div>
 <div>
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1" id="payslipGrossLabel">Gross monthly pay (PHP)</label>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1" id="payslipGrossLabel">Gross pay per payday (PHP)</label>
 <input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-lg font-bold focus:outline-none focus:ring-2 focus:ring-secondary" id="payslipGrossAmount" inputmode="decimal" placeholder="0.00" type="text"/>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="payslipGrossHelp">Your pay before any loan deductions. We'll subtract your monthly loan deductions below to show your real take-home pay.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="payslipGrossHelp">The amount you receive on each payday above. We'll multiply it out to your real monthly gross, then subtract your monthly loan deductions to show your take-home pay.</p>
 </div>
 <button class="w-full bg-primary hover:bg-on-surface text-on-primary py-3 rounded-full font-label-lg text-label-lg font-semibold transition-all duration-200 active:scale-98 shadow-md" id="savePayslipBtn" type="button">
 Save
@@ -414,11 +404,14 @@ Save
       }
 
       const isNegative = data.net_take_home < 0;
-      const isSemiMonthly = data.pay_frequency === 'semi_monthly';
+      const paydayDays = Array.isArray(data.payday_days) ? data.payday_days : [];
+      const n = paydayDays.length;
+      const ordinal = (d) => d + (d % 10 === 1 && d !== 11 ? 'st' : d % 10 === 2 && d !== 12 ? 'nd' : d % 10 === 3 && d !== 13 ? 'rd' : 'th');
+      const daysLabel = n > 0 ? paydayDays.map(ordinal).join(' & ') : '';
       content.innerHTML = `
         <div class="flex items-center justify-between">
-          <span class="font-body-sm text-body-sm text-on-surface-variant">${isSemiMonthly ? 'Gross pay (15th & 30th)' : 'Gross payslip'}</span>
-          <span class="font-label-md text-label-md text-on-surface font-semibold">${isSemiMonthly ? `${formatPHP(data.expected_amount)} × 2 = ${formatPHP(data.monthly_gross)}` : formatPHP(data.monthly_gross)}</span>
+          <span class="font-body-sm text-body-sm text-on-surface-variant">${n > 1 ? `Gross pay (${daysLabel})` : 'Gross payslip'}</span>
+          <span class="font-label-md text-label-md text-on-surface font-semibold">${n > 1 ? `${formatPHP(data.expected_amount)} × ${n} = ${formatPHP(data.monthly_gross)}` : formatPHP(data.monthly_gross)}</span>
         </div>
         <div class="flex items-center justify-between mt-1">
           <span class="font-body-sm text-body-sm text-on-surface-variant">Monthly loan deductions</span>
@@ -657,43 +650,65 @@ Save
 
     document.getElementById('payslipGrossAmount').addEventListener('input', (e) => formatMoneyInputLive(e.target));
 
-    let payslipFrequency = 'monthly';
-    function setPayslipFrequency(freq) {
-      payslipFrequency = freq;
-      document.querySelectorAll('.pay-freq-btn').forEach(btn => {
-        const active = btn.getAttribute('data-freq') === freq;
-        btn.className = active
-          ? 'pay-freq-btn px-3 py-2.5 rounded-xl border-2 border-primary bg-primary/5 text-primary text-sm font-semibold transition-all'
-          : 'pay-freq-btn px-3 py-2.5 rounded-xl border border-outline-variant/40 bg-surface-container-low text-on-surface text-sm font-semibold transition-all';
-      });
-      const isSemi = freq === 'semi_monthly';
-      document.getElementById('payslipDayWrap').classList.toggle('hidden', isSemi);
-      document.getElementById('payslipGrossLabel').textContent = isSemi ? 'Gross pay per payout (PHP)' : 'Gross monthly pay (PHP)';
-      document.getElementById('payslipGrossHelp').textContent = isSemi
-        ? "The amount you receive each payout (15th & 30th). We'll double it for your monthly gross, then subtract your monthly loan deductions to show your real take-home pay."
-        : "Your pay before any loan deductions. We'll subtract your monthly loan deductions below to show your real take-home pay.";
+    // A tappable 1-31 calendar grid, multi-select — a person can be paid on
+    // any number of days a month (once, twice, thrice, weekly-ish, etc.).
+    let selectedPaydayDays = new Set();
+    function dayBtnClass(active) {
+      return active
+        ? 'w-full aspect-square rounded-lg border-2 border-primary bg-primary text-on-primary text-sm font-bold flex items-center justify-center transition-all'
+        : 'w-full aspect-square rounded-lg border border-outline-variant/40 bg-surface-container-low text-on-surface text-sm font-medium flex items-center justify-center transition-all hover:bg-surface-container';
     }
-    document.querySelectorAll('.pay-freq-btn').forEach(btn => {
-      btn.addEventListener('click', () => setPayslipFrequency(btn.getAttribute('data-freq')));
-    });
+    function renderPaydayCalendar() {
+      const grid = document.getElementById('paydayCalendarGrid');
+      grid.innerHTML = '';
+      for (let day = 1; day <= 31; day++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = day;
+        btn.className = dayBtnClass(selectedPaydayDays.has(day));
+        btn.addEventListener('click', () => {
+          if (selectedPaydayDays.has(day)) selectedPaydayDays.delete(day);
+          else selectedPaydayDays.add(day);
+          renderPaydayCalendar();
+          updatePayslipGrossPreview();
+        });
+        grid.appendChild(btn);
+      }
+    }
+
+    function updatePayslipGrossPreview() {
+      const n = selectedPaydayDays.size;
+      const help = document.getElementById('payslipGrossHelp');
+      if (n <= 1) {
+        help.textContent = 'The amount you receive on each payday above. We\'ll subtract your monthly loan deductions to show your real take-home pay.';
+        return;
+      }
+      const perPayday = getMoneyInputValue(document.getElementById('payslipGrossAmount'));
+      const monthly = perPayday * n;
+      help.textContent = perPayday > 0
+        ? `${formatPHP(perPayday)} × ${n} paydays = ${formatPHP(monthly)}/month, before loan deductions.`
+        : `You're paid ${n} times a month. Enter the amount per payday above to see your monthly gross.`;
+    }
+    document.getElementById('payslipGrossAmount').addEventListener('input', updatePayslipGrossPreview);
 
     const payslipModal = document.getElementById('payslipModal');
     document.getElementById('openPayslipModalBtn').addEventListener('click', async () => {
       const session = await requireLogin();
       if (!session) return;
+      selectedPaydayDays = new Set();
       try {
         const res = await fetch(`${API_BASE_URL}/payday-settings`, {
           headers: { 'Authorization': `Bearer ${session.access_token}` }
         });
-        const data = res.ok ? await res.json() : { expected_amount: 0, pay_frequency: 'monthly', payday_day: null };
-        setPayslipFrequency(data.pay_frequency === 'semi_monthly' ? 'semi_monthly' : 'monthly');
-        document.getElementById('payslipDayInput').value = data.payday_day || '';
+        const data = res.ok ? await res.json() : { expected_amount: 0, payday_days: [] };
+        selectedPaydayDays = new Set(Array.isArray(data.payday_days) ? data.payday_days : []);
         const amountEl = document.getElementById('payslipGrossAmount');
         amountEl.value = data.expected_amount ? Number(data.expected_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
       } catch (err) {
-        setPayslipFrequency('monthly');
         document.getElementById('payslipGrossAmount').value = '';
       }
+      renderPaydayCalendar();
+      updatePayslipGrossPreview();
       payslipModal.classList.remove('hidden');
     });
     document.getElementById('closePayslipModalBtn').addEventListener('click', () => {
@@ -703,14 +718,9 @@ Save
     document.getElementById('savePayslipBtn').addEventListener('click', async () => {
       const expected_amount = getMoneyInputValue(document.getElementById('payslipGrossAmount'));
       if (!expected_amount || expected_amount <= 0) { alert('Please enter a valid gross pay amount.'); return; }
+      if (selectedPaydayDays.size === 0) { alert('Please pick at least one payday on the calendar.'); return; }
 
-      const payday_day = payslipFrequency === 'monthly'
-        ? (parseInt(document.getElementById('payslipDayInput').value, 10) || null)
-        : null;
-      if (payslipFrequency === 'monthly' && (!payday_day || payday_day < 1 || payday_day > 31)) {
-        alert('Please enter a valid payday (1-31).');
-        return;
-      }
+      const payday_days = [...selectedPaydayDays].sort((a, b) => a - b);
 
       const session = await requireLogin();
       if (!session) return;
@@ -726,7 +736,7 @@ Save
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session.access_token}`
           },
-          body: JSON.stringify({ payday_day, expected_amount, pay_frequency: payslipFrequency })
+          body: JSON.stringify({ payday_days, expected_amount })
         });
         if (!res.ok) {
           const errBody = await res.json().catch(() => ({}));

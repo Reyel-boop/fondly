@@ -1539,10 +1539,6 @@ app.delete('/recurring-bills/:id', requireAuth, async (req, res) => {
   res.json({ success: true });
 });
 
-// A semi-monthly earner gets paid on the 15th and the last payday of the
-// month (clamped to the 30th, or the month's last day if it's shorter).
-const SEMI_MONTHLY_DAYS = [15, 30];
-
 app.get('/payday-settings', requireAuth, async (req, res) => {
   const { data, error } = await req.supabase
     .from('payday_settings')
@@ -1551,21 +1547,20 @@ app.get('/payday-settings', requireAuth, async (req, res) => {
     .maybeSingle();
   if (error) return res.status(500).json({ error: error.message });
 
-  const settings = data || { payday_day: null, expected_amount: 0, pay_frequency: 'monthly' };
-  const payFrequency = settings.pay_frequency === 'semi_monthly' ? 'semi_monthly' : 'monthly';
+  const settings = data || { payday_day: null, payday_days: [], expected_amount: 0 };
+
+  // payday_days is the source of truth (any number of paydays a month —
+  // 1, 2, 3, or more). payday_day (a single value) is kept in sync purely
+  // for older screens that only know about one payday.
+  let paydayDays = Array.isArray(settings.payday_days) ? settings.payday_days.filter(d => d >= 1 && d <= 31) : [];
+  if (paydayDays.length === 0 && settings.payday_day) paydayDays = [settings.payday_day];
+  paydayDays = [...new Set(paydayDays)].sort((a, b) => a - b);
 
   let daysUntil = null;
   let nextPayday = null;
-  const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-
-  if (payFrequency === 'semi_monthly') {
-    // Whichever of the two paydays this month comes soonest.
-    const candidates = SEMI_MONTHLY_DAYS.map(d => getNextDueDate(d));
-    const next = candidates.sort((a, b) => a - b)[0];
-    daysUntil = Math.round((next - today) / (1000 * 60 * 60 * 24));
-    nextPayday = next.toISOString().slice(0, 10);
-  } else if (settings.payday_day) {
-    const next = getNextDueDate(settings.payday_day);
+  if (paydayDays.length > 0) {
+    const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+    const next = paydayDays.map(d => getNextDueDate(d)).sort((a, b) => a - b)[0];
     daysUntil = Math.round((next - today) / (1000 * 60 * 60 * 24));
     nextPayday = next.toISOString().slice(0, 10);
   }
@@ -1583,14 +1578,15 @@ app.get('/payday-settings', requireAuth, async (req, res) => {
   const totalMonthlyDeductions = (debtsForDeduction || [])
     .reduce((sum, d) => sum + Number(d.monthly_deduction || 0), 0);
 
-  // expected_amount is always "per payout": for a semi-monthly earner that's
-  // the amount received each cutoff, so the real monthly gross is double.
+  // expected_amount is always "per payday": someone paid on 3 days a month
+  // gets that amount 3 times, so the real monthly gross multiplies it out.
   const expectedAmount = Number(settings.expected_amount) || 0;
-  const monthlyGross = payFrequency === 'semi_monthly' ? expectedAmount * 2 : expectedAmount;
+  const payoutsPerMonth = paydayDays.length || 1;
+  const monthlyGross = expectedAmount * payoutsPerMonth;
 
   res.json({
-    payday_day: settings.payday_day,
-    pay_frequency: payFrequency,
+    payday_day: paydayDays[0] || null,
+    payday_days: paydayDays,
     expected_amount: expectedAmount,
     monthly_gross: monthlyGross,
     next_payday: nextPayday,
@@ -1601,11 +1597,19 @@ app.get('/payday-settings', requireAuth, async (req, res) => {
 });
 
 app.post('/payday-settings', requireAuth, async (req, res) => {
-  const { payday_day, expected_amount, pay_frequency } = req.body;
-  const payFrequency = pay_frequency === 'semi_monthly' ? 'semi_monthly' : 'monthly';
+  const { expected_amount, payday_day } = req.body;
+  let { payday_days } = req.body;
 
-  if (payFrequency === 'monthly' && payday_day !== null && payday_day !== undefined && payday_day !== '' && (payday_day < 1 || payday_day > 31)) {
-    return res.status(400).json({ error: 'payday_day must be between 1 and 31' });
+  payday_days = Array.isArray(payday_days) ? payday_days.map(Number).filter(d => Number.isInteger(d) && d >= 1 && d <= 31) : [];
+  // Older screens (Bills → Payday) still send a single payday_day instead
+  // of an array — treat that as a one-day selection.
+  if (payday_days.length === 0 && Number.isInteger(Number(payday_day)) && payday_day >= 1 && payday_day <= 31) {
+    payday_days = [Number(payday_day)];
+  }
+  payday_days = [...new Set(payday_days)].sort((a, b) => a - b);
+
+  if (payday_days.length === 0) {
+    return res.status(400).json({ error: 'Pick at least one payday.' });
   }
 
   const { data, error } = await req.supabase
@@ -1613,11 +1617,11 @@ app.post('/payday-settings', requireAuth, async (req, res) => {
     .upsert(
       {
         user_id: req.user.id,
-        // Semi-monthly earners are always paid on the 15th/30th, so there's
-        // no single "payday_day" to store for them.
-        payday_day: payFrequency === 'semi_monthly' ? null : (payday_day || null),
-        expected_amount: expected_amount || 0,
-        pay_frequency: payFrequency
+        payday_days,
+        // Kept for older screens (e.g. Bills → Payday) that only read a
+        // single day; the earliest selected payday stands in for it.
+        payday_day: payday_days[0],
+        expected_amount: expected_amount || 0
       },
       { onConflict: 'user_id' }
     )
