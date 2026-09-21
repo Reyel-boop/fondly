@@ -1616,13 +1616,18 @@ app.get('/debts', requireAuth, async (req, res) => {
 });
 
 app.post('/debts', requireAuth, async (req, res) => {
-  const { type, person_name, original_amount, notes, monthly_deduction } = req.body;
+  const { type, person_name, original_amount, notes, monthly_deduction, loan_term_months, interest_rate } = req.body;
   if (!type || !['owed_by_me', 'owed_to_me'].includes(type)) {
     return res.status(400).json({ error: 'type must be owed_by_me or owed_to_me' });
   }
   if (!person_name || !original_amount || original_amount <= 0) {
     return res.status(400).json({ error: 'person_name and a positive original_amount are required' });
   }
+
+  // A fixed-term loan (3/5/7 years, declared from the app) so we can show the
+  // person their payment schedule alongside the plain monthly_deduction amount.
+  // Only meaningful for type === 'owed_by_me'; ignored otherwise.
+  const isTermLoan = type === 'owed_by_me' && Number(loan_term_months) > 0;
 
   const { data, error } = await req.supabase
     .from('debts')
@@ -1635,6 +1640,8 @@ app.post('/debts', requireAuth, async (req, res) => {
       // How much of this loan/debt (the "principal") gets automatically taken out of the
       // user's payslip each month. Only meaningful for type === 'owed_by_me'.
       monthly_deduction: monthly_deduction && monthly_deduction > 0 ? monthly_deduction : 0,
+      loan_term_months: isTermLoan ? Math.round(Number(loan_term_months)) : null,
+      interest_rate: isTermLoan ? (Number(interest_rate) || 0) : 0,
       status: 'open',
       user_id: req.user.id
     }])

@@ -122,7 +122,13 @@
 
 <!-- Take-Home Pay After Deductions -->
 <section class="bg-surface-container-lowest rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex flex-col gap-3" id="takeHomeCard">
+<div class="flex items-center justify-between gap-2">
 <h3 class="font-headline-sm text-headline-sm text-on-surface">Take-Home Pay After Deductions</h3>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm font-bold transition-all active:scale-95 shrink-0" id="openPayslipModalBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Set gross pay</span>
+</button>
+</div>
 <div id="takeHomeContent">
 <p class="font-body-sm text-body-sm text-on-surface-variant">Loading…</p>
 </div>
@@ -218,16 +224,61 @@
 <label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Principal Amount (PHP)</label>
 <input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="newDebtAmount" min="0" placeholder="0.00" step="0.01" type="number"/>
 </div>
+<div id="newDebtLoanTermWrap">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="w-4 h-4 rounded border-outline-variant/60 text-primary focus:ring-secondary" id="newDebtIsLoan" type="checkbox"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">This is a fixed-term loan — calculate the monthly payment for me</span>
+</label>
+<div class="hidden mt-3 space-y-3" id="newDebtLoanTermFields">
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Loan term</label>
+<select class="w-full px-3 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="newDebtLoanTerm">
+<option value="36">3 years</option>
+<option selected="" value="60">5 years</option>
+<option value="84">7 years</option>
+</select>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Interest rate (% p.a.)</label>
+<input class="w-full px-3 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="newDebtInterestRate" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary font-semibold" id="newDebtLoanEstimate">Enter a principal amount to estimate your monthly payment.</p>
+</div>
+</div>
 <div id="newDebtDeductionWrap">
 <label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Monthly deduction from payslip (optional)</label>
 <input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="newDebtMonthlyDeduction" min="0" placeholder="0.00" step="0.01" type="number"/>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">If this loan is automatically deducted from your salary each month, enter that amount so your take-home pay reflects it.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">If this loan is automatically deducted from your salary each month, enter that amount so your take-home pay reflects it. Calculated automatically above if you set a loan term.</p>
 </div>
 <div>
 <label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Notes (optional)</label>
 <input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="newDebtNotes" placeholder="e.g. Korean BBQ dinner split" type="text"/>
 </div>
 <button class="w-full bg-primary hover:bg-on-surface text-on-primary py-3 rounded-full font-label-lg text-label-lg font-semibold transition-all duration-200 active:scale-98 shadow-md" id="saveNewDebtBtn" type="button">
+Save
+</button>
+</div>
+</div>
+</div>
+
+<!-- Modal: Payslip Settings -->
+<div class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity p-0 sm:p-4" id="payslipModal">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-t-3xl sm:rounded-2xl shadow-2xl p-6 border border-outline-variant/30 animate-slide-up max-h-[90vh] overflow-y-auto">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/20">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Payslip Settings</h3>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant transition-colors" id="closePayslipModalBtn" type="button">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+</div>
+<div class="mt-4 space-y-4">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Gross monthly pay (PHP)</label>
+<input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="payslipGrossAmount" min="0" placeholder="0.00" step="0.01" type="number"/>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Your pay before any loan deductions. We'll subtract your monthly loan deductions below to show your real take-home pay.</p>
+</div>
+<button class="w-full bg-primary hover:bg-on-surface text-on-primary py-3 rounded-full font-label-lg text-label-lg font-semibold transition-all duration-200 active:scale-98 shadow-md" id="savePayslipBtn" type="button">
 Save
 </button>
 </div>
@@ -314,6 +365,7 @@ Save
         </div>
       </div>
       ${debt.notes ? `<p class="font-body-sm text-body-sm text-on-surface-variant -mt-1">${debt.notes}</p>` : ''}
+      ${(!isSettled && debt.type === 'owed_by_me' && Number(debt.loan_term_months) > 0) ? `<p class="font-label-sm text-label-sm text-on-surface-variant -mt-1">${Math.round(Number(debt.loan_term_months) / 12)}-year loan${Number(debt.interest_rate) > 0 ? ` · ${debt.interest_rate}% p.a.` : ''}</p>` : ''}
       ${(!isSettled && debt.type === 'owed_by_me' && Number(debt.monthly_deduction) > 0) ? `<p class="font-label-sm text-label-sm text-error -mt-1">${formatPHP(debt.monthly_deduction)}/mo deducted from payslip</p>` : ''}
       <div class="flex items-center justify-between">
         <span class="font-label-sm text-label-sm text-on-surface-variant">${isSettled ? 'Settled' : formatPHP(debt.remaining_amount) + ' remaining'}</span>
@@ -340,7 +392,7 @@ Save
       if (!data.expected_amount || data.expected_amount <= 0) {
         content.innerHTML = `
           <p class="font-body-sm text-body-sm text-on-surface-variant">
-            Set your expected payslip amount in <a href="bills.html" class="text-secondary font-semibold hover:underline">Bills → Payday</a> to see your real take-home pay here.
+            Tap <span class="font-semibold text-on-surface">"Set gross pay"</span> above to enter your gross monthly pay and see your real take-home pay after loan deductions here.
           </p>
         `;
         return;
@@ -447,11 +499,50 @@ Save
     }
   }
 
+  // Standard loan amortization formula. With 0% interest this is just
+  // principal / term, same as before — interest just makes it realistic.
+  function calcMonthlyPayment(principal, annualRatePct, termMonths) {
+    if (!principal || !termMonths) return 0;
+    const monthlyRate = (Number(annualRatePct) || 0) / 100 / 12;
+    if (!monthlyRate) return principal / termMonths;
+    const factor = Math.pow(1 + monthlyRate, termMonths);
+    return principal * monthlyRate * factor / (factor - 1);
+  }
+
+  function recalcLoanEstimate() {
+    const isLoan = document.getElementById('newDebtIsLoan').checked;
+    const estimateEl = document.getElementById('newDebtLoanEstimate');
+    if (!isLoan) return;
+
+    const principal = parseFloat(document.getElementById('newDebtAmount').value) || 0;
+    const termMonths = parseInt(document.getElementById('newDebtLoanTerm').value, 10);
+    const rate = parseFloat(document.getElementById('newDebtInterestRate').value) || 0;
+
+    if (!principal || principal <= 0) {
+      estimateEl.textContent = 'Enter a principal amount to estimate your monthly payment.';
+      return;
+    }
+
+    const payment = calcMonthlyPayment(principal, rate, termMonths);
+    const years = Math.round(termMonths / 12);
+    estimateEl.textContent = `Estimated payment: ${formatPHP(payment)}/mo for ${years} years${rate > 0 ? ` at ${rate}% p.a.` : ''}`;
+    document.getElementById('newDebtMonthlyDeduction').value = payment.toFixed(2);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     loadDebts();
     loadTakeHomeSummary();
 
     const addDebtModal = document.getElementById('addDebtModal');
+
+    function resetLoanTermFields() {
+      document.getElementById('newDebtIsLoan').checked = false;
+      document.getElementById('newDebtLoanTermFields').classList.add('hidden');
+      document.getElementById('newDebtLoanTerm').value = '60';
+      document.getElementById('newDebtInterestRate').value = '';
+      document.getElementById('newDebtLoanEstimate').textContent = 'Enter a principal amount to estimate your monthly payment.';
+    }
+
     document.getElementById('addDebtBtn').addEventListener('click', () => {
       document.getElementById('newDebtType').value = 'owed_by_me';
       document.getElementById('addDebtModalTitle').textContent = 'New Debt';
@@ -460,6 +551,8 @@ Save
       document.getElementById('newDebtAmount').value = '';
       document.getElementById('newDebtMonthlyDeduction').value = '';
       document.getElementById('newDebtDeductionWrap').classList.remove('hidden');
+      document.getElementById('newDebtLoanTermWrap').classList.remove('hidden');
+      resetLoanTermFields();
       document.getElementById('newDebtNotes').value = '';
       addDebtModal.classList.remove('hidden');
     });
@@ -471,6 +564,8 @@ Save
       document.getElementById('newDebtAmount').value = '';
       document.getElementById('newDebtMonthlyDeduction').value = '';
       document.getElementById('newDebtDeductionWrap').classList.add('hidden');
+      document.getElementById('newDebtLoanTermWrap').classList.add('hidden');
+      resetLoanTermFields();
       document.getElementById('newDebtNotes').value = '';
       addDebtModal.classList.remove('hidden');
     });
@@ -478,11 +573,22 @@ Save
       addDebtModal.classList.add('hidden');
     });
 
+    document.getElementById('newDebtIsLoan').addEventListener('change', (e) => {
+      document.getElementById('newDebtLoanTermFields').classList.toggle('hidden', !e.target.checked);
+      if (e.target.checked) recalcLoanEstimate();
+    });
+    document.getElementById('newDebtAmount').addEventListener('input', recalcLoanEstimate);
+    document.getElementById('newDebtLoanTerm').addEventListener('change', recalcLoanEstimate);
+    document.getElementById('newDebtInterestRate').addEventListener('input', recalcLoanEstimate);
+
     document.getElementById('saveNewDebtBtn').addEventListener('click', async () => {
       const type = document.getElementById('newDebtType').value;
       const person_name = document.getElementById('newDebtPerson').value.trim();
       const original_amount = parseFloat(document.getElementById('newDebtAmount').value) || 0;
       const monthly_deduction = type === 'owed_by_me' ? (parseFloat(document.getElementById('newDebtMonthlyDeduction').value) || 0) : 0;
+      const isLoan = type === 'owed_by_me' && document.getElementById('newDebtIsLoan').checked;
+      const loan_term_months = isLoan ? parseInt(document.getElementById('newDebtLoanTerm').value, 10) : null;
+      const interest_rate = isLoan ? (parseFloat(document.getElementById('newDebtInterestRate').value) || 0) : 0;
       const notes = document.getElementById('newDebtNotes').value.trim();
 
       if (!person_name) { alert('Please enter a name.'); return; }
@@ -498,13 +604,65 @@ Save
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session.access_token}`
           },
-          body: JSON.stringify({ type, person_name, original_amount, monthly_deduction, notes: notes || null })
+          body: JSON.stringify({ type, person_name, original_amount, monthly_deduction, loan_term_months, interest_rate, notes: notes || null })
         });
         if (!res.ok) throw new Error('Could not save entry');
 
         addDebtModal.classList.add('hidden');
         showToast('Saved');
         await loadDebts();
+        await loadTakeHomeSummary();
+      } catch (err) {
+        alert('Could not save: ' + err.message);
+      }
+    });
+
+    const payslipModal = document.getElementById('payslipModal');
+    document.getElementById('openPayslipModalBtn').addEventListener('click', async () => {
+      const session = await requireLogin();
+      if (!session) return;
+      try {
+        const res = await fetch(`${API_BASE_URL}/payday-settings`, {
+          headers: { 'Authorization': `Bearer ${session.access_token}` }
+        });
+        const data = res.ok ? await res.json() : { expected_amount: 0 };
+        document.getElementById('payslipGrossAmount').value = data.expected_amount ? Number(data.expected_amount).toFixed(2) : '';
+      } catch (err) {
+        document.getElementById('payslipGrossAmount').value = '';
+      }
+      payslipModal.classList.remove('hidden');
+    });
+    document.getElementById('closePayslipModalBtn').addEventListener('click', () => {
+      payslipModal.classList.add('hidden');
+    });
+
+    document.getElementById('savePayslipBtn').addEventListener('click', async () => {
+      const expected_amount = parseFloat(document.getElementById('payslipGrossAmount').value) || 0;
+      if (!expected_amount || expected_amount <= 0) { alert('Please enter a valid gross pay amount.'); return; }
+
+      const session = await requireLogin();
+      if (!session) return;
+
+      try {
+        // Keep whatever payday_day is already set (managed from Bills → Payday);
+        // this modal only updates the gross amount.
+        const existingRes = await fetch(`${API_BASE_URL}/payday-settings`, {
+          headers: { 'Authorization': `Bearer ${session.access_token}` }
+        });
+        const existing = existingRes.ok ? await existingRes.json() : { payday_day: null };
+
+        const res = await fetch(`${API_BASE_URL}/payday-settings`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({ payday_day: existing.payday_day ?? null, expected_amount })
+        });
+        if (!res.ok) throw new Error('Could not save gross pay');
+
+        payslipModal.classList.add('hidden');
+        showToast('Gross pay updated');
         await loadTakeHomeSummary();
       } catch (err) {
         alert('Could not save: ' + err.message);
