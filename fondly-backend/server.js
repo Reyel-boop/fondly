@@ -1032,6 +1032,47 @@ app.post('/transactions', requireAuth, async (req, res) => {
   res.status(201).json({ transaction: data, roundup });
 });
 
+app.delete('/transactions/:id', requireAuth, async (req, res) => {
+  const { data: existing, error: fetchError } = await req.supabase
+    .from('transactions')
+    .select('*')
+    .eq('id', req.params.id)
+    .eq('user_id', req.user.id)
+    .maybeSingle();
+  if (fetchError) return res.status(500).json({ error: fetchError.message });
+  if (!existing) return res.status(404).json({ error: 'Transaction not found' });
+
+  const { error: deleteError } = await req.supabase
+    .from('transactions')
+    .delete()
+    .eq('id', req.params.id)
+    .eq('user_id', req.user.id);
+  if (deleteError) return res.status(500).json({ error: deleteError.message });
+
+  // Put the money back the way it was before this transaction happened.
+  if (existing.account_id) {
+    const { data: account, error: acctError } = await req.supabase
+      .from('accounts')
+      .select('current_balance')
+      .eq('id', existing.account_id)
+      .eq('user_id', req.user.id)
+      .maybeSingle();
+
+    if (!acctError && account) {
+      const reverseDelta = existing.type === 'cash_in' ? -Number(existing.amount) : Number(existing.amount);
+      const newBalance = Number(account.current_balance) + reverseDelta;
+
+      await req.supabase
+        .from('accounts')
+        .update({ current_balance: newBalance })
+        .eq('id', existing.account_id)
+        .eq('user_id', req.user.id);
+    }
+  }
+
+  res.json({ success: true });
+});
+
 app.get('/summary', requireAuth, async (req, res) => {
   const { data, error } = await req.supabase.from('transactions').select('type, amount').eq('user_id', req.user.id);
   if (error) return res.status(500).json({ error: error.message });

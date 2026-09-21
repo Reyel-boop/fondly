@@ -690,66 +690,7 @@
 <button class="font-label-sm text-label-sm text-secondary hover:underline font-semibold" id="viewAllBtn">View All</button>
 </div>
 <div class="divide-y divide-outline-variant/20" id="transactionsContainer">
-<!-- Transaction Item 1: SM Supermarket with GCash Badge -->
-<div class="py-3 flex items-center justify-between gap-3">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface shrink-0">
-<span class="material-symbols-outlined text-[20px]">local_grocery_store</span>
-</div>
-<div>
-<div class="flex items-center gap-1.5 flex-wrap">
-<span class="font-headline-sm text-headline-sm text-on-surface">SM Supermarket</span>
-<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">Groceries</span>
-<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-semibold border border-outline-variant/50">GCash</span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Today, 2:15 PM • <span class="text-on-surface-variant/80">-1.8% of principal</span></span>
-</div>
-</div>
-<div class="text-right shrink-0">
-<span class="font-label-lg text-label-lg text-on-surface font-semibold">-₱4,320.00</span>
-<span class="font-body-sm text-body-sm text-secondary block">Within Cap</span>
-</div>
-</div>
-<!-- Transaction Item 2: Bo's Coffee with Maya Badge -->
-<div class="py-3 flex items-center justify-between gap-3">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface shrink-0">
-<span class="material-symbols-outlined text-[20px]">coffee</span>
-</div>
-<div>
-<div class="flex items-center gap-1.5 flex-wrap">
-<span class="font-headline-sm text-headline-sm text-on-surface">Bo's Coffee</span>
-<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">Dining</span>
-<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold border border-secondary/20">Maya</span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Today, 9:40 AM • <span class="text-on-surface-variant/80">-0.2% of principal</span></span>
-</div>
-</div>
-<div class="text-right shrink-0">
-<span class="font-label-lg text-label-lg text-on-surface font-semibold">-₱360.00</span>
-<span class="font-body-sm text-body-sm text-secondary block">Buffer used</span>
-</div>
-</div>
-<!-- Transaction Item 3: Meralco Utility with InstaPay Badge -->
-<div class="py-3 flex items-center justify-between gap-3">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface shrink-0">
-<span class="material-symbols-outlined text-[20px]">bolt</span>
-</div>
-<div>
-<div class="flex items-center gap-1.5 flex-wrap">
-<span class="font-headline-sm text-headline-sm text-on-surface">Meralco Power</span>
-<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">Bills</span>
-<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-variant text-on-surface font-semibold border border-outline-variant/50">InstaPay</span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Yesterday • <span class="text-on-surface-variant/80">-2.7% of principal</span></span>
-</div>
-</div>
-<div class="text-right shrink-0">
-<span class="font-label-lg text-label-lg text-on-surface font-semibold">-₱6,625.00</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant block">Scheduled</span>
-</div>
-</div>
+<p class="py-4 text-center font-body-sm text-body-sm text-on-surface-variant" id="transactionsEmptyState">Loading…</p>
 </div>
 </section>
 </main>
@@ -1384,49 +1325,9 @@ expenseForm.addEventListener('submit', async (e) => {
       return;
     }
 
-       // Icon map
-    const iconMap = {
-      'Groceries': 'local_grocery_store',
-      'Dining': 'coffee',
-      'Bills': 'bolt',
-      'Transport': 'commute',
-      'Shopping': 'shopping_bag',
-      'Health': 'health_and_safety'
-    };
-    const catIcon = iconMap[category] || 'receipt';
-
-    // Channel badge styling
-    let badgeClass = 'bg-surface-container text-on-surface font-semibold';
-    if (method === 'GCash') badgeClass = 'bg-surface-container-high text-primary font-semibold border border-outline-variant/50';
-    if (method === 'Maya') badgeClass = 'bg-secondary-container text-on-secondary-container font-semibold border border-secondary/20';
-
-    // Calculate percentage impact (informational only, real balance comes from backend)
-    const impactPct = '0.0';
-
-    // Create item
-    const newItem = document.createElement('div');
-    newItem.className = 'py-3 flex items-center justify-between gap-3 animate-slide-up bg-secondary-container/10 -mx-2 px-2 rounded-xl border-l-4 border-secondary';
-    newItem.innerHTML = `
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-secondary-container/50 text-secondary flex items-center justify-center shrink-0">
-          <span class="material-symbols-outlined text-[20px]">${catIcon}</span>
-        </div>
-        <div>
-          <div class="flex items-center gap-1.5 flex-wrap">
-            <span class="font-headline-sm text-headline-sm text-on-surface">${merchant}</span>
-            <span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">${category}</span>
-            <span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full ${badgeClass}">${method}</span>
-          </div>
-          <span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Just now • <span class="text-on-surface-variant/80">-${impactPct}% of principal</span></span>
-        </div>
-      </div>
-      <div class="text-right shrink-0">
-        <span class="font-label-lg text-label-lg text-on-surface font-semibold">-₱${val.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
-        <span class="font-body-sm text-body-sm text-secondary block font-medium">Logged</span>
-      </div>
-    `;
-
-    transactionsContainer.insertBefore(newItem, transactionsContainer.firstChild);
+    // Refresh the activity feed from the server so the new entry shows up
+    // with a real id (and a working delete button).
+    await loadRecentTransactions();
 
     // Close & reset
     logExpenseModal.classList.add('hidden');
@@ -2526,6 +2427,110 @@ expenseForm.addEventListener('submit', async (e) => {
     }
   }
 
+  function txnCategoryIcon(category) {
+    const iconMap = {
+      'Groceries': 'local_grocery_store',
+      'Dining': 'coffee',
+      'Bills': 'bolt',
+      'Transport': 'commute',
+      'Shopping': 'shopping_bag',
+      'Health': 'health_and_safety'
+    };
+    return iconMap[category] || 'receipt';
+  }
+
+  function txnBadgeClass(method) {
+    if (method === 'GCash') return 'bg-surface-container-high text-primary font-semibold border border-outline-variant/50';
+    if (method === 'Maya') return 'bg-secondary-container text-on-secondary-container font-semibold border border-secondary/20';
+    return 'bg-surface-container text-on-surface-variant font-semibold';
+  }
+
+  function txnTimeLabel(isoString) {
+    const d = new Date(isoString);
+    const now = new Date();
+    const isToday = d.toDateString() === now.toDateString();
+    const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
+    const isYesterday = d.toDateString() === yesterday.toDateString();
+    const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    if (isToday) return `Today, ${timeStr}`;
+    if (isYesterday) return `Yesterday, ${timeStr}`;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + `, ${timeStr}`;
+  }
+
+  async function loadRecentTransactions() {
+    const container = document.getElementById('transactionsContainer');
+    if (!container) return;
+    try {
+      const session = await requireLogin();
+      if (!session) return;
+      const res = await fetch(`${API_BASE_URL}/transactions`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      if (!res.ok) throw new Error('Could not load transactions');
+      const all = await res.json();
+
+      const outflows = all
+        .filter(t => t.type === 'outflow')
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .slice(0, 8);
+
+      container.innerHTML = '';
+      if (outflows.length === 0) {
+        container.innerHTML = '<p class="py-4 text-center font-body-sm text-body-sm text-on-surface-variant">No spending logged yet.</p>';
+        return;
+      }
+
+      outflows.forEach(t => {
+        const item = document.createElement('div');
+        item.className = 'py-3 flex items-center justify-between gap-3';
+        item.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface shrink-0">
+              <span class="material-symbols-outlined text-[20px]">${txnCategoryIcon(t.category)}</span>
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="font-headline-sm text-headline-sm text-on-surface truncate">${t.note || t.category || 'Expense'}</span>
+                <span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">${t.category || 'Other'}</span>
+                ${t.payment_method ? `<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full ${txnBadgeClass(t.payment_method)}">${t.payment_method}</span>` : ''}
+              </div>
+              <span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">${txnTimeLabel(t.created_at)}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <span class="font-label-lg text-label-lg text-on-surface font-semibold">-${formatPHP(Number(t.amount))}</span>
+            <button class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:text-error hover:bg-error-container/40 transition-colors" onclick="deleteTransaction('${t.id}', '${(t.note || t.category || 'this expense').replace(/'/g, "\\'")}')" aria-label="Delete" title="Delete">
+              <span class="material-symbols-outlined text-[18px]">delete</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    } catch (err) {
+      console.warn('Could not load recent transactions:', err.message);
+      container.innerHTML = '<p class="py-4 text-center font-body-sm text-body-sm text-on-surface-variant">Could not load recent activity.</p>';
+    }
+  }
+
+  window.deleteTransaction = async function(id, label) {
+    if (!confirm(`Delete "${label}"? This can't be undone.`)) return;
+    const session = await requireLogin();
+    if (!session) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/transactions/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      if (!res.ok) throw new Error('Could not delete transaction');
+      showToast('Expense deleted');
+      await loadRecentTransactions();
+      await loadQuickActions();
+      await loadRealAccounts();
+    } catch (err) {
+      alert('Could not delete: ' + err.message);
+    }
+  };
+
   async function loadQuickActions() {
     try {
       const session = await requireLogin();
@@ -3037,6 +3042,7 @@ expenseForm.addEventListener('submit', async (e) => {
     loadCoachPreview();
     loadPlanPreview();
     loadQuickActions();
+    loadRecentTransactions();
     pingStreak();
     if (window.loadUserName) {
       window.loadUserName().then(() => {
@@ -3078,6 +3084,7 @@ expenseForm.addEventListener('submit', async (e) => {
           showToast(`${category} logged`);
           await loadQuickActions();
           await loadRealAccounts();
+          await loadRecentTransactions();
         } catch (err) {
           alert('Could not log expense: ' + err.message);
         }
@@ -3132,6 +3139,7 @@ expenseForm.addEventListener('submit', async (e) => {
           showToast(`${formatPHP(amount)} logged from receipt`);
           await loadQuickActions();
           await loadRealAccounts();
+          await loadRecentTransactions();
         } catch (err) {
           alert('Could not log expense: ' + err.message);
         }
