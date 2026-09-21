@@ -767,6 +767,216 @@ async function requireAuth(req, res, next) {
   next();
 }
 
+// ---------------- Biometric passkey login (WebAuthn) ----------------
+// Lets a user register a device passkey (fingerprint/Face ID/Windows Hello)
+// and sign in with it instead of typing their password. Needs two things
+// set up once, outside this code, before it will work:
+//   1. A `webauthn_credentials` table in Supabase (see the SQL shared with
+//      the user in chat).
+//   2. A SUPABASE_SERVICE_ROLE_KEY environment variable on Render (from
+//      Supabase Project Settings > API > service_role secret key). Passkey
+//      login has to create a real logged-in session for someone who hasn't
+//      typed a password, which only the service-role key is allowed to do.
+const {
+  generateRegistrationOptions,
+  verifyRegistrationResponse,
+  generateAuthenticationOptions,
+  verifyAuthenticationResponse,
+} = require('@simplewebauthn/server');
+
+const adminClient = process.env.SUPABASE_SERVICE_ROLE_KEY
+  ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+  : null;
+
+function requireAdminClient(res) {
+  if (!adminClient) {
+    res.status(500).json({
+      error: 'Biometric passkey login is not set up yet on the server (missing SUPABASE_SERVICE_ROLE_KEY).'
+    });
+    return null;
+  }
+  return adminClient;
+}
+
+let WEBAUTHN_RP_ID = 'localhost';
+try { WEBAUTHN_RP_ID = new URL(APP_BASE_URL).hostname; } catch (_) {}
+const WEBAUTHN_ORIGIN = APP_BASE_URL;
+
+// In-memory challenge stores. Fine as long as this runs on a single
+// instance (true for Render's free tier). Each entry expires after 5 min.
+const registrationChallenges = new Map();
+const authenticationChallenges = new Map();
+function stashChallenge(map, key, challenge) {
+  map.set(key, { challenge, expires: Date.now() + 5 * 60 * 1000 });
+}
+function takeChallenge(map, key) {
+  const entry = map.get(key);
+  map.delete(key);
+  if (!entry || entry.expires < Date.now()) return null;
+  return entry.challenge;
+}
+
+// Step 1 (already logged in): ask the browser to create a passkey.
+app.post('/webauthn/registration-options', requireAuth, async (req, res) => {
+  const admin = requireAdminClient(res);
+  if (!admin) return;
+  try {
+    const { data: existing, error } = await admin
+      .from('webauthn_credentials')
+      .select('credential_id, transports')
+      .eq('user_id', req.user.id);
+    if (error) return res.status(500).json({ error: error.message });
+
+    const options = await generateRegistrationOptions({
+      rpName: 'Fondly',
+      rpID: WEBAUTHN_RP_ID,
+      userName: req.user.email,
+      userDisplayName: req.user.email,
+      attestationType: 'none',
+      excludeCredentials: (existing || []).map(c => ({
+        id: c.credential_id,
+        transports: c.transports || undefined,
+      })),
+      authenticatorSelection: {
+        residentKey: 'preferred',
+        userVerification: 'preferred',
+      },
+    });
+
+    stashChallenge(registrationChallenges, req.user.id, options.challenge);
+    res.json(options);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Step 2 (already logged in): verify the new passkey and save it.
+app.post('/webauthn/registration-verify', requireAuth, async (req, res) => {
+  const admin = requireAdminClient(res);
+  if (!admin) return;
+  try {
+    const expectedChallenge = takeChallenge(registrationChallenges, req.user.id);
+    if (!expectedChallenge) return res.status(400).json({ error: 'Registration session expired, please try again.' });
+
+    const verification = await verifyRegistrationResponse({
+      response: req.body.response,
+      expectedChallenge,
+      expectedOrigin: WEBAUTHN_ORIGIN,
+      expectedRPID: WEBAUTHN_RP_ID,
+    });
+
+    if (!verification.verified || !verification.registrationInfo) {
+      return res.status(400).json({ error: 'Could not verify passkey.' });
+    }
+
+    const { credential, credentialDeviceType, credentialBackedUp } = verification.registrationInfo;
+    const { error } = await admin.from('webauthn_credentials').insert({
+      user_id: req.user.id,
+      email: req.user.email,
+      credential_id: credential.id,
+      public_key: Buffer.from(credential.publicKey).toString('base64'),
+      counter: credential.counter,
+      device_type: credentialDeviceType,
+      backed_up: credentialBackedUp,
+      transports: credential.transports || [],
+    });
+    if (error) return res.status(500).json({ error: error.message });
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Step 3 (signed out): ask which passkey to use for this email.
+app.post('/webauthn/authentication-options', async (req, res) => {
+  const admin = requireAdminClient(res);
+  if (!admin) return;
+  const email = (req.body.email || '').trim().toLowerCase();
+  if (!email) return res.status(400).json({ error: 'Email is required.' });
+
+  try {
+    const { data: creds, error } = await admin
+      .from('webauthn_credentials')
+      .select('credential_id, transports')
+      .eq('email', email);
+    if (error) return res.status(500).json({ error: error.message });
+    if (!creds || creds.length === 0) {
+      return res.status(404).json({ error: 'No passkey is set up for this account yet.' });
+    }
+
+    const options = await generateAuthenticationOptions({
+      rpID: WEBAUTHN_RP_ID,
+      userVerification: 'preferred',
+      allowCredentials: creds.map(c => ({
+        id: c.credential_id,
+        transports: c.transports || undefined,
+      })),
+    });
+
+    stashChallenge(authenticationChallenges, email, options.challenge);
+    res.json(options);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Step 4 (signed out): verify the passkey and hand back a real Supabase
+// session, without ever sending an actual email.
+app.post('/webauthn/authentication-verify', async (req, res) => {
+  const admin = requireAdminClient(res);
+  if (!admin) return;
+  const email = (req.body.email || '').trim().toLowerCase();
+  const response = req.body.response;
+  if (!email || !response) return res.status(400).json({ error: 'Email and passkey response are required.' });
+
+  try {
+    const expectedChallenge = takeChallenge(authenticationChallenges, email);
+    if (!expectedChallenge) return res.status(400).json({ error: 'Login session expired, please try again.' });
+
+    const { data: row, error: lookupError } = await admin
+      .from('webauthn_credentials')
+      .select('*')
+      .eq('email', email)
+      .eq('credential_id', response.id)
+      .maybeSingle();
+    if (lookupError) return res.status(500).json({ error: lookupError.message });
+    if (!row) return res.status(400).json({ error: 'This passkey is not recognized.' });
+
+    const verification = await verifyAuthenticationResponse({
+      response,
+      expectedChallenge,
+      expectedOrigin: WEBAUTHN_ORIGIN,
+      expectedRPID: WEBAUTHN_RP_ID,
+      credential: {
+        id: row.credential_id,
+        publicKey: Buffer.from(row.public_key, 'base64'),
+        counter: row.counter,
+        transports: row.transports || undefined,
+      },
+    });
+
+    if (!verification.verified) {
+      return res.status(400).json({ error: 'Passkey verification failed.' });
+    }
+
+    await admin
+      .from('webauthn_credentials')
+      .update({ counter: verification.authenticationInfo.newCounter })
+      .eq('id', row.id);
+
+    const { data: linkData, error: linkError } = await admin.auth.admin.generateLink({
+      type: 'magiclink',
+      email,
+    });
+    if (linkError) return res.status(500).json({ error: linkError.message });
+
+    res.json({ success: true, token_hash: linkData.properties.hashed_token });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/api/status', (req, res) => {
   res.send('Fondly backend is running! v2');
 });

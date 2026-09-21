@@ -370,6 +370,7 @@
 </head>
 <body class="bg-background text-on-surface antialiased min-h-screen pb-32 select-none relative overflow-x-hidden">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simplewebauthn/browser@14/dist/bundle/index.umd.min.js"></script>
 <!-- Top App Bar Navigation Anchor -->
 <header class="bg-primary shadow-sm sticky top-0 z-40">
 <div class="flex justify-between items-center w-full px-4 h-16 max-w-lg mx-auto relative">
@@ -411,6 +412,9 @@
 </button>
 </div>
 </div>
+<button class="bg-white/15 hover:bg-white/25 transition-all duration-200 active:scale-95 rounded-full w-9 h-9 flex items-center justify-center focus:outline-none border border-white/20" id="setupPasskeyBtn" title="Set up biometric passkey" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-primary">fingerprint</span>
+</button>
 <button class="bg-white/15 hover:bg-white/25 transition-all duration-200 active:scale-95 rounded-full w-9 h-9 flex items-center justify-center focus:outline-none border border-white/20" id="logoutBtn" title="Log out" type="button">
 <span class="material-symbols-outlined text-[18px] text-on-primary">logout</span>
 </button>
@@ -1604,6 +1608,53 @@ expenseForm.addEventListener('submit', async (e) => {
         console.warn('Sign out error:', err.message);
       }
       window.location.href = 'index.html';
+    });
+  }
+
+  const setupPasskeyBtn = document.getElementById('setupPasskeyBtn');
+  if (setupPasskeyBtn) {
+    setupPasskeyBtn.addEventListener('click', async () => {
+      if (!window.SimpleWebAuthnBrowser || !window.SimpleWebAuthnBrowser.browserSupportsWebAuthn()) {
+        alert('This device or browser doesn\'t support biometric passkeys.');
+        return;
+      }
+      const session = await requireLogin();
+      if (!session) return;
+
+      if (!confirm('Set up a biometric passkey (fingerprint / Face ID / Windows Hello) for signing in to Fondly on this device?')) return;
+
+      setupPasskeyBtn.disabled = true;
+      try {
+        const optsRes = await fetch(`${API_BASE_URL}/webauthn/registration-options`, {
+          headers: { 'Authorization': `Bearer ${session.access_token}` },
+          method: 'POST'
+        });
+        const opts = await optsRes.json();
+        if (!optsRes.ok) throw new Error(opts.error || 'Could not start passkey setup.');
+
+        const regResponse = await window.SimpleWebAuthnBrowser.startRegistration({ optionsJSON: opts });
+
+        const verifyRes = await fetch(`${API_BASE_URL}/webauthn/registration-verify`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${session.access_token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ response: regResponse })
+        });
+        const verifyData = await verifyRes.json();
+        if (!verifyRes.ok || !verifyData.success) throw new Error(verifyData.error || 'Could not save passkey.');
+
+        alert('Biometric passkey set up! You can now use it on the sign-in screen.');
+      } catch (err) {
+        if (err && err.name === 'NotAllowedError') {
+          alert('Passkey setup was cancelled.');
+        } else {
+          alert('Could not set up passkey: ' + ((err && err.message) || 'unknown error'));
+        }
+      } finally {
+        setupPasskeyBtn.disabled = false;
+      }
     });
   }
 

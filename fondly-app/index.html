@@ -210,6 +210,7 @@
 </footer>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simplewebauthn/browser@14/dist/bundle/index.umd.min.js"></script>
 <script>
     // Same Project URL and anon/publishable key used in signup.html
     const SUPABASE_URL = 'https://ieauwvbivmmgfkbbejtd.supabase.co';
@@ -260,9 +261,60 @@
     }
     const biometricBtn = document.querySelector('button[type="button"]');
     if (biometricBtn && biometricBtn.textContent.includes('Biometric')) {
-      biometricBtn.addEventListener('click', () => {
-        loginErrorNote.textContent = 'Biometric login isn\'t set up yet — please sign in with email and password for now.';
-        loginErrorNote.classList.remove('hidden');
+      biometricBtn.addEventListener('click', async () => {
+        loginErrorNote.classList.add('hidden');
+
+        const email = identifierField.value.trim();
+        if (!email) {
+          loginErrorNote.textContent = 'Enter your email above first, then tap Biometric Passkey.';
+          loginErrorNote.classList.remove('hidden');
+          identifierField.focus();
+          return;
+        }
+
+        if (!window.SimpleWebAuthnBrowser || !window.SimpleWebAuthnBrowser.browserSupportsWebAuthn()) {
+          loginErrorNote.textContent = 'This device or browser doesn\'t support biometric passkeys.';
+          loginErrorNote.classList.remove('hidden');
+          return;
+        }
+
+        biometricBtn.disabled = true;
+        try {
+          const optsRes = await fetch('/webauthn/authentication-options', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+          });
+          const opts = await optsRes.json();
+          if (!optsRes.ok) throw new Error(opts.error || 'No passkey found for this account.');
+
+          const authResponse = await window.SimpleWebAuthnBrowser.startAuthentication({ optionsJSON: opts });
+
+          const verifyRes = await fetch('/webauthn/authentication-verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, response: authResponse })
+          });
+          const verifyData = await verifyRes.json();
+          if (!verifyRes.ok || !verifyData.success) throw new Error(verifyData.error || 'Passkey verification failed.');
+
+          const { error: sessionError } = await supabaseClient.auth.verifyOtp({
+            token_hash: verifyData.token_hash,
+            type: 'magiclink'
+          });
+          if (sessionError) throw sessionError;
+
+          window.location.href = 'home.html';
+        } catch (err) {
+          if (err && err.name === 'NotAllowedError') {
+            loginErrorNote.textContent = 'Biometric login was cancelled.';
+          } else {
+            loginErrorNote.textContent = (err && err.message) || 'Could not sign in with biometric passkey.';
+          }
+          loginErrorNote.classList.remove('hidden');
+        } finally {
+          biometricBtn.disabled = false;
+        }
       });
     }
   </script>
