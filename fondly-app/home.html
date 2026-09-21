@@ -435,7 +435,7 @@
 <!-- Greeting & Active Cycle Context Header -->
 <section class="flex items-center justify-between pt-1">
 <div>
-<p class="font-label-md text-label-md text-on-surface-variant">Good morning,</p>
+<p class="font-label-md text-label-md text-on-surface-variant" id="greetingText">Good morning,</p>
 <h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">there</h1>
 </div>
 <div class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low rounded-full border border-outline-variant/30 shadow-sm">
@@ -1609,6 +1609,15 @@ expenseForm.addEventListener('submit', async (e) => {
       }
       window.location.href = 'index.html';
     });
+  }
+
+  const greetingEl = document.getElementById('greetingText');
+  if (greetingEl) {
+    const hour = new Date().getHours(); // device's own local time/timezone
+    let greeting = 'Good evening,';
+    if (hour >= 5 && hour < 12) greeting = 'Good morning,';
+    else if (hour >= 12 && hour < 18) greeting = 'Good afternoon,';
+    greetingEl.textContent = greeting;
   }
 
   const setupPasskeyBtn = document.getElementById('setupPasskeyBtn');
