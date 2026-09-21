@@ -1032,6 +1032,12 @@ Save
 <label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Amount (PHP)</label>
 <input autofocus="" class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-lg font-bold focus:outline-none focus:ring-2 focus:ring-secondary" id="quickLogAmount" min="0" placeholder="0.00" step="0.01" type="number"/>
 </div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Deduct from</label>
+<select class="w-full px-3 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="quickLogAccount">
+<option value="">Loading accounts...</option>
+</select>
+</div>
 <button class="w-full bg-primary hover:bg-on-surface text-on-primary py-3 rounded-full font-label-lg text-label-lg font-semibold transition-all duration-200 active:scale-98 shadow-md" id="saveQuickLogBtn" type="button">
 Log it
 </button>
@@ -1244,8 +1250,14 @@ Done
     await populateExpenseAccountDropdown();
   });
 
-  async function populateExpenseAccountDropdown() {
-    const accountSelect = document.getElementById('expenseAccount');
+  // Remembers the last account the person picked for a quick log, so the
+  // "Deduct from" selector on Today's Spend defaults to it next time
+  // instead of silently falling back to FondlyCash.
+  const LAST_SPEND_ACCOUNT_KEY = 'fondly_last_spend_account_id';
+
+  async function populateAccountDropdown(selectId, { preferId } = {}) {
+    const accountSelect = document.getElementById(selectId);
+    if (!accountSelect) return;
     try {
       const session = await requireLogin();
       if (!session) return;
@@ -1254,22 +1266,30 @@ Done
       });
       if (!res.ok) throw new Error('Could not load accounts');
       const accounts = await res.json();
+      cachedAccounts = accounts;
 
       accountSelect.innerHTML = '';
       if (accounts.length === 0) {
         accountSelect.innerHTML = '<option value="">No accounts yet</option>';
         return;
       }
+      const remembered = preferId || localStorage.getItem(LAST_SPEND_ACCOUNT_KEY);
+      const hasRemembered = remembered && accounts.some(a => a.id === remembered);
       accounts.forEach((acc, idx) => {
         const opt = document.createElement('option');
         opt.value = acc.id;
-        opt.textContent = `${acc.name} (${acc.type})`;
-        if (idx === 0) opt.selected = true;
+        const label = acc.institution === 'fondlycash' ? acc.name : `${acc.name} (${acc.type})`;
+        opt.textContent = label;
+        opt.selected = hasRemembered ? acc.id === remembered : idx === 0;
         accountSelect.appendChild(opt);
       });
     } catch (err) {
       accountSelect.innerHTML = '<option value="">Could not load accounts</option>';
     }
+  }
+
+  async function populateExpenseAccountDropdown() {
+    await populateAccountDropdown('expenseAccount');
   }
 
   closeLogModalBtn.addEventListener('click', () => {
@@ -2189,13 +2209,14 @@ expenseForm.addEventListener('submit', async (e) => {
     });
   }
 
-  function openQuickLogModal(c) {
+  async function openQuickLogModal(c) {
     document.getElementById('quickLogCategory').value = c.category;
     document.getElementById('quickLogModalIcon').textContent = c.icon;
     document.getElementById('quickLogModalTitle').textContent = `Log ${c.category}`;
     document.getElementById('quickLogAmount').value = '';
     document.getElementById('quickLogModal').classList.remove('hidden');
     setTimeout(() => document.getElementById('quickLogAmount').focus(), 50);
+    await populateAccountDropdown('quickLogAccount');
   }
 
   // ---------------- Receipt Scan (Quick Actions) ----------------
@@ -3088,8 +3109,9 @@ expenseForm.addEventListener('submit', async (e) => {
       saveQuickLogBtn.addEventListener('click', async () => {
         const category = document.getElementById('quickLogCategory').value;
         const amount = parseFloat(document.getElementById('quickLogAmount').value) || 0;
+        const accountId = document.getElementById('quickLogAccount').value || null;
         if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
-        if (!confirmIfInsufficientBalance(amount, null)) return;
+        if (!confirmIfInsufficientBalance(amount, accountId)) return;
 
         const session = await requireLogin();
         if (!session) return;
@@ -3101,9 +3123,11 @@ expenseForm.addEventListener('submit', async (e) => {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${session.access_token}`
             },
-            body: JSON.stringify({ type: 'outflow', amount, category })
+            body: JSON.stringify({ type: 'outflow', amount, category, account_id: accountId })
           });
           if (!res.ok) throw new Error('Could not log expense');
+
+          if (accountId) localStorage.setItem(LAST_SPEND_ACCOUNT_KEY, accountId);
 
           quickLogModal.classList.add('hidden');
           showToast(`${category} logged`);
