@@ -174,11 +174,11 @@
 </div>
 <!-- Pot Balance Pill Indicator -->
 <div class="flex flex-col items-end">
-<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-full px-2.5 py-1 flex items-center gap-1.5 elevation-surface transition-transform active:scale-95" title="Available Pot">
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-full px-2.5 py-1 flex items-center gap-1.5 elevation-surface transition-transform active:scale-95" title="FondlyCash balance">
 <span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
-<span class="font-label-sm text-label-sm text-on-surface font-bold tracking-tight" id="topPotDisplay">₱108,050.00</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold tracking-tight" id="topPotDisplay">₱0.00</span>
 </div>
-<span class="font-label-sm text-label-sm text-outline mt-0.5 scale-90 origin-right">Remaining Pot</span>
+<span class="font-label-sm text-label-sm text-outline mt-0.5 scale-90 origin-right">FondlyCash Balance</span>
 </div>
 </header>
 <!-- Main Content Flow -->
@@ -401,8 +401,8 @@
 <p class="text-body-md text-outline mt-1 max-w-xs" id="successDetails">₱450.00 deducted from GCash for Dining &amp; Groceries</p>
 <div class="w-full bg-surface-container-low rounded-2xl p-4 my-4 border border-outline-variant/20 flex items-center justify-between text-left">
 <div>
-<p class="text-label-sm text-outline uppercase font-semibold">Updated Pot Balance</p>
-<p class="font-headline-sm text-primary font-bold mt-0.5" id="successUpdatedPot">₱108,050.00</p>
+<p class="text-label-sm text-outline uppercase font-semibold">Updated FondlyCash Balance</p>
+<p class="font-headline-sm text-primary font-bold mt-0.5" id="successUpdatedPot">₱0.00</p>
 </div>
 <div class="text-right">
 <p class="text-label-sm text-outline uppercase font-semibold">Cushion Safety</p>
@@ -494,10 +494,14 @@
 
     function recalculateBalances() {
       const amount = getCleanAmount();
-      const remainingPot = Math.max(0, BASE_POT - amount);
-      
-      // Update top Pot badge
-      document.getElementById('topPotDisplay').textContent = formatPHP(remainingPot);
+      const remainingPot = BASE_POT - amount;
+
+      // Update top FondlyCash balance badge. Goes red once the entered
+      // amount would overdraw the real FondlyCash balance, since that's
+      // what will actually block the submit.
+      const potDisplay = document.getElementById('topPotDisplay');
+      potDisplay.textContent = formatPHP(Math.max(0, remainingPot));
+      potDisplay.classList.toggle('text-error', remainingPot < 0);
 
       // Principal cushion impact calculation:
       // Cushion remains safe up to baseline; simulate depletion proportionally
@@ -608,19 +612,25 @@
       return data.session;
     }
 
+// Every outflow logged from this screen actually comes out of the user's
+// real FondlyCash wallet (that's what the backend deducts from when no
+// specific account is picked), so the balance shown here — and the
+// insufficient-funds block below — has to reflect FondlyCash's real
+// current_balance, not a separate mock "pot" number.
 async function loadRealPot() {
       try {
         const session = await requireLogin();
         if (!session) return;
-        const response = await fetch(`${API_BASE_URL}/summary`, {
+        const response = await fetch(`${API_BASE_URL}/accounts`, {
           headers: { 'Authorization': `Bearer ${session.access_token}` }
         });
-        if (!response.ok) throw new Error('Could not load pot balance');
-        const summary = await response.json();
-        BASE_POT = summary.remaining;
+        if (!response.ok) throw new Error('Could not load FondlyCash balance');
+        const accounts = await response.json();
+        const fondlyCash = accounts.find(a => a.institution === 'fondlycash');
+        BASE_POT = fondlyCash ? Number(fondlyCash.current_balance) : 0;
         recalculateBalances();
       } catch (err) {
-        console.warn('Could not load real pot balance:', err.message);
+        console.warn('Could not load FondlyCash balance:', err.message);
       }
     }
 
@@ -629,6 +639,13 @@ async function loadRealPot() {
       if (amount <= 0) {
         showToast('Please enter an amount greater than ₱0');
         document.getElementById('amountInput').focus();
+        return;
+      }
+
+      // Hard block: this outflow comes out of FondlyCash, so it cannot go
+      // through for more than what's actually in there — no override.
+      if (amount > BASE_POT) {
+        showToast(`Insufficient FondlyCash balance. You only have ${formatPHP(BASE_POT)} available.`);
         return;
       }
 
@@ -661,10 +678,12 @@ async function loadRealPot() {
           throw new Error(errBody.error || 'Server error, please try again.');
         }
 
-        const remainingPot = Math.max(0, BASE_POT - amount);
+        // Reflect the deduction locally right away; loadRealPot() also
+        // re-syncs from the server once the entry screen resets.
+        BASE_POT = Math.max(0, BASE_POT - amount);
 
         document.getElementById('successDetails').textContent = `${formatPHP(amount)} logged for ${merchant} (${activeCategory}) via ${activeMethod}`;
-        document.getElementById('successUpdatedPot').textContent = formatPHP(remainingPot);
+        document.getElementById('successUpdatedPot').textContent = formatPHP(BASE_POT);
 
         const untouchedPct = document.getElementById('cushionPercentText').textContent;
         document.getElementById('successCushionRate').textContent = untouchedPct;
@@ -692,6 +711,7 @@ async function loadRealPot() {
           document.getElementById('amountInput').value = '0.00';
           document.getElementById('merchantInput').value = '';
           recalculateBalances();
+          loadRealPot();
           showToast('Ready for next outflow');
         } else {
           showToast('Transaction recorded to Activity');
