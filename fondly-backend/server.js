@@ -1539,6 +1539,10 @@ app.delete('/recurring-bills/:id', requireAuth, async (req, res) => {
   res.json({ success: true });
 });
 
+// A semi-monthly earner gets paid on the 15th and the last payday of the
+// month (clamped to the 30th, or the month's last day if it's shorter).
+const SEMI_MONTHLY_DAYS = [15, 30];
+
 app.get('/payday-settings', requireAuth, async (req, res) => {
   const { data, error } = await req.supabase
     .from('payday_settings')
@@ -1547,12 +1551,21 @@ app.get('/payday-settings', requireAuth, async (req, res) => {
     .maybeSingle();
   if (error) return res.status(500).json({ error: error.message });
 
-  const settings = data || { payday_day: null, expected_amount: 0 };
+  const settings = data || { payday_day: null, expected_amount: 0, pay_frequency: 'monthly' };
+  const payFrequency = settings.pay_frequency === 'semi_monthly' ? 'semi_monthly' : 'monthly';
+
   let daysUntil = null;
   let nextPayday = null;
-  if (settings.payday_day) {
+  const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+
+  if (payFrequency === 'semi_monthly') {
+    // Whichever of the two paydays this month comes soonest.
+    const candidates = SEMI_MONTHLY_DAYS.map(d => getNextDueDate(d));
+    const next = candidates.sort((a, b) => a - b)[0];
+    daysUntil = Math.round((next - today) / (1000 * 60 * 60 * 24));
+    nextPayday = next.toISOString().slice(0, 10);
+  } else if (settings.payday_day) {
     const next = getNextDueDate(settings.payday_day);
-    const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
     daysUntil = Math.round((next - today) / (1000 * 60 * 60 * 24));
     nextPayday = next.toISOString().slice(0, 10);
   }
@@ -1570,28 +1583,42 @@ app.get('/payday-settings', requireAuth, async (req, res) => {
   const totalMonthlyDeductions = (debtsForDeduction || [])
     .reduce((sum, d) => sum + Number(d.monthly_deduction || 0), 0);
 
+  // expected_amount is always "per payout": for a semi-monthly earner that's
+  // the amount received each cutoff, so the real monthly gross is double.
   const expectedAmount = Number(settings.expected_amount) || 0;
+  const monthlyGross = payFrequency === 'semi_monthly' ? expectedAmount * 2 : expectedAmount;
 
   res.json({
     payday_day: settings.payday_day,
+    pay_frequency: payFrequency,
     expected_amount: expectedAmount,
+    monthly_gross: monthlyGross,
     next_payday: nextPayday,
     days_until: daysUntil,
     total_monthly_deductions: totalMonthlyDeductions,
-    net_take_home: expectedAmount - totalMonthlyDeductions
+    net_take_home: monthlyGross - totalMonthlyDeductions
   });
 });
 
 app.post('/payday-settings', requireAuth, async (req, res) => {
-  const { payday_day, expected_amount } = req.body;
-  if (payday_day !== null && payday_day !== undefined && (payday_day < 1 || payday_day > 31)) {
+  const { payday_day, expected_amount, pay_frequency } = req.body;
+  const payFrequency = pay_frequency === 'semi_monthly' ? 'semi_monthly' : 'monthly';
+
+  if (payFrequency === 'monthly' && payday_day !== null && payday_day !== undefined && payday_day !== '' && (payday_day < 1 || payday_day > 31)) {
     return res.status(400).json({ error: 'payday_day must be between 1 and 31' });
   }
 
   const { data, error } = await req.supabase
     .from('payday_settings')
     .upsert(
-      { user_id: req.user.id, payday_day: payday_day ?? null, expected_amount: expected_amount || 0 },
+      {
+        user_id: req.user.id,
+        // Semi-monthly earners are always paid on the 15th/30th, so there's
+        // no single "payday_day" to store for them.
+        payday_day: payFrequency === 'semi_monthly' ? null : (payday_day || null),
+        expected_amount: expected_amount || 0,
+        pay_frequency: payFrequency
+      },
       { onConflict: 'user_id' }
     )
     .select();

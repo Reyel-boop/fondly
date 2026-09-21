@@ -274,9 +274,24 @@ Save
 </div>
 <div class="mt-4 space-y-4">
 <div>
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Gross monthly pay (PHP)</label>
-<input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="payslipGrossAmount" min="0" placeholder="0.00" step="0.01" type="number"/>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Your pay before any loan deductions. We'll subtract your monthly loan deductions below to show your real take-home pay.</p>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">How often do you get paid?</label>
+<div class="grid grid-cols-2 gap-2" id="payFrequencyToggle">
+<button class="pay-freq-btn px-3 py-2.5 rounded-xl border-2 border-primary bg-primary/5 text-primary text-sm font-semibold transition-all" data-freq="monthly" type="button">
+Once a month
+</button>
+<button class="pay-freq-btn px-3 py-2.5 rounded-xl border border-outline-variant/40 bg-surface-container-low text-on-surface text-sm font-semibold transition-all" data-freq="semi_monthly" type="button">
+Twice a month<br/><span class="font-normal text-xs text-on-surface-variant">15th &amp; 30th</span>
+</button>
+</div>
+</div>
+<div id="payslipDayWrap">
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Payday (day of month)</label>
+<input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="payslipDayInput" max="31" min="1" placeholder="e.g. 15" type="number"/>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1" id="payslipGrossLabel">Gross monthly pay (PHP)</label>
+<input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-lg font-bold focus:outline-none focus:ring-2 focus:ring-secondary" id="payslipGrossAmount" inputmode="decimal" placeholder="0.00" type="text"/>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="payslipGrossHelp">Your pay before any loan deductions. We'll subtract your monthly loan deductions below to show your real take-home pay.</p>
 </div>
 <button class="w-full bg-primary hover:bg-on-surface text-on-primary py-3 rounded-full font-label-lg text-label-lg font-semibold transition-all duration-200 active:scale-98 shadow-md" id="savePayslipBtn" type="button">
 Save
@@ -392,17 +407,18 @@ Save
       if (!data.expected_amount || data.expected_amount <= 0) {
         content.innerHTML = `
           <p class="font-body-sm text-body-sm text-on-surface-variant">
-            Tap <span class="font-semibold text-on-surface">"Set gross pay"</span> above to enter your gross monthly pay and see your real take-home pay after loan deductions here.
+            Tap <span class="font-semibold text-on-surface">"Set gross pay"</span> above to enter your gross pay and see your real take-home pay after loan deductions here.
           </p>
         `;
         return;
       }
 
       const isNegative = data.net_take_home < 0;
+      const isSemiMonthly = data.pay_frequency === 'semi_monthly';
       content.innerHTML = `
         <div class="flex items-center justify-between">
-          <span class="font-body-sm text-body-sm text-on-surface-variant">Gross payslip</span>
-          <span class="font-label-md text-label-md text-on-surface font-semibold">${formatPHP(data.expected_amount)}</span>
+          <span class="font-body-sm text-body-sm text-on-surface-variant">${isSemiMonthly ? 'Gross pay (15th & 30th)' : 'Gross payslip'}</span>
+          <span class="font-label-md text-label-md text-on-surface font-semibold">${isSemiMonthly ? `${formatPHP(data.expected_amount)} × 2 = ${formatPHP(data.monthly_gross)}` : formatPHP(data.monthly_gross)}</span>
         </div>
         <div class="flex items-center justify-between mt-1">
           <span class="font-body-sm text-body-sm text-on-surface-variant">Monthly loan deductions</span>
@@ -617,6 +633,50 @@ Save
       }
     });
 
+    // Live-formats the gross pay field with thousand separators as the
+    // person types, the same way the rest of the app displays money.
+    function formatMoneyInputLive(el) {
+      const cursorFromEnd = el.value.length - el.selectionStart;
+      let raw = el.value.replace(/[^0-9.]/g, '');
+      const firstDot = raw.indexOf('.');
+      if (firstDot !== -1) {
+        raw = raw.slice(0, firstDot + 1) + raw.slice(firstDot + 1).replace(/\./g, '');
+      }
+      const [intPartRaw, decPartRaw] = raw.split('.');
+      const intPart = intPartRaw ? String(parseInt(intPartRaw, 10)) : '';
+      const formattedInt = intPart ? Number(intPart).toLocaleString('en-US') : '';
+      const decPart = decPartRaw !== undefined ? '.' + decPartRaw.slice(0, 2) : '';
+      el.value = formattedInt + decPart;
+      const newPos = Math.max(0, el.value.length - cursorFromEnd);
+      el.setSelectionRange(newPos, newPos);
+    }
+
+    function getMoneyInputValue(el) {
+      return parseFloat(el.value.replace(/,/g, '')) || 0;
+    }
+
+    document.getElementById('payslipGrossAmount').addEventListener('input', (e) => formatMoneyInputLive(e.target));
+
+    let payslipFrequency = 'monthly';
+    function setPayslipFrequency(freq) {
+      payslipFrequency = freq;
+      document.querySelectorAll('.pay-freq-btn').forEach(btn => {
+        const active = btn.getAttribute('data-freq') === freq;
+        btn.className = active
+          ? 'pay-freq-btn px-3 py-2.5 rounded-xl border-2 border-primary bg-primary/5 text-primary text-sm font-semibold transition-all'
+          : 'pay-freq-btn px-3 py-2.5 rounded-xl border border-outline-variant/40 bg-surface-container-low text-on-surface text-sm font-semibold transition-all';
+      });
+      const isSemi = freq === 'semi_monthly';
+      document.getElementById('payslipDayWrap').classList.toggle('hidden', isSemi);
+      document.getElementById('payslipGrossLabel').textContent = isSemi ? 'Gross pay per payout (PHP)' : 'Gross monthly pay (PHP)';
+      document.getElementById('payslipGrossHelp').textContent = isSemi
+        ? "The amount you receive each payout (15th & 30th). We'll double it for your monthly gross, then subtract your monthly loan deductions to show your real take-home pay."
+        : "Your pay before any loan deductions. We'll subtract your monthly loan deductions below to show your real take-home pay.";
+    }
+    document.querySelectorAll('.pay-freq-btn').forEach(btn => {
+      btn.addEventListener('click', () => setPayslipFrequency(btn.getAttribute('data-freq')));
+    });
+
     const payslipModal = document.getElementById('payslipModal');
     document.getElementById('openPayslipModalBtn').addEventListener('click', async () => {
       const session = await requireLogin();
@@ -625,9 +685,13 @@ Save
         const res = await fetch(`${API_BASE_URL}/payday-settings`, {
           headers: { 'Authorization': `Bearer ${session.access_token}` }
         });
-        const data = res.ok ? await res.json() : { expected_amount: 0 };
-        document.getElementById('payslipGrossAmount').value = data.expected_amount ? Number(data.expected_amount).toFixed(2) : '';
+        const data = res.ok ? await res.json() : { expected_amount: 0, pay_frequency: 'monthly', payday_day: null };
+        setPayslipFrequency(data.pay_frequency === 'semi_monthly' ? 'semi_monthly' : 'monthly');
+        document.getElementById('payslipDayInput').value = data.payday_day || '';
+        const amountEl = document.getElementById('payslipGrossAmount');
+        amountEl.value = data.expected_amount ? Number(data.expected_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
       } catch (err) {
+        setPayslipFrequency('monthly');
         document.getElementById('payslipGrossAmount').value = '';
       }
       payslipModal.classList.remove('hidden');
@@ -637,35 +701,46 @@ Save
     });
 
     document.getElementById('savePayslipBtn').addEventListener('click', async () => {
-      const expected_amount = parseFloat(document.getElementById('payslipGrossAmount').value) || 0;
+      const expected_amount = getMoneyInputValue(document.getElementById('payslipGrossAmount'));
       if (!expected_amount || expected_amount <= 0) { alert('Please enter a valid gross pay amount.'); return; }
+
+      const payday_day = payslipFrequency === 'monthly'
+        ? (parseInt(document.getElementById('payslipDayInput').value, 10) || null)
+        : null;
+      if (payslipFrequency === 'monthly' && (!payday_day || payday_day < 1 || payday_day > 31)) {
+        alert('Please enter a valid payday (1-31).');
+        return;
+      }
 
       const session = await requireLogin();
       if (!session) return;
 
-      try {
-        // Keep whatever payday_day is already set (managed from Bills → Payday);
-        // this modal only updates the gross amount.
-        const existingRes = await fetch(`${API_BASE_URL}/payday-settings`, {
-          headers: { 'Authorization': `Bearer ${session.access_token}` }
-        });
-        const existing = existingRes.ok ? await existingRes.json() : { payday_day: null };
+      const saveBtn = document.getElementById('savePayslipBtn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving…';
 
+      try {
         const res = await fetch(`${API_BASE_URL}/payday-settings`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session.access_token}`
           },
-          body: JSON.stringify({ payday_day: existing.payday_day ?? null, expected_amount })
+          body: JSON.stringify({ payday_day, expected_amount, pay_frequency: payslipFrequency })
         });
-        if (!res.ok) throw new Error('Could not save gross pay');
+        if (!res.ok) {
+          const errBody = await res.json().catch(() => ({}));
+          throw new Error(errBody.error || 'Could not save gross pay');
+        }
 
         payslipModal.classList.add('hidden');
         showToast('Gross pay updated');
         await loadTakeHomeSummary();
       } catch (err) {
         alert('Could not save: ' + err.message);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
       }
     });
 
