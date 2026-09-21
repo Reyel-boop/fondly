@@ -746,6 +746,49 @@ async function ensureFondlyCash(userClient, userId) {
   if (error && error.code !== '23505') throw new Error(error.message);
 }
 
+// There's no real money behind a negative balance, so an outflow can never
+// take an account below zero. Call this BEFORE inserting the transaction
+// row: it checks the account has enough, and only then deducts. Falls back
+// to the user's FondlyCash wallet when no specific account is given.
+// Returns { ok: true, accountId } or { ok: false, error, availableBalance }.
+async function deductForOutflow(userClient, userId, amount, accountId) {
+  let targetAccountId = accountId;
+  if (!targetAccountId) {
+    await ensureFondlyCash(userClient, userId);
+    const { data: fondlyCash } = await userClient
+      .from('accounts')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('institution', 'fondlycash')
+      .maybeSingle();
+    targetAccountId = fondlyCash ? fondlyCash.id : null;
+  }
+  if (!targetAccountId) return { ok: true, accountId: null };
+
+  const { data: account, error: fetchError } = await userClient
+    .from('accounts')
+    .select('current_balance')
+    .eq('id', targetAccountId)
+    .eq('user_id', userId)
+    .maybeSingle();
+  if (fetchError) return { ok: false, error: fetchError.message };
+  if (!account) return { ok: false, error: 'Account not found' };
+
+  const balance = Number(account.current_balance);
+  if (Number(amount) > balance) {
+    return { ok: false, error: `Insufficient balance. You only have ${formatPHP(balance)} available.`, availableBalance: balance };
+  }
+
+  const { error: updateError } = await userClient
+    .from('accounts')
+    .update({ current_balance: balance - Number(amount) })
+    .eq('id', targetAccountId)
+    .eq('user_id', userId);
+  if (updateError) return { ok: false, error: updateError.message };
+
+  return { ok: true, accountId: targetAccountId };
+}
+
 async function recordCashIn(userClient, pending) {
   if (pending.credited) return false;
   pending.credited = true;
@@ -1006,18 +1049,16 @@ app.post('/transactions', requireAuth, async (req, res) => {
     }
   }
 
-  // If someone logs an expense without picking an account (Quick Log, receipt
-  // scan), still take the money out of somewhere so Net Worth stays accurate —
-  // default to their FondlyCash wallet instead of silently affecting nothing.
-  if (!account_id && type === 'outflow') {
-    await ensureFondlyCash(req.supabase, req.user.id);
-    const { data: fondlyCash } = await req.supabase
-      .from('accounts')
-      .select('id')
-      .eq('user_id', req.user.id)
-      .eq('institution', 'fondlycash')
-      .maybeSingle();
-    if (fondlyCash) account_id = fondlyCash.id;
+  // Real money can't go negative: check the funding account has enough and
+  // deduct it BEFORE the transaction is recorded, so an overdraft never even
+  // gets logged. Defaults to FondlyCash when no account was picked (Quick
+  // Log, receipt scan, etc.) so Net Worth stays accurate either way.
+  if (type === 'outflow') {
+    const result = await deductForOutflow(req.supabase, req.user.id, Number(amount), account_id || null);
+    if (!result.ok) {
+      return res.status(400).json({ error: result.error, available_balance: result.availableBalance });
+    }
+    account_id = result.accountId;
   }
 
   const { data, error } = await req.supabase
@@ -1026,7 +1067,7 @@ app.post('/transactions', requireAuth, async (req, res) => {
     .select();
   if (error) return res.status(500).json({ error: error.message });
 
-   if (account_id) {
+  if (type === 'cash_in' && account_id) {
     const { data: account, error: acctError } = await req.supabase
       .from('accounts')
       .select('current_balance')
@@ -1035,8 +1076,7 @@ app.post('/transactions', requireAuth, async (req, res) => {
       .maybeSingle();
 
     if (!acctError && account) {
-      const delta = type === 'cash_in' ? Number(amount) : -Number(amount);
-      const newBalance = Number(account.current_balance) + delta;
+      const newBalance = Number(account.current_balance) + Number(amount);
 
       await req.supabase
         .from('accounts')
@@ -1507,6 +1547,13 @@ app.post('/recurring-bills/:id/mark-paid', requireAuth, async (req, res) => {
   if (billError) return res.status(500).json({ error: billError.message });
   if (!bill) return res.status(404).json({ error: 'Bill not found' });
 
+  // Same rule as any other outflow: can't mark a bill paid with money that
+  // isn't actually there.
+  const deduction = await deductForOutflow(req.supabase, req.user.id, Number(bill.amount), null);
+  if (!deduction.ok) {
+    return res.status(400).json({ error: deduction.error, available_balance: deduction.availableBalance });
+  }
+
   const { error: txError } = await req.supabase
     .from('transactions')
     .insert([{
@@ -1515,7 +1562,8 @@ app.post('/recurring-bills/:id/mark-paid', requireAuth, async (req, res) => {
       category: bill.category,
       payment_method: bill.payment_method,
       note: bill.name,
-      user_id: req.user.id
+      user_id: req.user.id,
+      account_id: deduction.accountId
     }]);
   if (txError) return res.status(500).json({ error: txError.message });
 
@@ -2162,9 +2210,36 @@ app.post('/assistant/chat', requireAuth, async (req, res) => {
     if (first.stop_reason === 'tool_use' && toolUse) {
       const { amount, category, note } = toolUse.input;
 
+      // Same rule as any other outflow: the assistant can't log a spend that
+      // isn't actually covered by FondlyCash.
+      const deduction = await deductForOutflow(req.supabase, req.user.id, Number(amount), null);
+
+      if (!deduction.ok) {
+        const followUpMessages = [
+          ...messages,
+          { role: 'assistant', content: first.content },
+          {
+            role: 'user',
+            content: [{
+              type: 'tool_result',
+              tool_use_id: toolUse.id,
+              is_error: true,
+              content: `Could not log this: ${deduction.error}`
+            }]
+          }
+        ];
+        const second = await callClaude({ system: systemPrompt, messages: followUpMessages });
+        const replyText = (second.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n') || `That's more than what's in FondlyCash right now.`;
+        return res.json({
+          reply: replyText,
+          logged: false,
+          history: followUpMessages.concat([{ role: 'assistant', content: second.content }])
+        });
+      }
+
       const { data: inserted, error: insertError } = await req.supabase
         .from('transactions')
-        .insert([{ type: 'outflow', amount, category, note: note || null, user_id: req.user.id, account_id: null }])
+        .insert([{ type: 'outflow', amount, category, note: note || null, user_id: req.user.id, account_id: deduction.accountId }])
         .select();
       if (insertError) throw new Error(insertError.message);
 

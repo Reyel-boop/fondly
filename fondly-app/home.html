@@ -1340,9 +1340,12 @@ expenseForm.addEventListener('submit', async (e) => {
           account_id: accountId || null
         })
       });
-      if (!res.ok) throw new Error('Save failed');
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        throw new Error(errBody.error || 'Save failed');
+      }
     } catch (err) {
-      showToast('Could not save transaction. Try again.');
+      showToast(err.message || 'Could not save transaction. Try again.');
       return;
     }
 
@@ -1679,15 +1682,15 @@ expenseForm.addEventListener('submit', async (e) => {
     return fondlyCash ? Number(fondlyCash.current_balance) : 0;
   }
 
-  // Warns and asks for confirmation when a spend would push a balance below
-  // zero. Returns true if it's OK to proceed.
+  // Blocks a spend that would push a balance below zero — there's no real
+  // money behind a negative balance, so this can't be overridden. The
+  // backend enforces the same rule, but checking here avoids a round trip
+  // just to get told no. Returns true if it's OK to proceed.
   function confirmIfInsufficientBalance(amount, accountId) {
     const balance = getSpendSourceBalance(accountId);
     if (amount <= balance) return true;
-    return confirm(
-      `You only have ${formatPHP(balance)} available, but you're about to spend ${formatPHP(amount)}. ` +
-      `This will put that balance ${formatPHP(amount - balance)} negative. Spend anyway?`
-    );
+    alert(`You only have ${formatPHP(balance)} available. This spend of ${formatPHP(amount)} can't go through.`);
+    return false;
   }
 
   const ACCOUNT_PRESETS = [
@@ -3129,7 +3132,10 @@ expenseForm.addEventListener('submit', async (e) => {
             },
             body: JSON.stringify({ type: 'outflow', amount, category, account_id: accountId })
           });
-          if (!res.ok) throw new Error('Could not log expense');
+          if (!res.ok) {
+            const errBody = await res.json().catch(() => ({}));
+            throw new Error(errBody.error || 'Could not log expense');
+          }
 
           if (accountId) localStorage.setItem(LAST_SPEND_ACCOUNT_KEY, accountId);
 
@@ -3187,7 +3193,10 @@ expenseForm.addEventListener('submit', async (e) => {
             },
             body: JSON.stringify({ type: 'outflow', amount, category, note: merchant || null })
           });
-          if (!res.ok) throw new Error('Could not log expense');
+          if (!res.ok) {
+            const errBody = await res.json().catch(() => ({}));
+            throw new Error(errBody.error || 'Could not log expense');
+          }
 
           receiptScanModal.classList.add('hidden');
           showToast(`${formatPHP(amount)} logged from receipt`);
