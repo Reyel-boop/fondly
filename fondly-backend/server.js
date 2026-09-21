@@ -42,7 +42,7 @@ async function requirePremium(req, res, next) {
 
 const pendingPremiumGcash = new Map();
 const pendingPremiumQrph = new Map();
-const PREMIUM_PRICE_PHP = 1;
+const PREMIUM_PRICE_PHP = 199;
 
 
 const pendingTopupGcash = new Map();
@@ -988,7 +988,8 @@ app.get('/transactions', requireAuth, async (req, res) => {
 });
 
 app.post('/transactions', requireAuth, async (req, res) => {
-  const { type, amount, category, payment_method, note, account_id } = req.body;
+  const { type, amount, category, payment_method, note } = req.body;
+  let { account_id } = req.body;
   if (type === 'cash_in') {
        const { data: target } = account_id
       ? await req.supabase.from('accounts').select('institution').eq('id', account_id).eq('user_id', req.user.id).maybeSingle()
@@ -996,6 +997,20 @@ app.post('/transactions', requireAuth, async (req, res) => {
     if (!target || target.institution === 'fondlycash') {
       return res.status(400).json({ error: 'Cash in for FondlyCash only happens through a real payment' });
     }
+  }
+
+  // If someone logs an expense without picking an account (Quick Log, receipt
+  // scan), still take the money out of somewhere so Net Worth stays accurate —
+  // default to their FondlyCash wallet instead of silently affecting nothing.
+  if (!account_id && type === 'outflow') {
+    await ensureFondlyCash(req.supabase, req.user.id);
+    const { data: fondlyCash } = await req.supabase
+      .from('accounts')
+      .select('id')
+      .eq('user_id', req.user.id)
+      .eq('institution', 'fondlycash')
+      .maybeSingle();
+    if (fondlyCash) account_id = fondlyCash.id;
   }
 
   const { data, error } = await req.supabase
@@ -1535,11 +1550,28 @@ app.get('/payday-settings', requireAuth, async (req, res) => {
     nextPayday = next.toISOString().slice(0, 10);
   }
 
+  // How much gets automatically taken out of the payslip each month from
+  // loans/debts the user owes (e.g. a company or bank loan on salary deduction).
+  const { data: debtsForDeduction, error: debtsError } = await req.supabase
+    .from('debts')
+    .select('monthly_deduction, status, type')
+    .eq('user_id', req.user.id)
+    .eq('type', 'owed_by_me')
+    .eq('status', 'open');
+  if (debtsError) return res.status(500).json({ error: debtsError.message });
+
+  const totalMonthlyDeductions = (debtsForDeduction || [])
+    .reduce((sum, d) => sum + Number(d.monthly_deduction || 0), 0);
+
+  const expectedAmount = Number(settings.expected_amount) || 0;
+
   res.json({
     payday_day: settings.payday_day,
-    expected_amount: Number(settings.expected_amount) || 0,
+    expected_amount: expectedAmount,
     next_payday: nextPayday,
-    days_until: daysUntil
+    days_until: daysUntil,
+    total_monthly_deductions: totalMonthlyDeductions,
+    net_take_home: expectedAmount - totalMonthlyDeductions
   });
 });
 
@@ -1584,7 +1616,7 @@ app.get('/debts', requireAuth, async (req, res) => {
 });
 
 app.post('/debts', requireAuth, async (req, res) => {
-  const { type, person_name, original_amount, notes } = req.body;
+  const { type, person_name, original_amount, notes, monthly_deduction } = req.body;
   if (!type || !['owed_by_me', 'owed_to_me'].includes(type)) {
     return res.status(400).json({ error: 'type must be owed_by_me or owed_to_me' });
   }
@@ -1600,6 +1632,9 @@ app.post('/debts', requireAuth, async (req, res) => {
       original_amount,
       amount_paid: 0,
       notes: notes || null,
+      // How much of this loan/debt (the "principal") gets automatically taken out of the
+      // user's payslip each month. Only meaningful for type === 'owed_by_me'.
+      monthly_deduction: monthly_deduction && monthly_deduction > 0 ? monthly_deduction : 0,
       status: 'open',
       user_id: req.user.id
     }])

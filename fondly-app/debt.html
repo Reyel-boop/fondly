@@ -120,6 +120,14 @@
 
 <main class="max-w-lg mx-auto px-4 pt-4 flex flex-col gap-5">
 
+<!-- Take-Home Pay After Deductions -->
+<section class="bg-surface-container-lowest rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex flex-col gap-3" id="takeHomeCard">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Take-Home Pay After Deductions</h3>
+<div id="takeHomeContent">
+<p class="font-body-sm text-body-sm text-on-surface-variant">Loading…</p>
+</div>
+</section>
+
 <!-- Outstanding Debt Section -->
 <section class="flex flex-col gap-3">
 <div class="flex items-center justify-between px-1">
@@ -207,8 +215,13 @@
 <input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="newDebtPerson" placeholder="e.g. Carlo, BPI Loan" type="text"/>
 </div>
 <div>
-<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Amount (PHP)</label>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Principal Amount (PHP)</label>
 <input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="newDebtAmount" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+<div id="newDebtDeductionWrap">
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Monthly deduction from payslip (optional)</label>
+<input class="w-full px-4 py-2.5 bg-surface-container-low rounded-xl border border-outline-variant/40 text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-secondary" id="newDebtMonthlyDeduction" min="0" placeholder="0.00" step="0.01" type="number"/>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">If this loan is automatically deducted from your salary each month, enter that amount so your take-home pay reflects it.</p>
 </div>
 <div>
 <label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Notes (optional)</label>
@@ -301,6 +314,7 @@ Save
         </div>
       </div>
       ${debt.notes ? `<p class="font-body-sm text-body-sm text-on-surface-variant -mt-1">${debt.notes}</p>` : ''}
+      ${(!isSettled && debt.type === 'owed_by_me' && Number(debt.monthly_deduction) > 0) ? `<p class="font-label-sm text-label-sm text-error -mt-1">${formatPHP(debt.monthly_deduction)}/mo deducted from payslip</p>` : ''}
       <div class="flex items-center justify-between">
         <span class="font-label-sm text-label-sm text-on-surface-variant">${isSettled ? 'Settled' : formatPHP(debt.remaining_amount) + ' remaining'}</span>
         <span class="font-label-sm text-label-sm text-on-surface-variant">${formatPHP(debt.amount_paid)} / ${formatPHP(debt.original_amount)}</span>
@@ -310,6 +324,48 @@ Save
       </div>
     `;
     return row;
+  }
+
+  async function loadTakeHomeSummary() {
+    const content = document.getElementById('takeHomeContent');
+    const session = await requireLogin();
+    if (!session) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/payday-settings`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      if (!res.ok) throw new Error('Could not load payslip info');
+      const data = await res.json();
+
+      if (!data.expected_amount || data.expected_amount <= 0) {
+        content.innerHTML = `
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            Set your expected payslip amount in <a href="bills.html" class="text-secondary font-semibold hover:underline">Bills → Payday</a> to see your real take-home pay here.
+          </p>
+        `;
+        return;
+      }
+
+      const isNegative = data.net_take_home < 0;
+      content.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="font-body-sm text-body-sm text-on-surface-variant">Gross payslip</span>
+          <span class="font-label-md text-label-md text-on-surface font-semibold">${formatPHP(data.expected_amount)}</span>
+        </div>
+        <div class="flex items-center justify-between mt-1">
+          <span class="font-body-sm text-body-sm text-on-surface-variant">Monthly loan deductions</span>
+          <span class="font-label-md text-label-md text-error font-semibold">− ${formatPHP(data.total_monthly_deductions)}</span>
+        </div>
+        <div class="h-px bg-outline-variant/30 my-2"></div>
+        <div class="flex items-center justify-between">
+          <span class="font-label-md text-label-md text-on-surface font-bold">Actual take-home</span>
+          <span class="font-headline-sm text-headline-sm font-extrabold ${isNegative ? 'text-error' : 'text-secondary'}">${formatPHP(data.net_take_home)}</span>
+        </div>
+        ${isNegative ? '<p class="font-label-sm text-label-sm text-error mt-1">Your monthly deductions exceed your payslip amount.</p>' : ''}
+      `;
+    } catch (err) {
+      content.innerHTML = '<p class="font-body-sm text-body-sm text-on-surface-variant">Could not load take-home pay right now.</p>';
+    }
   }
 
   async function loadDebts() {
@@ -380,6 +436,7 @@ Save
             if (!res.ok) throw new Error('Could not delete entry');
             showToast('Entry deleted');
             await loadDebts();
+            await loadTakeHomeSummary();
           } catch (err) {
             showToast(err.message || 'Could not delete entry');
           }
@@ -392,6 +449,7 @@ Save
 
   document.addEventListener('DOMContentLoaded', () => {
     loadDebts();
+    loadTakeHomeSummary();
 
     const addDebtModal = document.getElementById('addDebtModal');
     document.getElementById('addDebtBtn').addEventListener('click', () => {
@@ -400,6 +458,8 @@ Save
       document.getElementById('newDebtPersonLabel').textContent = 'Who do you owe?';
       document.getElementById('newDebtPerson').value = '';
       document.getElementById('newDebtAmount').value = '';
+      document.getElementById('newDebtMonthlyDeduction').value = '';
+      document.getElementById('newDebtDeductionWrap').classList.remove('hidden');
       document.getElementById('newDebtNotes').value = '';
       addDebtModal.classList.remove('hidden');
     });
@@ -409,6 +469,8 @@ Save
       document.getElementById('newDebtPersonLabel').textContent = 'Who owes you?';
       document.getElementById('newDebtPerson').value = '';
       document.getElementById('newDebtAmount').value = '';
+      document.getElementById('newDebtMonthlyDeduction').value = '';
+      document.getElementById('newDebtDeductionWrap').classList.add('hidden');
       document.getElementById('newDebtNotes').value = '';
       addDebtModal.classList.remove('hidden');
     });
@@ -420,6 +482,7 @@ Save
       const type = document.getElementById('newDebtType').value;
       const person_name = document.getElementById('newDebtPerson').value.trim();
       const original_amount = parseFloat(document.getElementById('newDebtAmount').value) || 0;
+      const monthly_deduction = type === 'owed_by_me' ? (parseFloat(document.getElementById('newDebtMonthlyDeduction').value) || 0) : 0;
       const notes = document.getElementById('newDebtNotes').value.trim();
 
       if (!person_name) { alert('Please enter a name.'); return; }
@@ -435,13 +498,14 @@ Save
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session.access_token}`
           },
-          body: JSON.stringify({ type, person_name, original_amount, notes: notes || null })
+          body: JSON.stringify({ type, person_name, original_amount, monthly_deduction, notes: notes || null })
         });
         if (!res.ok) throw new Error('Could not save entry');
 
         addDebtModal.classList.add('hidden');
         showToast('Saved');
         await loadDebts();
+        await loadTakeHomeSummary();
       } catch (err) {
         alert('Could not save: ' + err.message);
       }
@@ -474,6 +538,7 @@ Save
         recordPaymentModal.classList.add('hidden');
         showToast('Recorded');
         await loadDebts();
+        await loadTakeHomeSummary();
       } catch (err) {
         alert('Could not record payment: ' + err.message);
       }

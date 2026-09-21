@@ -1292,7 +1292,8 @@ expenseForm.addEventListener('submit', async (e) => {
 
         const accountId = document.getElementById('expenseAccount').value;
 
-  
+    if (accountId && !confirmIfInsufficientBalance(val, accountId)) return;
+
     const SUPABASE_URL = 'https://ieauwvbivmmgfkbbejtd.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_d5JSuSnKziL9PxzqYwf2Bg_1b8ZyDmC';
     const tempClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1641,6 +1642,29 @@ expenseForm.addEventListener('submit', async (e) => {
   let accountFilter = 'all';
   const ACCOUNT_ICON_MAP = { 'GCash': 'account_balance_wallet', 'Bank': 'account_balance', 'Cash': 'payments', 'Credit': 'credit_card' };
   function isLiabilityAccount(acc) { return acc.type === 'Credit'; }
+
+  // Balance a spend would come out of. Pass an accountId when the user picked
+  // one explicitly (Log Expense modal); leave it out for Quick Log / receipt
+  // scan, which fall back to the FondlyCash wallet server-side too.
+  function getSpendSourceBalance(accountId) {
+    if (accountId) {
+      const acc = cachedAccounts.find(a => a.id === accountId);
+      return acc ? Number(acc.current_balance) : 0;
+    }
+    const fondlyCash = cachedAccounts.find(a => a.institution === 'fondlycash');
+    return fondlyCash ? Number(fondlyCash.current_balance) : 0;
+  }
+
+  // Warns and asks for confirmation when a spend would push a balance below
+  // zero. Returns true if it's OK to proceed.
+  function confirmIfInsufficientBalance(amount, accountId) {
+    const balance = getSpendSourceBalance(accountId);
+    if (amount <= balance) return true;
+    return confirm(
+      `You only have ${formatPHP(balance)} available, but you're about to spend ${formatPHP(amount)}. ` +
+      `This will put that balance ${formatPHP(amount - balance)} negative. Spend anyway?`
+    );
+  }
 
   const ACCOUNT_PRESETS = [
     { id: 'gcash', name: 'GCash', category: 'E-wallets', type: 'GCash', color: '#0077c8' },
@@ -3065,6 +3089,7 @@ expenseForm.addEventListener('submit', async (e) => {
         const category = document.getElementById('quickLogCategory').value;
         const amount = parseFloat(document.getElementById('quickLogAmount').value) || 0;
         if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
+        if (!confirmIfInsufficientBalance(amount, null)) return;
 
         const session = await requireLogin();
         if (!session) return;
@@ -3120,6 +3145,7 @@ expenseForm.addEventListener('submit', async (e) => {
         const amount = parseFloat(document.getElementById('receiptScanAmount').value) || 0;
         const category = document.getElementById('receiptScanCategory').value;
         if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
+        if (!confirmIfInsufficientBalance(amount, null)) return;
 
         const session = await requireLogin();
         if (!session) return;
